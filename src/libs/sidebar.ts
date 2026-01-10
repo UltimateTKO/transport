@@ -117,12 +117,7 @@ export function GetSidebarData() {
 		{
 			id: "master",
 			label: "マスタメンテ",
-			children: [
-				{
-					id: "audit",
-					label: "監査ログ",
-				},
-			],
+			children: [],
 		},
 	];
 
