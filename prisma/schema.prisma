@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+/*
+ マスタ
+ */
+model M010_Company {
+  CompanyCode    String    @db.VarChar(5)
+  CompanyName    String    @db.NVarChar(50)
+  DelFlg         Boolean
+  CreateDateTime DateTime? @db.DateTime
+  CreateUserId   String?   @db.VarChar(10)
+  UpdateDateTime DateTime? @db.DateTime
+  UpdateUserId   String?   @db.VarChar(10)
+
+  Office        M020_Office[] @relation("Company_Office")
+  Client        M030_Client[] @relation("Company_Client")
+  StartEnd      M040_StartEnd[] @relation("Company_StartEnd")
+  ItemGroup     M050_ItemGroup[] @relation("Company_ItemGroup")
+  ViecleType    M060_ViecleType[] @relation("Company_ViecleType")
+  ViecleLoads   M070_ViecleLoads[] @relation("Company_ViecleLoads")
+
+  @@id([CompanyCode])
+}
+
+model M020_Office {
+  CompanyCode    String    @db.VarChar(5)
+  OfficeCode     String    @db.VarChar(5)
+  OfficeName     String?   @db.NVarChar(50)
+  PostalCode     String?   @db.Char(7)
+  Prefecture     String?   @db.NVarChar(5)
+  City           String?   @db.NVarChar(50)
+  Town           String?   @db.NVarChar(50)
+  DelFlag        Boolean
+  CreateDateTime DateTime? @db.DateTime
+  CreateUserId   String?   @db.VarChar(10)
+  UpdateDateTime DateTime? @db.DateTime
+  UpdateUserId   String?   @db.VarChar(10)
+
+  StartEnd      M040_StartEnd[] @relation("Office_StartEnd")
+
+  Company        M010_Company @relation("Company_Office", fields: [CompanyCode], references: [CompanyCode])
+
+  @@id([CompanyCode, OfficeCode])
+}
+
+model M030_Client {
+  RefernceCompanyCode String    @db.VarChar(5)
+  ClientCode          String    @db.VarChar(5)
+  ClientName          String?   @db.NVarChar(50)
+  DelFlag             Boolean
+  CreateDateTime      DateTime? @db.DateTime
+  CreateUserId        String?   @db.VarChar(10)
+  UpdateDateTime      DateTime? @db.DateTime
+  UpdateUserId        String?   @db.VarChar(10)
+
+  Company        M010_Company @relation("Company_Client", fields: [RefernceCompanyCode], references: [CompanyCode])
+
+  @@id([RefernceCompanyCode, ClientCode])
+}
+
+model M040_StartEnd {
+  RefernceCompanyCode String    @db.VarChar(5)
+  StartEndCode        String    @db.VarChar(5)
+  StartEndKbn         String?   @db.VarChar(1)
+  OfficeCode          String?   @db.VarChar(5)
+  DelFlag             Boolean
+  CreateDateTime      DateTime? @db.DateTime
+  CreateUserId        String?   @db.VarChar(10)
+  UpdateDateTime      DateTime? @db.DateTime
+  UpdateUserId        String?   @db.VarChar(10)
+
+  Company        M010_Company @relation("Company_StartEnd", fields: [RefernceCompanyCode], references: [CompanyCode], onDelete: NoAction, onUpdate: NoAction)
+  Office         M020_Office? @relation("Office_StartEnd", fields: [RefernceCompanyCode, OfficeCode], references: [CompanyCode, OfficeCode])
+
+  @@id([RefernceCompanyCode, StartEndCode])
+}
+
+model M050_ItemGroup {
+  RefernceCompanyCode String    @db.VarChar(5)
+  ItemGroupCode       String    @db.VarChar(5)
+  ItemGroupName       String?   @db.NVarChar(50)
+  DelFlag             Boolean
+  CreateDateTime      DateTime? @db.DateTime
+  CreateUserId        String?   @db.VarChar(10)
+  UpdateDateTime      DateTime? @db.DateTime
+  UpdateUserId        String?   @db.VarChar(10)
+
+  Company        M010_Company @relation("Company_ItemGroup", fields: [RefernceCompanyCode], references: [CompanyCode])
+
+  @@id([RefernceCompanyCode, ItemGroupCode])
+}
+
+model M060_ViecleType {
+  RefernceCompanyCode String    @db.VarChar(5)
+  ViecleTypeCode      String    @db.VarChar(5)
+  ViecleTypeName      String?   @db.NVarChar(50)
+  DelFlag             Boolean
+  CreateDateTime      DateTime? @db.DateTime
+  CreateUserId        String?   @db.VarChar(10)
+  UpdateDateTime      DateTime? @db.DateTime
+  UpdateUserId        String?   @db.VarChar(10)
+
+  Company        M010_Company @relation("Company_ViecleType", fields: [RefernceCompanyCode], references: [CompanyCode])
+
+  @@id([RefernceCompanyCode, ViecleTypeCode])
+}
+
+model M070_ViecleLoads {
+  RefernceCompanyCode String    @db.VarChar(5)
+  ViecleLoadsCode     String    @db.VarChar(5)
+  ViecleLoadsName     String?   @db.NVarChar(50)
+  DelFlag             Boolean
+  CreateDateTime      DateTime? @db.DateTime
+  CreateUserId        String?   @db.VarChar(10)
+  UpdateDateTime      DateTime? @db.DateTime
+  UpdateUserId        String?   @db.VarChar(10)
+
+  Company        M010_Company @relation("Company_ViecleLoads", fields: [RefernceCompanyCode], references: [CompanyCode])
+
+  @@id([RefernceCompanyCode, ViecleLoadsCode])
+}
