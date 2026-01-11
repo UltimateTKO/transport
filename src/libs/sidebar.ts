@@ -35,6 +35,20 @@ export function GetSidebarData() {
 			],
 		},
 		{
+			id: "handy",
+			label: "ハンディ",
+			children: [
+				{
+					id: "handy010",
+					label: "着荷確認",
+				},
+				{
+					id: "handy020",
+					label: "発荷確認",
+				},
+			],
+		},
+		{
 			id: "operation",
 			label: "運行計画",
 			children: [

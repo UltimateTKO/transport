@@ -59,8 +59,25 @@ type DateRangeProps = {
 export const RequiredMark = () => <span className="required-mark">■</span>;
 
 // コンボボックスコンポーネント（そのまま／必要なら onChange, readOnly を反映）
-export const CommonComboBox = ({ id, list, showKey, onChange, readOnly, className, value }: ComboProps) => (
-	<Form.Select size="sm" id={id} onChange={onChange as any} disabled={readOnly} className={className} value={value}>
+export const CommonComboBox = ({
+	id,
+	list,
+	showKey,
+	onChange,
+	readOnly,
+	className,
+	value,
+	defaultValue,
+}: ComboProps) => (
+	<Form.Select
+		size="sm"
+		id={id}
+		onChange={onChange as any}
+		disabled={readOnly}
+		className={className}
+		value={value}
+		defaultValue={defaultValue}
+	>
 		{
 			/* 空optionをセットしておく */
 			<option value=""></option>
@@ -145,7 +162,15 @@ export const CommonInputBox = ({
 
 // テキストエリアコンポーネント（GroupLabelを内包しない）
 export const CommonTextAreaBox = ({ id, rows, defaultValue, onChange, readOnly = false }: TextAreaProps) => (
-	<Form.Control as="textarea" id={id} defaultValue={defaultValue} rows={rows} size="sm" onChange={onChange as any} readOnly={readOnly} />
+	<Form.Control
+		as="textarea"
+		id={id}
+		defaultValue={defaultValue}
+		rows={rows}
+		size="sm"
+		onChange={onChange as any}
+		readOnly={readOnly}
+	/>
 );
 
 // ラジオボタンコンポーネント（GroupLabelを内包しない）
@@ -154,7 +179,13 @@ export const CommonRadio = ({ id, list, defaultCheckIndex, onChange, readOnly = 
 		{list.map((vehicleType, index) => (
 			// ラジオは <Form.Check type="radio"> に
 			<Form.Label key={vehicleType["key"].trim()} className="panel-choice">
-				<Form.Check type="radio" name={id} defaultChecked={index === defaultCheckIndex} onChange={onChange} disabled={readOnly} />
+				<Form.Check
+					type="radio"
+					name={id}
+					defaultChecked={index === defaultCheckIndex}
+					onChange={onChange}
+					disabled={readOnly}
+				/>
 				<span>{vehicleType["value"].trim()}</span>
 			</Form.Label>
 		))}
