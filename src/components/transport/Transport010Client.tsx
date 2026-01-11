@@ -370,8 +370,8 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 	};
 
 	return (
-		<div className="table-responsive border rounded w-100 transport010-table">
-			<Table className="mb-0 table-bordered table-hover table-sm table-striped" size="sm">
+		<div className="table-responsive border rounded transport010-table">
+			<Table className="mb-0 table-bordered table-hover table-sm table-striped">
 				<thead>
 					<tr className="table-primary">
 						<th style={{ width: "2.5rem" }}></th>
@@ -542,7 +542,7 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 								<tr className="bg-light">
 									<td></td>
 									<td colSpan={35} className="p-0">
-										<Table className="mb-0 table-bordered table-sm" responsive size="sm">
+										<Table className="mb-0 w-75 table-sm table-bordered">
 											<thead>
 												<tr className="table-secondary">
 													<th style={{ width: "2rem" }}>
