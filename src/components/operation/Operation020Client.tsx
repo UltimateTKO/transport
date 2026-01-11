@@ -2,7 +2,13 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
-import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
+import {
+	CommonGroupLabel,
+	CommonComboBox,
+	CommonInputBox,
+	RequiredMark,
+	CommonDateRangeBox,
+} from "@/components/CommonComponent";
 
 type OperationPlanDetail = {
 	id: string;
@@ -263,17 +269,11 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 }
 
 function OperationPlanTable({ rows }: OperationTableProps) {
-	const [expandedRows, setExpandedRows] = useState<number[]>([]);
-	const toggleRow = (id: number) => {
-		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
-	};
-
 	return (
 		<div className="table-responsive border rounded">
 			<Table className="mb-0 table-bordered table-hover table-sm table-striped" responsive size="sm">
 				<thead>
 					<tr className="table-primary">
-						<th style={{ width: "2.5rem" }}></th>
 						<th style={{ width: "2rem" }}>
 							<Form.Check type="checkbox" />
 						</th>
@@ -292,17 +292,6 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 					{rows.map((row) => (
 						<Fragment key={row.id}>
 							<tr className="align-middle">
-								<td className="text-center">
-									<Button
-										variant="outline-primary"
-										size="sm"
-										className="px-2 py-0"
-										onClick={() => toggleRow(row.id)}
-										aria-label={`${row.planNo}の運行便情報を${expandedRows.includes(row.id) ? "閉じる" : "開く"}`}
-									>
-										{expandedRows.includes(row.id) ? "-" : "+"}
-									</Button>
-								</td>
 								<td>
 									<Form.Check type="checkbox" />
 								</td>
@@ -316,66 +305,6 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 								<td>{row.currentLocationCode}</td>
 								<td>{row.status}</td>
 							</tr>
-
-							{expandedRows.includes(row.id) && (
-								<tr className="bg-light">
-									<td></td>
-									<td colSpan={10} className="p-0">
-										<Table className="mb-0 table-bordered table-sm" responsive size="sm">
-											<thead>
-												<tr className="table-secondary">
-													<th style={{ width: "2rem" }}>
-														<Form.Check type="checkbox" />
-													</th>
-													<th>運行計画No</th>
-													<th>運行SEQ.No</th>
-													<th>便コード</th>
-													<th>温度帯区分</th>
-													<th>運送区分</th>
-													<th>自車/傭車区分</th>
-													<th>運行日From（積込日）</th>
-													<th>運行日To（荷卸日）</th>
-													<th>配車権部門（売上計上部門）コード</th>
-													<th>運送部門コード</th>
-													<th>運送業者コード</th>
-													<th>車番</th>
-													<th>ドライバーコード</th>
-													<th>ドライバー名</th>
-													<th>助手</th>
-													<th>ドライバー電話番号</th>
-													<th>ステータス</th>
-												</tr>
-											</thead>
-											<tbody>
-												{row.details.map((detail) => (
-													<tr key={detail.id}>
-														<td>
-															<Form.Check type="checkbox" />
-														</td>
-														<td>{detail.planNo}</td>
-														<td className="text-end">{detail.sequenceNo}</td>
-														<td>{detail.serviceCode}</td>
-														<td>{detail.temperatureClass}</td>
-														<td>{detail.transportClass}</td>
-														<td>{detail.ownCharterClass}</td>
-														<td>{detail.operationDateFrom}</td>
-														<td>{detail.operationDateTo}</td>
-														<td>{detail.dispatchDeptCode}</td>
-														<td>{detail.transportDeptCode}</td>
-														<td>{detail.carrierCode}</td>
-														<td>{detail.vehicleNo}</td>
-														<td>{detail.driverCode}</td>
-														<td>{detail.driverName}</td>
-														<td>{detail.assistant}</td>
-														<td>{detail.driverPhone}</td>
-														<td>{detail.status}</td>
-													</tr>
-												))}
-											</tbody>
-										</Table>
-									</td>
-								</tr>
-							)}
 						</Fragment>
 					))}
 				</tbody>
