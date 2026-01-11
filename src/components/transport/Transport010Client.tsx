@@ -269,8 +269,8 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="営業所コード">
-								<CommonInputBox id="officeCode" defaultValue="" placeholder="営業所コードを入力" />
+							<CommonGroupLabel required={false} label="営業所CD">
+								<CommonInputBox id="officeCode" defaultValue="" placeholder="営業所CDを入力" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -279,13 +279,13 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="荷送人コード">
-								<CommonInputBox id="shipperCode" defaultValue="" placeholder="荷送人コードを入力" />
+							<CommonGroupLabel required={false} label="荷送人CD">
+								<CommonInputBox id="shipperCode" defaultValue="" placeholder="荷送人CDを入力" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="荷受人コード">
-								<CommonInputBox id="consigneeCode" defaultValue="" placeholder="荷受人コードを入力" />
+							<CommonGroupLabel required={false} label="荷受人CD">
+								<CommonInputBox id="consigneeCode" defaultValue="" placeholder="荷受人CDを入力" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -299,12 +299,12 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="配送区分">
+							<CommonGroupLabel required={false} label="配送KB">
 								<CommonComboBox id="deliveryClass" list={deliveryClassList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="配車対象区分">
+							<CommonGroupLabel required={false} label="配車対象KB">
 								<CommonComboBox id="dispatchTargetClass" list={dispatchTargetClassList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
@@ -371,7 +371,7 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 
 	return (
 		<div className="table-responsive border rounded w-100 transport010-table">
-			<Table className="mb-0 table-bordered table-hover table-sm table-striped" responsive size="sm">
+			<Table className="mb-0 table-bordered table-hover table-sm table-striped" size="sm">
 				<thead>
 					<tr className="table-primary">
 						<th style={{ width: "2.5rem" }}></th>
@@ -382,16 +382,16 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 							<span className="table-header-text">配送指示№</span>
 						</th>
 						<th>
-							<span className="table-header-text">営業所コード</span>
+							<span className="table-header-text">営業所CD</span>
 						</th>
 						<th>
 							<span className="table-header-text">問合せNo/伝票No</span>
 						</th>
 						<th>
-							<span className="table-header-text">荷送人コード</span>
+							<span className="table-header-text">荷送人CD</span>
 						</th>
 						<th>
-							<span className="table-header-text">荷受人コード</span>
+							<span className="table-header-text">荷受人CD</span>
 						</th>
 						<th>
 							<span className="table-header-text">荷受人名</span>
@@ -409,13 +409,13 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 							<span className="table-header-text">荷受人FAX番号</span>
 						</th>
 						<th>
-							<span className="table-header-text">荷受人住所コード</span>
+							<span className="table-header-text">荷受人住所CD</span>
 						</th>
 						<th>
-							<span className="table-header-text">荷受人住所コード（県）</span>
+							<span className="table-header-text">荷受人住所CD（県）</span>
 						</th>
 						<th>
-							<span className="table-header-text">荷受人住所コード（地区）</span>
+							<span className="table-header-text">荷受人住所CD（地区）</span>
 						</th>
 						<th>
 							<span className="table-header-text">荷受人都道府県</span>
@@ -469,10 +469,10 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 							<span className="table-header-text">高さ</span>
 						</th>
 						<th>
-							<span className="table-header-text">配送区分</span>
+							<span className="table-header-text">配送KB</span>
 						</th>
 						<th>
-							<span className="table-header-text">配車対象区分</span>
+							<span className="table-header-text">配車対象KB</span>
 						</th>
 						<th>
 							<span className="table-header-text">配送温度帯</span>
@@ -555,7 +555,7 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 														<span className="table-header-text">配送指示明細№</span>
 													</th>
 													<th>
-														<span className="table-header-text">商品コード</span>
+														<span className="table-header-text">商品CD</span>
 													</th>
 													<th>
 														<span className="table-header-text">商品名</span>
