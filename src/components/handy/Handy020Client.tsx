@@ -1,215 +1,161 @@
 "use client";
 
 import { useState } from "react";
-import { Container, Button, Form, Row, Col } from "react-bootstrap";
-import { CommonGroupLabel, CommonComboBox, CommonInputBox } from "@/components/CommonComponent";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { CommonComboBox, CommonGroupLabel, CommonInputBox } from "@/components/CommonComponent";
 
 type ListItem = { key: string; value: string };
-
-type HandyNoInfo = { no: string; itemName: string; quantity: number };
 
 type Handy020ClientProps = {
 	localDate: string;
 };
 
-type VehicleForm = {
-	id: number;
-	vehicleNumber: string;
-	inquiryNos: { value: string; itemName: string; quantity: string }[];
-};
+type HandyScreen = "route" | "scan";
 
 export default function Handy020Client({ localDate }: Handy020ClientProps) {
-	const handyNoInfos: HandyNoInfo[] = [
-		{ no: "1234567890", itemName: "商品A", quantity: 10 },
-		{ no: "0987654321", itemName: "商品B", quantity: 5 },
-		{ no: "1122334455", itemName: "商品C", quantity: 20 },
-		{ no: "5566778899", itemName: "商品D", quantity: 15 },
+	void localDate;
+
+	// 営業所（発）一覧
+	const operationRoutes: ListItem[] = [
+		{ key: "1", value: "1234：福岡かすやINC" },
+		{ key: "2", value: "5678：鹿児島南センター" },
+		{ key: "3", value: "9012：川内営業所" },
+		{ key: "4", value: "3456：加治木営業所" },
+		{ key: "5", value: "7890：日置営業所" },
 	];
 
-	const officeList: ListItem[] = [
-		{ key: "0001", value: "本社" },
-		{ key: "0002", value: "南九州物流センター" },
-		{ key: "0003", value: "鹿児島南センター" },
-		{ key: "0004", value: "川内営業所" },
-		{ key: "0005", value: "加治木営業所" },
-		{ key: "0006", value: "日置営業所" },
-		{ key: "0007", value: "都城営業所" },
-		{ key: "0008", value: "都城フローズンセンター" },
-		{ key: "0009", value: "二又瀬物流センター" },
-		{ key: "0010", value: "福岡かすやINC" },
-		{ key: "0011", value: "鳥栖営業所" },
-		{ key: "0012", value: "福岡かすや第2センター" },
-	];
+	const [screen, setScreen] = useState<HandyScreen>("scan");
+	const [selectedRoute, setSelectedRoute] = useState("");
+	const [labelNo, setLabelNo] = useState("");
+	const [scanCount, setScanCount] = useState(0);
+	const [scanWeight, setScanWeight] = useState(0);
+	const [scannedLabels, setScannedLabels] = useState<string[]>([]);
 
-	const vehicleNumberList: ListItem[] = [
-		{ key: "1", value: "1234" },
-		{ key: "2", value: "5678" },
-		{ key: "3", value: "9012" },
-	];
+	const selectedRouteLabel = operationRoutes.find((route) => route.key === selectedRoute)?.value ?? "";
 
-	const defaultVehicleNumber = vehicleNumberList[0]?.key ?? "";
-
-	const [vehicleForms, setVehicleForms] = useState<VehicleForm[]>([
-		{ id: 0, vehicleNumber: defaultVehicleNumber, inquiryNos: [{ value: "", itemName: "", quantity: "" }] },
-	]);
-
-	const applyHandyNoInfo = (handyNo: string) => {
-		const hit = handyNoInfos.find((info) => info.no === handyNo.trim());
-		return {
-			itemName: hit?.itemName ?? "",
-			quantity: hit ? String(hit.quantity) : "",
-		};
+	const handleRouteConfirm = () => {
+		if (!selectedRoute) return;
+		setScreen("scan");
+		setLabelNo("");
+		setScanCount(0);
+		setScanWeight(0);
+		setScannedLabels([]);
 	};
 
-	const handleAddVehicleForm = () => {
-		setVehicleForms((prev) => [
-			...prev,
-			{ id: prev.length, vehicleNumber: defaultVehicleNumber, inquiryNos: [{ value: "", itemName: "", quantity: "" }] },
-		]);
+	const handleScanConfirm = () => {
+		if (!labelNo.trim()) return;
+		setScannedLabels((prev) => [...prev, labelNo.trim()]);
+		setScanCount((prev) => prev + 1);
+		setScanWeight((prev) => prev + 10); // 仮に10kg増加とする
+		setLabelNo("");
 	};
 
-	const handleVehicleChange = (formId: number, value: string) => {
-		setVehicleForms((prev) => prev.map((form) => (form.id === formId ? { ...form, vehicleNumber: value } : form)));
-	};
-
-	const handleAddInquiryNo = (formId: number) => {
-		setVehicleForms((prev) =>
-			prev.map((form) =>
-				form.id === formId
-					? { ...form, inquiryNos: [...form.inquiryNos, { value: "", itemName: "", quantity: "" }] }
-					: form
-			)
-		);
-	};
-
-	const handleChangeInquiryNo = (formId: number, index: number, value: string) => {
-		const info = applyHandyNoInfo(value);
-		setVehicleForms((prev) =>
-			prev.map((form) =>
-				form.id === formId
-					? {
-							...form,
-							inquiryNos: form.inquiryNos.map((item, idx) => (idx === index ? { ...item, value, ...info } : item)),
-					  }
-					: form
-			)
-		);
-	};
-
-	const handleScanInquiryNo = (formId: number, index: number) => {
-		const scanTarget = handyNoInfos[0];
-		if (!scanTarget) return;
-
-		setVehicleForms((prev) =>
-			prev.map((form) =>
-				form.id === formId
-					? {
-							...form,
-							inquiryNos: form.inquiryNos.map((entry, idx) =>
-								idx === index
-									? { value: scanTarget.no, itemName: scanTarget.itemName, quantity: String(scanTarget.quantity) }
-									: entry
-							),
-					  }
-					: form
-			)
-		);
+	const handleComplete = () => {
+		setScreen("route");
 	};
 
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<Form>
-					<Row className="gx-1 gy-2 mb-4">
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="営業所">
-								<CommonComboBox id="office" list={officeList} showKey={false} defaultValue="0010" />
-							</CommonGroupLabel>
-						</Col>
-					</Row>
-
-					{vehicleForms.map((form) => (
-						<div key={`vehicle-form-${form.id}`} className="mb-3">
-							<Row className="gx-1 gy-2 mb-2">
-								<Col md={12} lg={5} xxl={4}>
-									<CommonGroupLabel required={false} label="車両番号">
+				{screen === "route" ? (
+					<>
+						<header className="panel-block-header d-flex align-items-center justify-content-between">
+							<span className="panel-block-title mb-0">運行便選択</span>
+							<span className="text-muted small">便確定後に荷札入力へ</span>
+						</header>
+						<Form>
+							<Row className="gx-1 gy-2 mb-3">
+								<Col md={12} lg={6} xxl={4}>
+									<CommonGroupLabel required label="車番：発営業所">
 										<CommonComboBox
-											id={`vehicleNumber-${form.id}`}
-											list={vehicleNumberList}
+											id="operationRoute"
+											list={operationRoutes}
 											showKey={false}
-											value={form.vehicleNumber}
-											onChange={(e) => handleVehicleChange(form.id, e.target.value)}
+											value={selectedRoute}
+											onChange={(e) => setSelectedRoute(e.target.value)}
 										/>
 									</CommonGroupLabel>
 								</Col>
 							</Row>
-
-							<Row className="gx-1 gy-2 mb-2">
-								<Col md={12}>
-									{form.inquiryNos.map((entry, index) => (
-										<div key={`handy-no-${form.id}-${index}`}>
-											<Row>
-												<Col md={12} lg={4}>
-													<CommonGroupLabel required={false} label="問い合わせNo">
-														<div className="d-flex align-items-center gap-2">
-															<CommonInputBox
-																id={`handyNo-${form.id}-${index}`}
-																value={entry.value}
-																onChange={(e) => handleChangeInquiryNo(form.id, index, e.target.value)}
-																placeholder="問い合わせNoを入力"
-															/>
-															<Button
-																type="button"
-																className="btn btn-gradient w-50"
-																onClick={() => handleScanInquiryNo(form.id, index)}
-																size="sm"
-															>
-																スキャン
-															</Button>
-														</div>
-													</CommonGroupLabel>
-												</Col>
-												<Col md={12} lg={4}>
-													<CommonGroupLabel required={false} label="商品名">
-														<CommonInputBox
-															id={`handyNoInfoItem-${form.id}-${index}`}
-															value={entry.itemName}
-															readOnly
-														/>
-													</CommonGroupLabel>
-												</Col>
-												<Col md={12} lg={4}>
-													<CommonGroupLabel required={false} label="数量">
-														<CommonInputBox
-															id={`handyNoInfoQuantity-${form.id}-${index}`}
-															value={entry.quantity}
-															readOnly
-														/>
-													</CommonGroupLabel>
-												</Col>
-											</Row>
+							{scannedLabels.length > 0 ? (
+								<Row className="gx-1 gy-2 mb-3">
+									<Col md={12} lg={6} xxl={4}>
+										<div className="p-3 border rounded-3 bg-light">
+											<div className="d-flex justify-content-between align-items-center mb-2">
+												<span className="fw-semibold">スキャン済み荷札</span>
+												<span className="text-muted small">
+													{scannedLabels.length}件 / {scanWeight}kg
+												</span>
+											</div>
+											<div className="d-flex flex-wrap gap-2">
+												{scannedLabels.map((code, idx) => (
+													<span key={`${code}-${idx}`} className="badge bg-primary-subtle text-primary border">
+														{code}
+													</span>
+												))}
+											</div>
 										</div>
-									))}
+									</Col>
+								</Row>
+							) : null}
+							<div className="d-flex justify-content-end">
+								<Button
+									type="button"
+									className="btn btn-gradient px-4"
+									onClick={handleRouteConfirm}
+									disabled={!selectedRoute}
+								>
+									決定
+								</Button>
+							</div>
+						</Form>
+					</>
+				) : (
+					<>
+						<header className="panel-block-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+							<span className="panel-block-title mb-0">荷札番号読み取り</span>
+						</header>
+						<Form>
+							<Row className="gx-1 gy-2 mb-2">
+								<Col md={12} lg={6}>
+									<CommonGroupLabel required label="荷札番号">
+										<CommonInputBox
+											id="labelNo"
+											value={labelNo}
+											onChange={(e) => setLabelNo(e.target.value)}
+											placeholder="バーコードを読み込み"
+										/>
+									</CommonGroupLabel>
 								</Col>
 							</Row>
 							<Row className="gx-1 gy-2 mb-2">
-								<Col md={12} lg={5} xxl={4}>
-									<Button type="button" className="btn btn-gradient btn-sm" onClick={() => handleAddInquiryNo(form.id)}>
-										問い合わせ行追加
-									</Button>
+								<Col md={12} lg={4}>
+									<CommonGroupLabel required={false} label="個数">
+										<CommonInputBox id="scanCount" value={`${scanCount}個`} readOnly />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4}>
+									<CommonGroupLabel required={false} label="重量(kg)">
+										<CommonInputBox id="scanWeight" value={`${scanWeight}kg`} readOnly />
+									</CommonGroupLabel>
 								</Col>
 							</Row>
-						</div>
-					))}
-
-					<Row className="gx-1 gy-2 mb-2">
-						<Col md={12} lg={5} xxl={4}>
-							<Button type="button" className="btn btn-gradient w-50" onClick={handleAddVehicleForm} size="sm">
-								車両切替
-							</Button>
-						</Col>
-					</Row>
-				</Form>
+							<div className="d-flex flex-wrap justify-content-end gap-2">
+								<Button
+									type="button"
+									className="btn btn-gradient px-4"
+									onClick={handleScanConfirm}
+									disabled={!labelNo.trim()}
+								>
+									決定
+								</Button>
+								<Button type="button" className="btn btn-outline-secondary px-4" onClick={handleComplete}>
+									完了
+								</Button>
+							</div>
+						</Form>
+					</>
+				)}
 			</section>
 		</Container>
 	);
