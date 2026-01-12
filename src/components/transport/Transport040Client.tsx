@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Container, Form, Row, Col } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark } from "@/components/CommonComponent";
 
 type ListItem = { key: string; value: string };
@@ -57,7 +57,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r1-2",
 				tag: "CM",
-				name: "株式会社 北越",
+				name: "株式会社 薩摩川内",
 				weight: "M3Kg",
 				volume: "m3",
 				slips: "1伝票",
@@ -66,7 +66,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r1-3",
 				tag: "CM",
-				name: "東北市場(発)",
+				name: "鹿児島市場",
 				weight: "M3Kg",
 				volume: "m3",
 				slips: "1伝票",
@@ -139,7 +139,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r4-1",
 				tag: "CN",
-				name: "Place金沢",
+				name: "TEST加治木",
 				weight: "M3Kg",
 				volume: "m3",
 				slips: "1伝票",
@@ -157,10 +157,20 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	const [draggedStop, setDraggedStop] = useState<{ routeId: string; stopIndex: number } | null>(null);
 	const [dragOverCell, setDragOverCell] = useState<{ routeId: string; stopIndex: number } | null>(null);
 
-	const warehouses: ListItem[] = [
-		{ key: "41", value: "若瓦" },
-		{ key: "42", value: "東北" },
-		{ key: "43", value: "関西" },
+	// 営業所一覧
+	const offices: ListItem[] = [
+		{ key: "FOKFKC", value: "福岡かすやINC" },
+		{ key: "FOKK2C", value: "福岡かすや第2センター" },
+		{ key: "FOKFMC", value: "二又瀬物流センター" },
+		{ key: "SAGTSE", value: "鳥栖営業所" },
+		{ key: "KGSMKC", value: "南九州物流センター" },
+		{ key: "KGSKMC", value: "鹿児島南センター" },
+		{ key: "KGSKUE", value: "川内営業所" },
+		{ key: "KGSKKE", value: "加治木営業所" },
+		{ key: "KGSHOE", value: "日置営業所" },
+		{ key: "MYZMJE", value: "都城営業所" },
+		{ key: "MYZMJF", value: "都城フローズンセンター" },
+		{ key: "OITITK", value: "大分委託先" },
 	];
 	const carriers: ListItem[] = [
 		{ key: "C01", value: "中央輸送" },
@@ -171,10 +181,77 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		{ key: "1003", value: "1003" },
 		{ key: "2001", value: "2001" },
 	];
-	const temperatureBands: ListItem[] = [
-		{ key: "ambient", value: "常温" },
-		{ key: "cool", value: "低温" },
-		{ key: "frozen", value: "冷凍" },
+
+	// ルートコースリスト
+	const routeCourses: ListItem[] = [
+		{ key: "FOKFKCK001", value: "かすや-二又瀬" },
+		{ key: "FOKFKCK002", value: "かすや-鳥栖" },
+		{ key: "FOKFKCK003", value: "かすや-南九州" },
+		{ key: "FOKFKCK004", value: "かすや-都城" },
+		{ key: "FOKFKCK005", value: "かすや-都城F" },
+		{ key: "FOKFKCK006", value: "かすや-かすや第2" },
+		{ key: "FOKFKCK007", value: "かすや-大分" },
+
+		{ key: "FOKFKCC001", value: "かすやコース1" },
+		{ key: "FOKFKCC002", value: "かすやコース2" },
+		{ key: "FOKFKCC003", value: "かすやコース3" },
+
+		{ key: "FOKK2CC001", value: "かすや第2コース1" },
+		{ key: "FOKK2CC002", value: "かすや第2コース2" },
+		{ key: "FOKK2CC003", value: "かすや第2コース3" },
+
+		{ key: "FOKFMCC001", value: "二又瀬コース1" },
+		{ key: "FOKFMCC002", value: "二又瀬コース1" },
+		{ key: "FOKFMCC003", value: "二又瀬コース1" },
+
+		{ key: "SAGTSEC001", value: "鳥栖コース1" },
+		{ key: "SAGTSEC002", value: "鳥栖コース2" },
+		{ key: "SAGTSEC003", value: "鳥栖コース3" },
+
+		{ key: "KGSMKCK001", value: "南九州-鹿児島南" },
+		{ key: "KGSMKCK002", value: "南九州-川内" },
+		{ key: "KGSMKCK003", value: "南九州-加治木" },
+		{ key: "KGSMKCK004", value: "南九州-日置" },
+
+		{ key: "KGSMKCC001", value: "南九州コース1" },
+		{ key: "KGSMKCC002", value: "南九州コース2" },
+		{ key: "KGSMKCC003", value: "南九州コース3" },
+
+		{ key: "KGSKMCC001", value: "鹿児島南コース1" },
+		{ key: "KGSKMCC002", value: "鹿児島南コース2" },
+		{ key: "KGSKMCC003", value: "鹿児島南コース3" },
+
+		{ key: "KGSKUEC001", value: "川内コース1" },
+		{ key: "KGSKUEC002", value: "川内コース2" },
+		{ key: "KGSKUEC003", value: "川内コース3" },
+
+		{ key: "KGSKKEC001", value: "加治木コース1" },
+		{ key: "KGSKKEC002", value: "加治木コース2" },
+		{ key: "KGSKKEC003", value: "加治木コース3" },
+
+		{ key: "KGSHOEC001", value: "日置コース1" },
+		{ key: "KGSHOEC002", value: "日置コース2" },
+
+		{ key: "MYZMJEC001", value: "都城コース1" },
+		{ key: "MYZMJEC002", value: "都城コース2" },
+		{ key: "MYZMJEC003", value: "都城コース3" },
+
+		{ key: "MYZMJFC001", value: "都城Fコース1" },
+		{ key: "MYZMJFC002", value: "都城Fコース2" },
+		{ key: "MYZMJFC003", value: "都城Fコース3" },
+
+		{ key: "FOKFMCK001", value: "二又瀬-かすや" },
+		{ key: "SAGTKAS001", value: "鳥栖-かすや" },
+		{ key: "KGSMKCK005", value: "南九州-かすや" },
+		{ key: "MYZMJEK001", value: "都城-かすや" },
+		{ key: "MYZMJFK001", value: "都城F-かすや" },
+		{ key: "FOKK2CK001", value: "かすや第2-かすや" },
+		{ key: "OITITKK001", value: "大分-かすや" },
+
+		{ key: "KGSKMCK001", value: "鹿児島南-南九州" },
+		{ key: "KGSKUEK001", value: "川内-南九州" },
+		{ key: "KGSKKEK001", value: "加治木-南九州" },
+		{ key: "KGSHOEK001", value: "日置-南九州" },
 	];
 
 	const handleStopDragStart = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
@@ -253,8 +330,13 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							</CommonGroupLabel>
 						</Col>
 						<Col md={4} xl={3}>
-							<CommonGroupLabel required={true} label="倉庫">
-								<CommonComboBox id="warehouse" list={warehouses} showKey={true} />
+							<CommonGroupLabel required={true} label="営業所">
+								<CommonComboBox id="office" list={offices} showKey={true} />
+							</CommonGroupLabel>
+						</Col>
+						<Col md={4} xl={3}>
+							<CommonGroupLabel required={true} label="ルートコース">
+								<CommonComboBox id="routeCourse" list={routeCourses} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={4} xl={3}>
@@ -267,12 +349,16 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 								<CommonComboBox id="vehicleNo" list={vehicleNumbers} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={4} xl={3}>
-							<CommonGroupLabel required={false} label="配送温度帯">
-								<CommonComboBox id="temperatureBand" list={temperatureBands} showKey={false} />
-							</CommonGroupLabel>
+						<Col md={4} xl={3} className="ms-auto">
+							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
-						<Col md={4} xl={3} className="ms-auto"></Col>
+					</Row>
+
+					<Row className="mt-3">
+						<Col md={12} className="d-flex justify-content-center gap-2">
+							<Button className="btn btn-gradient px-3">全体配車確定</Button>
+							<Button className="btn btn-gradient px-3">マップ</Button>
+						</Col>
 					</Row>
 				</Form>
 
