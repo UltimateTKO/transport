@@ -36,7 +36,7 @@ type Transport040ClientProps = {
 const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-1",
-		label: "CYUO : 中央",
+		label: "",
 		carNo: "1001",
 		isFinal: true,
 		totals: {
@@ -77,7 +77,7 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-2",
-		label: "CYUO : 中央",
+		label: "",
 		carNo: "2001",
 		isFinal: false,
 		totals: {
@@ -102,12 +102,12 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-3",
-		label: "CYUO : 中央",
+		label: "",
 		carNo: "1001",
 		isFinal: false,
 		totals: {
 			weight: "15Kg",
-			volume: "1㎥",
+			volume: "5㎥",
 			slips: "1伝票",
 		},
 		stops: [
@@ -116,7 +116,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "(株)ありがとう",
 				weight: "15Kg",
-				volume: "1㎥",
+				volume: "5㎥",
 				slips: "1伝票",
 				tempClass: "frozen",
 			},
@@ -127,7 +127,7 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-4",
-		label: "CYUO : 中央",
+		label: "鹿児島総合",
 		carNo: "1003",
 		isFinal: false,
 		totals: {
@@ -258,7 +258,12 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	];
 
 	const handleStopDragStart = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
-		const stop = routes.find((r) => r.id === routeId)?.stops[stopIndex];
+		const route = routes.find((r) => r.id === routeId);
+		if (!route || route.isFinal) {
+			event.preventDefault();
+			return;
+		}
+		const stop = route.stops[stopIndex];
 		if (!stop) return;
 		setDraggedStop({ routeId, stopIndex });
 		event.dataTransfer.effectAllowed = "move";
@@ -266,11 +271,18 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	};
 
 	const handleStopDragOver = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
+		const targetRoute = routes.find((r) => r.id === routeId);
+		if (!targetRoute || targetRoute.isFinal) return;
 		event.preventDefault();
 		setDragOverCell({ routeId, stopIndex });
 	};
 
 	const handleStopDrop = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
+		const targetRoute = routes.find((r) => r.id === routeId);
+		if (!targetRoute || targetRoute.isFinal) {
+			setDragOverCell(null);
+			return;
+		}
 		event.preventDefault();
 		const data = event.dataTransfer.getData("text/plain");
 		let source = draggedStop;
@@ -279,6 +291,11 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 			source = { routeId: rid, stopIndex: Number(idx) };
 		}
 		if (!source) {
+			setDragOverCell(null);
+			return;
+		}
+		const sourceRoute = routes.find((r) => r.id === source.routeId);
+		if (!sourceRoute || sourceRoute.isFinal) {
 			setDragOverCell(null);
 			return;
 		}
@@ -412,9 +429,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						</div>
 						{routes.map((route) => (
 							<div key={`${route.id}-totals`} className="transport040-cell bg-body-secondary">
-								<div className="small text-muted">{route.totals.weight}</div>
-								<div className="small text-muted">{route.totals.volume}</div>
-								<div className="small text-muted">{route.totals.slips}</div>
+								<div className="small text-muted text-end">{route.totals.weight}</div>
+								<div className="small text-muted text-end">{route.totals.volume}</div>
+								<div className="small text-muted text-end">{route.totals.slips}</div>
 							</div>
 						))}
 
@@ -436,18 +453,18 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 											{stop ? (
 												<div
 													className={`transport040-stop transport040-${stop.tempClass}`}
-													draggable
+													draggable={!route.isFinal}
 													onDragStart={handleStopDragStart(route.id, rowIndex)}
 													onDragEnd={handleStopDragEnd}
 												>
 													<div className="d-flex align-items-center gap-2 mb-1">
-														<span className="badge rounded-pill bg-info text-dark">{stop.tag}</span>
 														<span className="fw-semibold text-primary">{stop.name}</span>
 													</div>
-													<div className="small text-muted d-flex gap-2">
-														<span>{stop.weight}</span>
-														<span>{stop.volume}</span>
-														<span>{stop.slips}</span>
+													<div className="small text-muted d-flex flex-column gap-1">
+														{/* すべて右寄せにする */}
+														<span className="text-end">{stop.weight}</span>
+														<span className="text-end">{stop.volume}</span>
+														<span className="text-end">{stop.slips}</span>
 													</div>
 												</div>
 											) : null}
