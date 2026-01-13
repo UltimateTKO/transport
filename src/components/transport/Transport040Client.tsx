@@ -316,6 +316,16 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		setRoutes((prev) => prev.map((route) => ({ ...route, isActive: true })));
 	};
 
+	const mapUrl =
+		"https://www.google.com/maps/d/u/0/viewer?hl=ja&mid=1z3uHVCAoh7JqeNNRr2HovTmQD1SU-6Y&ll=31.488925915206188%2C130.50619029999996&z=16";
+
+	const handleMapClick = () => {
+		const popup = window.open(mapUrl, "transport040-map", "popup=yes,width=1200,height=800,noopener,noreferrer");
+		if (popup) {
+			popup.opener = null;
+		}
+	};
+
 	const maxStops = Math.max(...routes.map((route) => route.stops.length));
 
 	return (
@@ -363,7 +373,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							<Button className="btn btn-gradient px-3" onClick={activateAllRoutes}>
 								全体配車確定
 							</Button>
-							<Button className="btn btn-gradient px-3">マップ</Button>
+							<Button className="btn btn-gradient px-3" onClick={handleMapClick}>
+								マップ
+							</Button>
 						</Col>
 					</Row>
 				</Form>
