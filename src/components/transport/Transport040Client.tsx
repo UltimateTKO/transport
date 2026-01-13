@@ -40,20 +40,11 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1001",
 		isFinal: true,
 		totals: {
-			weight: "30Kg",
-			volume: "15㎥",
+			weight: "20Kg",
+			volume: "10㎥",
 			slips: "3伝票",
 		},
 		stops: [
-			{
-				id: "r1-1",
-				tag: "CM",
-				name: "ホームプラザナフコ 谷山店",
-				weight: "10Kg",
-				volume: "5㎥",
-				slips: "1伝票",
-				tempClass: "ambient",
-			},
 			{
 				id: "r1-2",
 				tag: "CM",
@@ -61,7 +52,7 @@ const initialRoutes: RoutePanel[] = [
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
-				tempClass: "ambient",
+				tempClass: "cool",
 			},
 			{
 				id: "r1-3",
@@ -73,6 +64,7 @@ const initialRoutes: RoutePanel[] = [
 				tempClass: "cool",
 			},
 			null,
+			null,
 		],
 	},
 	{
@@ -81,16 +73,16 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "2001",
 		isFinal: false,
 		totals: {
-			weight: "40Kg",
+			weight: "10Kg",
 			volume: "5㎥",
 			slips: "1伝票",
 		},
 		stops: [
 			{
-				id: "r2-1",
+				id: "r1-1",
 				tag: "CM",
-				name: "季節の贈箱",
-				weight: "40Kg",
+				name: "ホームプラザナフコ 谷山店",
+				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
 				tempClass: "ambient",
@@ -106,24 +98,11 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1001",
 		isFinal: false,
 		totals: {
-			weight: "15Kg",
-			volume: "5㎥",
-			slips: "1伝票",
+			weight: "0Kg",
+			volume: "0㎥",
+			slips: "0伝票",
 		},
-		stops: [
-			{
-				id: "r3-1",
-				tag: "CM",
-				name: "(株)ありがとう",
-				weight: "15Kg",
-				volume: "5㎥",
-				slips: "1伝票",
-				tempClass: "frozen",
-			},
-			null,
-			null,
-			null,
-		],
+		stops: [null, null, null, null],
 	},
 	{
 		id: "route-4",
@@ -131,24 +110,11 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1003",
 		isFinal: false,
 		totals: {
-			weight: "1Kg",
-			volume: "5㎥",
-			slips: "1伝票",
+			weight: "0Kg",
+			volume: "0㎥",
+			slips: "0伝票",
 		},
-		stops: [
-			{
-				id: "r4-1",
-				tag: "CN",
-				name: "TEST加治木",
-				weight: "1Kg",
-				volume: "5㎥",
-				slips: "1伝票",
-				tempClass: "cool",
-			},
-			null,
-			null,
-			null,
-		],
+		stops: [null, null, null, null],
 	},
 ];
 
@@ -452,13 +418,13 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 										>
 											{stop ? (
 												<div
-													className={`transport040-stop transport040-${stop.tempClass}`}
+													className={`transport040-stop`}
 													draggable={!route.isFinal}
 													onDragStart={handleStopDragStart(route.id, rowIndex)}
 													onDragEnd={handleStopDragEnd}
 												>
 													<div className="d-flex align-items-center gap-2 mb-1">
-														<span className="fw-semibold text-primary">{stop.name}</span>
+														<span className={`fw-semibold transport040-${stop.tempClass}`}>{stop.name}</span>
 													</div>
 													<div className="small text-muted d-flex flex-column gap-1">
 														{/* すべて右寄せにする */}
@@ -525,15 +491,15 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 				}
 
 				.transport040-ambient {
-					background: #f5f9ff;
+					color: #333333;
 				}
 
 				.transport040-cool {
-					background: #e8f6ff;
+					color: #00aaff;
 				}
 
 				.transport040-frozen {
-					background: #e7f0ff;
+					color: #ffaa00;
 				}
 			`}</style>
 		</Container>
