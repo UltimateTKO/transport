@@ -78,7 +78,7 @@ const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-2",
 		label: "",
-		carNo: "2001",
+		carNo: "1002",
 		isFinal: false,
 		totals: {
 			weight: "40Kg",
@@ -103,7 +103,7 @@ const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-3",
 		label: "",
-		carNo: "1001",
+		carNo: "1003",
 		isFinal: false,
 		totals: {
 			weight: "15Kg",
@@ -128,7 +128,7 @@ const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-4",
 		label: "鹿児島総合",
-		carNo: "1003",
+		carNo: "2004",
 		isFinal: false,
 		totals: {
 			weight: "1Kg",
@@ -181,8 +181,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	];
 	const vehicleNumbers: ListItem[] = [
 		{ key: "1001", value: "1001" },
+		{ key: "1002", value: "1002" },
 		{ key: "1003", value: "1003" },
-		{ key: "2001", value: "2001" },
+		{ key: "2004", value: "2004" },
 	];
 
 	// ルートコースリスト
