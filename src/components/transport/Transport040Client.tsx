@@ -40,11 +40,20 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1001",
 		isFinal: true,
 		totals: {
-			weight: "20Kg",
-			volume: "10㎥",
+			weight: "30Kg",
+			volume: "15㎥",
 			slips: "3伝票",
 		},
 		stops: [
+			{
+				id: "r1-1",
+				tag: "CM",
+				name: "ホームプラザナフコ 谷山店",
+				weight: "10Kg",
+				volume: "5㎥",
+				slips: "1伝票",
+				tempClass: "ambient",
+			},
 			{
 				id: "r1-2",
 				tag: "CM",
@@ -52,7 +61,7 @@ const initialRoutes: RoutePanel[] = [
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
-				tempClass: "cool",
+				tempClass: "ambient",
 			},
 			{
 				id: "r1-3",
@@ -61,9 +70,8 @@ const initialRoutes: RoutePanel[] = [
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
-				tempClass: "cool",
+				tempClass: "ambient",
 			},
-			null,
 			null,
 		],
 	},
@@ -73,16 +81,16 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "2001",
 		isFinal: false,
 		totals: {
-			weight: "10Kg",
+			weight: "40Kg",
 			volume: "5㎥",
 			slips: "1伝票",
 		},
 		stops: [
 			{
-				id: "r1-1",
+				id: "r2-1",
 				tag: "CM",
-				name: "ホームプラザナフコ 谷山店",
-				weight: "10Kg",
+				name: "平川マリーナマルシェ",
+				weight: "40Kg",
 				volume: "5㎥",
 				slips: "1伝票",
 				tempClass: "ambient",
@@ -98,11 +106,24 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1001",
 		isFinal: false,
 		totals: {
-			weight: "0Kg",
-			volume: "0㎥",
-			slips: "0伝票",
+			weight: "15Kg",
+			volume: "5㎥",
+			slips: "1伝票",
 		},
-		stops: [null, null, null, null],
+		stops: [
+			{
+				id: "r3-1",
+				tag: "CM",
+				name: "サンキュー和田店",
+				weight: "15Kg",
+				volume: "5㎥",
+				slips: "1伝票",
+				tempClass: "cool",
+			},
+			null,
+			null,
+			null,
+		],
 	},
 	{
 		id: "route-4",
@@ -110,11 +131,24 @@ const initialRoutes: RoutePanel[] = [
 		carNo: "1003",
 		isFinal: false,
 		totals: {
-			weight: "0Kg",
-			volume: "0㎥",
-			slips: "0伝票",
+			weight: "1Kg",
+			volume: "5㎥",
+			slips: "1伝票",
 		},
-		stops: [null, null, null, null],
+		stops: [
+			{
+				id: "r4-1",
+				tag: "CN",
+				name: "業務スーパー谷山店",
+				weight: "1Kg",
+				volume: "5㎥",
+				slips: "1伝票",
+				tempClass: "frozen",
+			},
+			null,
+			null,
+			null,
+		],
 	},
 ];
 
@@ -303,7 +337,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	};
 
 	const mapUrl =
-		"https://www.google.com/maps/d/u/0/viewer?hl=ja&mid=1z3uHVCAoh7JqeNNRr2HovTmQD1SU-6Y&ll=31.488925915206188%2C130.50619029999996&z=16";
+		"https://www.google.com/maps/d/u/0/edit?mid=1z3uHVCAoh7JqeNNRr2HovTmQD1SU-6Y&hl=ja&ll=31.490663202239276%2C130.53182827145432&z=13";
 
 	const handleMapClick = () => {
 		const popup = window.open(mapUrl, "transport040-map", "popup=yes,width=1200,height=800,noopener,noreferrer");
@@ -336,7 +370,11 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						</Col>
 						<Col md={4} xl={3}>
 							<CommonGroupLabel required={true} label="ルートコース">
-								<CommonComboBox id="routeCourse" list={routeCourses} showKey={true} />
+								<CommonComboBox
+									id="routeCourse"
+									list={routeCourses.filter((course) => course.value.includes("コース"))}
+									showKey={true}
+								/>
 							</CommonGroupLabel>
 						</Col>
 						<Col md={4} xl={3}>
