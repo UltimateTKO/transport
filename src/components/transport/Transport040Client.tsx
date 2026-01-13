@@ -312,6 +312,10 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		setRoutes((prev) => prev.map((route) => (route.id === id ? { ...route, isActive: !route.isActive } : route)));
 	};
 
+	const activateAllRoutes = () => {
+		setRoutes((prev) => prev.map((route) => ({ ...route, isActive: true })));
+	};
+
 	const maxStops = Math.max(...routes.map((route) => route.stops.length));
 
 	return (
@@ -356,7 +360,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 					<Row className="mt-3">
 						<Col md={12} className="d-flex justify-content-center gap-2">
-							<Button className="btn btn-gradient px-3">全体配車確定</Button>
+							<Button className="btn btn-gradient px-3" onClick={activateAllRoutes}>
+								全体配車確定
+							</Button>
 							<Button className="btn btn-gradient px-3">マップ</Button>
 						</Col>
 					</Row>
