@@ -20,7 +20,7 @@ type RoutePanel = {
 	id: string;
 	label: string;
 	carNo: string;
-	isActive: boolean;
+	isFinal: boolean;
 	totals: {
 		weight: string;
 		volume: string;
@@ -38,7 +38,7 @@ const initialRoutes: RoutePanel[] = [
 		id: "route-1",
 		label: "CYUO : 中央",
 		carNo: "1001",
-		isActive: true,
+		isFinal: true,
 		totals: {
 			weight: "30Kg",
 			volume: "15㎥",
@@ -48,7 +48,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r1-1",
 				tag: "CM",
-				name: "テストマート",
+				name: "ホームプラザナフコ 谷山店",
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
@@ -57,7 +57,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r1-2",
 				tag: "CM",
-				name: "株式会社 薩摩川内",
+				name: "コメダ珈琲店 鹿児島七ツ島店",
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
@@ -66,7 +66,7 @@ const initialRoutes: RoutePanel[] = [
 			{
 				id: "r1-3",
 				tag: "CM",
-				name: "鹿児島市場",
+				name: "喫茶店ひまわり・占い",
 				weight: "10Kg",
 				volume: "5㎥",
 				slips: "1伝票",
@@ -79,7 +79,7 @@ const initialRoutes: RoutePanel[] = [
 		id: "route-2",
 		label: "CYUO : 中央",
 		carNo: "2001",
-		isActive: true,
+		isFinal: false,
 		totals: {
 			weight: "40Kg",
 			volume: "5㎥",
@@ -104,10 +104,10 @@ const initialRoutes: RoutePanel[] = [
 		id: "route-3",
 		label: "CYUO : 中央",
 		carNo: "1001",
-		isActive: false,
+		isFinal: false,
 		totals: {
 			weight: "15Kg",
-			volume: "0㎥",
+			volume: "1㎥",
 			slips: "1伝票",
 		},
 		stops: [
@@ -116,7 +116,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "(株)ありがとう",
 				weight: "15Kg",
-				volume: "0㎥",
+				volume: "1㎥",
 				slips: "1伝票",
 				tempClass: "frozen",
 			},
@@ -129,7 +129,7 @@ const initialRoutes: RoutePanel[] = [
 		id: "route-4",
 		label: "CYUO : 中央",
 		carNo: "1003",
-		isActive: true,
+		isFinal: false,
 		totals: {
 			weight: "1Kg",
 			volume: "5㎥",
@@ -173,8 +173,11 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		{ key: "OITITK", value: "大分委託先" },
 	];
 	const carriers: ListItem[] = [
-		{ key: "C01", value: "中央輸送" },
-		{ key: "C02", value: "北日本運送" },
+		{ key: "Y0000", value: "園田陸運 株式会社" },
+		{ key: "Y1000", value: "南九州トランスポート" },
+		{ key: "Y1001", value: "九州第一運輸" },
+		{ key: "Y1002", value: "福岡貨物運送株式会社" },
+		{ key: "Y1003", value: "鹿児島総合運送" },
 	];
 	const vehicleNumbers: ListItem[] = [
 		{ key: "1001", value: "1001" },
@@ -309,11 +312,11 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	};
 
 	const toggleRoute = (id: string) => {
-		setRoutes((prev) => prev.map((route) => (route.id === id ? { ...route, isActive: !route.isActive } : route)));
+		setRoutes((prev) => prev.map((route) => (route.id === id ? { ...route, isFinal: !route.isFinal } : route)));
 	};
 
 	const activateAllRoutes = () => {
-		setRoutes((prev) => prev.map((route) => ({ ...route, isActive: true })));
+		setRoutes((prev) => prev.map((route) => ({ ...route, isFinal: true })));
 	};
 
 	const mapUrl =
@@ -396,7 +399,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 									<Form.Check
 										type="switch"
 										id={`route-toggle-${route.id}`}
-										checked={route.isActive}
+										checked={route.isFinal}
 										onChange={() => toggleRoute(route.id)}
 										className="ms-auto"
 									/>
