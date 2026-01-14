@@ -127,54 +127,54 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			id: 1,
 			salesNo: "1",
 			deliveryResultNo: "1",
-			salesDate: "2024/11/06",
+			salesDate: "2026/02/06",
 			dispatchDeptCode: "D010",
 			shipperCode: "SHP-010",
-			operationStartDate: "2024/11/05",
-			unloadingDate: "2024/11/06",
+			operationStartDate: "2026/02/05",
+			unloadingDate: "2026/02/06",
 			fare: "120,000",
 			advance: "15,000",
 			totalAmount: "135,000",
 			payoutFare: "80,000",
 			payoutAdvance: "10,000",
 			payoutTotal: "90,000",
-			billingMonth: "2024/11",
+			billingMonth: "2026/02",
 			status: "請求作成済み",
 		},
 		{
 			id: 2,
 			salesNo: "2",
 			deliveryResultNo: "2",
-			salesDate: "2024/11/07",
+			salesDate: "2026/02/07",
 			dispatchDeptCode: "D020",
 			shipperCode: "SHP-020",
-			operationStartDate: "2024/11/06",
-			unloadingDate: "2024/11/07",
+			operationStartDate: "2026/02/06",
+			unloadingDate: "2026/02/07",
 			fare: "210,000",
 			advance: "12,000",
 			totalAmount: "222,000",
 			payoutFare: "150,000",
 			payoutAdvance: "8,000",
 			payoutTotal: "158,000",
-			billingMonth: "2024/11",
+			billingMonth: "2026/02",
 			status: "請求済",
 		},
 		{
 			id: 3,
 			salesNo: "3",
 			deliveryResultNo: "3",
-			salesDate: "2024/11/08",
+			salesDate: "2026/02/08",
 			dispatchDeptCode: "D030",
 			shipperCode: "SHP-030",
-			operationStartDate: "2024/11/07",
-			unloadingDate: "2024/11/07",
+			operationStartDate: "2026/02/07",
+			unloadingDate: "2026/02/07",
 			fare: "95,000",
 			advance: "0",
 			totalAmount: "95,000",
 			payoutFare: "60,000",
 			payoutAdvance: "0",
 			payoutTotal: "60,000",
-			billingMonth: "2024/11",
+			billingMonth: "2026/02",
 			status: "データ作成",
 		},
 	];
@@ -259,6 +259,30 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 							<span className="panel-block-title mb-0">売上明細</span>
 						</header>
 						<Form>
+							<Row className="gx-1 gy-2 mb-4">
+								{/* 売上日 */}
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="売上No">
+										<CommonInputBox
+											id="salesInquirySalesNo"
+											defaultValue={salesInquiryData.salesDetailNo}
+											readOnly={true}
+										/>
+									</CommonGroupLabel>
+								</Col>
+								{/* 運賃 */}
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運賃">
+										<CommonInputBox
+											id="salesInquiryFare"
+											type="number"
+											defaultValue={salesInquiryData.payoutFare}
+											textAlign="right"
+											readOnly={true}
+										/>
+									</CommonGroupLabel>
+								</Col>
+							</Row>
 							<Row className="gx-1 gy-2">
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="明細No">
