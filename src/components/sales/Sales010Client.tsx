@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
+import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
 import {
 	CommonGroupLabel,
 	CommonComboBox,
@@ -49,8 +49,6 @@ type SalesHeader = {
 	payoutTotal: string;
 	billingMonth: string;
 	status: string;
-	internalTransfers: InternalTransferDetail[];
-	payouts: PayoutDetail[];
 };
 
 type ListItem = { key: string; value: string };
@@ -69,11 +67,27 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 		{ key: "billed_ready", value: "請求作成済み" },
 		{ key: "billed", value: "請求済" },
 	];
+	const temperatureList: ListItem[] = [
+		{ key: "ambient", value: "常温" },
+		{ key: "cool", value: "クール" },
+		{ key: "frozen", value: "冷凍" },
+	];
+	const transportList: ListItem[] = [
+		{ key: "pickup", value: "集荷" },
+		{ key: "inter_region", value: "地域外幹線" },
+		{ key: "intra_region", value: "地域内幹線" },
+		{ key: "delivery", value: "配送" },
+	];
+	const vehicleOwnershipList: ListItem[] = [
+		{ key: "own", value: "自車輌" },
+		{ key: "outsourced", value: "傭車" },
+	];
+	const [showInquiryModal, setShowInquiryModal] = useState(false);
 	const rows: SalesHeader[] = [
 		{
 			id: 1,
-			salesNo: "SL-2024-0012",
-			deliveryResultNo: "RS-2024-0001",
+			salesNo: "1",
+			deliveryResultNo: "1",
 			salesDate: "2024/11/06",
 			dispatchDeptCode: "D010",
 			shipperCode: "SHP-010",
@@ -87,45 +101,11 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			payoutTotal: "90,000",
 			billingMonth: "2024/11",
 			status: "請求作成済み",
-			internalTransfers: [
-				{
-					id: "1-1",
-					transferNo: "IT-2024-1101",
-					fromDeptCode: "D010",
-					toDeptCode: "D120",
-					transferDate: "2024/11/07",
-					transferAmount: "20,000",
-					note: "関東支店への内部振り",
-					status: "確定",
-				},
-				{
-					id: "1-2",
-					transferNo: "IT-2024-1102",
-					fromDeptCode: "D010",
-					toDeptCode: "D130",
-					transferDate: "2024/11/07",
-					transferAmount: "12,000",
-					note: "冷凍帯の追加振替",
-					status: "確定",
-				},
-			],
-			payouts: [
-				{
-					id: "1-1",
-					payoutNo: "PT-2024-0201",
-					carrierCode: "C018",
-					payoutDate: "2024/11/10",
-					payoutFare: "80,000",
-					payoutAdvance: "10,000",
-					payoutTotal: "90,000",
-					status: "支払予定",
-				},
-			],
 		},
 		{
 			id: 2,
-			salesNo: "SL-2024-0013",
-			deliveryResultNo: "RS-2024-0002",
+			salesNo: "2",
+			deliveryResultNo: "2",
 			salesDate: "2024/11/07",
 			dispatchDeptCode: "D020",
 			shipperCode: "SHP-020",
@@ -139,45 +119,11 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			payoutTotal: "158,000",
 			billingMonth: "2024/11",
 			status: "請求済",
-			internalTransfers: [
-				{
-					id: "2-1",
-					transferNo: "IT-2024-1201",
-					fromDeptCode: "D020",
-					toDeptCode: "D200",
-					transferDate: "2024/11/08",
-					transferAmount: "25,000",
-					note: "九州支店への内部振り",
-					status: "確定",
-				},
-			],
-			payouts: [
-				{
-					id: "2-1",
-					payoutNo: "PT-2024-0205",
-					carrierCode: "C110",
-					payoutDate: "2024/11/12",
-					payoutFare: "95,000",
-					payoutAdvance: "5,000",
-					payoutTotal: "100,000",
-					status: "支払済",
-				},
-				{
-					id: "2-2",
-					payoutNo: "PT-2024-0206",
-					carrierCode: "C120",
-					payoutDate: "2024/11/12",
-					payoutFare: "55,000",
-					payoutAdvance: "3,000",
-					payoutTotal: "58,000",
-					status: "支払済",
-				},
-			],
 		},
 		{
 			id: 3,
-			salesNo: "SL-2024-0014",
-			deliveryResultNo: "RS-2024-0003",
+			salesNo: "3",
+			deliveryResultNo: "3",
 			salesDate: "2024/11/08",
 			dispatchDeptCode: "D030",
 			shipperCode: "SHP-030",
@@ -191,10 +137,11 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			payoutTotal: "60,000",
 			billingMonth: "2024/11",
 			status: "データ作成",
-			internalTransfers: [],
-			payouts: [],
 		},
 	];
+
+	const openInquiryModal = () => setShowInquiryModal(true);
+	const closeInquiryModal = () => setShowInquiryModal(false);
 
 	return (
 		<Container fluid>
@@ -211,39 +158,9 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 								<CommonInputBox id="salesNo" defaultValue="" placeholder="売上Noを入力" />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="配送実績No">
-								<CommonInputBox id="deliveryResultNo" defaultValue="" placeholder="配送実績Noを入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
+						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={false} label="売上日">
 								<CommonDateRangeBox id="salesDate" defaultFromValue={localDate} />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="請求年月">
-								<CommonInputBox id="billingMonth" type="month" defaultValue="" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="配車権部門CD">
-								<CommonInputBox id="dispatchDeptCode" defaultValue="" placeholder="配車権部門CDを入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="荷送人CD">
-								<CommonInputBox id="shipperCode" defaultValue="" placeholder="荷送人CDを入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="運行開始日">
-								<CommonInputBox id="operationStartDate" type="date" defaultValue="" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="荷卸日">
-								<CommonInputBox id="unloadingDate" type="date" defaultValue="" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -260,6 +177,11 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			</section>
 
 			<section className="panel-block">
+				<div className="d-flex justify-content-start gap-2 mb-3">
+					<Button className="btn btn-gradient px-3" onClick={openInquiryModal}>
+						売上照会
+					</Button>
+				</div>
 				<SalesTable rows={rows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
@@ -284,9 +206,201 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 						<Button className="btn btn-gradient btn-sm px-2 py-1">{">>"}</Button>
 					</div>
 
-					<div className="small text-muted">全 0 アイテム中 0 から 0 を表示中</div>
+					<div className="small text-muted">全 3 アイテム中 1 から 3 を表示中</div>
 				</footer>
 			</section>
+
+			<Modal show={showInquiryModal} onHide={closeInquiryModal} size="xl" fullscreen="lg-down" scrollable>
+				<Modal.Header closeButton className="border-0">
+					<Modal.Title>売上照会</Modal.Title>
+				</Modal.Header>
+				<Modal.Body className="bg-light">
+					<section className="panel-block mb-0">
+						<header className="panel-block-header d-flex align-items-center">
+							<span className="panel-block-title mb-0">売上明細</span>
+						</header>
+						<Form>
+							<Row className="gx-1 gy-2">
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="売上No">
+										<CommonInputBox id="salesInquirySalesNo" placeholder="売上Noを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="売上明細No">
+										<CommonInputBox id="salesInquirySalesDetailNo" placeholder="売上明細Noを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="配送実績No">
+										<CommonInputBox id="salesInquiryDeliveryResultNo" placeholder="配送実績Noを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="配送実績明細No">
+										<CommonInputBox id="salesInquiryDeliveryResultDetailNo" placeholder="配送実績明細Noを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="便CD">
+										<CommonInputBox id="salesInquiryServiceCode" placeholder="便CDを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運行日">
+										<CommonInputBox id="salesInquiryOperationDate" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="積込日">
+										<CommonInputBox id="salesInquiryLoadDate" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="出発日">
+										<CommonInputBox id="salesInquiryDepartureDate" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="荷卸日">
+										<CommonInputBox id="salesInquiryUnloadingDate" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="温度帯KB">
+										<CommonComboBox id="salesInquiryTemperature" list={temperatureList} showKey={false} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運送KB">
+										<CommonComboBox id="salesInquiryTransport" list={transportList} showKey={false} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="自/傭車KB">
+										<CommonComboBox id="salesInquiryVehicleOwnership" list={vehicleOwnershipList} showKey={false} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運行日From（積込日）">
+										<CommonInputBox id="salesInquiryOperationDateFrom" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運行日To（荷卸日）">
+										<CommonInputBox id="salesInquiryOperationDateTo" type="date" defaultValue={localDate} />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={6} xxl={4}>
+									<CommonGroupLabel required={false} label="配車権部門（売上計上部門）コード">
+										<CommonInputBox id="salesInquiryDispatchDeptCode" placeholder="配車権部門コードを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運送部門コード">
+										<CommonInputBox id="salesInquiryTransportDeptCode" placeholder="運送部門コードを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運送業者コード">
+										<CommonInputBox id="salesInquiryCarrierCode" placeholder="運送業者コードを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="車番">
+										<CommonInputBox id="salesInquiryCarNumber" placeholder="車番を入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="ドライバーコード">
+										<CommonInputBox id="salesInquiryDriverCode" placeholder="ドライバーコードを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="ドライバー名">
+										<CommonInputBox id="salesInquiryDriverName" placeholder="ドライバー名を入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="助手">
+										<CommonInputBox id="salesInquiryAssistant" placeholder="助手を入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="運賃">
+										<CommonInputBox id="salesInquiryFare" type="number" placeholder="運賃を入力" textAlign="right" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="立替金">
+										<CommonInputBox id="salesInquiryAdvance" type="number" placeholder="立替金を入力" textAlign="right" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="合計金額">
+										<CommonInputBox id="salesInquiryTotalAmount" type="number" placeholder="合計金額を入力" textAlign="right" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="内部振替先コード">
+										<CommonInputBox id="salesInquiryInternalTransferCode" placeholder="内部振替先コードを入力" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="内部振替運賃">
+										<CommonInputBox
+											id="salesInquiryInternalTransferFare"
+											type="number"
+											placeholder="内部振替運賃を入力"
+											textAlign="right"
+										/>
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="内部振替立替金">
+										<CommonInputBox
+											id="salesInquiryInternalTransferAdvance"
+											type="number"
+											placeholder="内部振替立替金を入力"
+											textAlign="right"
+										/>
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="下払運賃">
+										<CommonInputBox id="salesInquiryPayoutFare" type="number" placeholder="下払運賃を入力" textAlign="right" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="下払立替金">
+										<CommonInputBox
+											id="salesInquiryPayoutAdvance"
+											type="number"
+											placeholder="下払立替金を入力"
+											textAlign="right"
+										/>
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="下払合計金額">
+										<CommonInputBox id="salesInquiryPayoutTotal" type="number" placeholder="下払合計金額を入力" textAlign="right" />
+									</CommonGroupLabel>
+								</Col>
+								<Col md={12} lg={4} xxl={3}>
+									<CommonGroupLabel required={false} label="ステータス">
+										<CommonComboBox id="salesInquiryStatus" list={statusList} showKey={false} />
+									</CommonGroupLabel>
+								</Col>
+							</Row>
+						</Form>
+					</section>
+				</Modal.Body>
+				<Modal.Footer className="border-0 pt-0">
+					<Button variant="secondary" onClick={closeInquiryModal}>
+						閉じる
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</Container>
 	);
 }
@@ -302,7 +416,6 @@ function SalesTable({ rows }: SalesTableProps) {
 			<Table className="mb-0 table-bordered table-hover table-sm table-striped">
 				<thead>
 					<tr className="table-primary">
-						<th style={{ width: "2.5rem" }}></th>
 						<th style={{ width: "2rem" }}>
 							<Form.Check type="checkbox" />
 						</th>
@@ -357,19 +470,6 @@ function SalesTable({ rows }: SalesTableProps) {
 					{rows.map((row) => (
 						<Fragment key={row.id}>
 							<tr className="align-middle">
-								<td className="text-center">
-									<Button
-										variant="outline-primary"
-										size="sm"
-										className="px-2 py-0"
-										onClick={() => toggleRow(row.id)}
-										aria-label={`${row.salesNo}の内部振り・下払い明細を${
-											expandedRows.includes(row.id) ? "閉じる" : "開く"
-										}`}
-									>
-										{expandedRows.includes(row.id) ? "-" : "+"}
-									</Button>
-								</td>
 								<td>
 									<Form.Check type="checkbox" />
 								</td>
@@ -389,135 +489,6 @@ function SalesTable({ rows }: SalesTableProps) {
 								<td>{row.billingMonth}</td>
 								<td>{row.status}</td>
 							</tr>
-
-							{expandedRows.includes(row.id) && (
-								<tr className="bg-light">
-									<td></td>
-									<td colSpan={16} className="p-0">
-										<div className="p-2 d-flex flex-column gap-3">
-											<section className="bg-white border rounded">
-												<div className="px-3 py-2 border-bottom small fw-semibold text-muted">内部振り</div>
-												<div className="table-responsive">
-													<Table className="mb-0 table-bordered table-sm">
-														<thead>
-															<tr className="table-secondary">
-																<th style={{ width: "2rem" }}>
-																	<Form.Check type="checkbox" />
-																</th>
-																<th>
-																	<span className="table-header-text">内部振りNo</span>
-																</th>
-																<th>
-																	<span className="table-header-text">振替元部門CD</span>
-																</th>
-																<th>
-																	<span className="table-header-text">振替先部門CD</span>
-																</th>
-																<th>
-																	<span className="table-header-text">振替日</span>
-																</th>
-																<th className="text-end">
-																	<span className="table-header-text">振替金額</span>
-																</th>
-																<th>
-																	<span className="table-header-text">摘要</span>
-																</th>
-																<th>
-																	<span className="table-header-text">ステータス</span>
-																</th>
-															</tr>
-														</thead>
-														<tbody>
-															{row.internalTransfers.length > 0 ? (
-																row.internalTransfers.map((transfer) => (
-																	<tr key={transfer.id}>
-																		<td>
-																			<Form.Check type="checkbox" />
-																		</td>
-																		<td>{transfer.transferNo}</td>
-																		<td>{transfer.fromDeptCode}</td>
-																		<td>{transfer.toDeptCode}</td>
-																		<td>{transfer.transferDate}</td>
-																		<td className="text-end">{transfer.transferAmount}</td>
-																		<td>{transfer.note}</td>
-																		<td>{transfer.status}</td>
-																	</tr>
-																))
-															) : (
-																<tr>
-																	<td colSpan={8} className="text-center text-muted small py-3">
-																		内部振りデータがありません。
-																	</td>
-																</tr>
-															)}
-														</tbody>
-													</Table>
-												</div>
-											</section>
-
-											<section className="bg-white border rounded">
-												<div className="px-3 py-2 border-bottom small fw-semibold text-muted">下払い</div>
-												<div className="table-responsive">
-													<Table className="mb-0 table-bordered table-sm">
-														<thead>
-															<tr className="table-secondary">
-																<th style={{ width: "2rem" }}>
-																	<Form.Check type="checkbox" />
-																</th>
-																<th>
-																	<span className="table-header-text">下払No</span>
-																</th>
-																<th>
-																	<span className="table-header-text">運送業者CD</span>
-																</th>
-																<th>
-																	<span className="table-header-text">下払日</span>
-																</th>
-																<th className="text-end">
-																	<span className="table-header-text">下払運賃</span>
-																</th>
-																<th className="text-end">
-																	<span className="table-header-text">下払立替金</span>
-																</th>
-																<th className="text-end">
-																	<span className="table-header-text">下払合計金額</span>
-																</th>
-																<th>
-																	<span className="table-header-text">ステータス</span>
-																</th>
-															</tr>
-														</thead>
-														<tbody>
-															{row.payouts.length > 0 ? (
-																row.payouts.map((payout) => (
-																	<tr key={payout.id}>
-																		<td>
-																			<Form.Check type="checkbox" />
-																		</td>
-																		<td>{payout.payoutNo}</td>
-																		<td>{payout.carrierCode}</td>
-																		<td>{payout.payoutDate}</td>
-																		<td className="text-end">{payout.payoutFare}</td>
-																		<td className="text-end">{payout.payoutAdvance}</td>
-																		<td className="text-end">{payout.payoutTotal}</td>
-																		<td>{payout.status}</td>
-																	</tr>
-																))
-															) : (
-																<tr>
-																	<td colSpan={8} className="text-center text-muted small py-3">
-																		下払いデータがありません。
-																	</td>
-																</tr>
-															)}
-														</tbody>
-													</Table>
-												</div>
-											</section>
-										</div>
-									</td>
-								</tr>
-							)}
 						</Fragment>
 					))}
 				</tbody>
