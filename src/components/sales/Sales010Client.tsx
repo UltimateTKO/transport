@@ -83,6 +83,39 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 		{ key: "outsourced", value: "傭車" },
 	];
 	const [showInquiryModal, setShowInquiryModal] = useState(false);
+	const salesInquiryData = {
+		salesNo: "1",
+		salesDetailNo: "1",
+		deliveryResultNo: "1",
+		deliveryResultDetailNo: "1",
+		serviceCode: "BIN-03",
+		operationDate: "2024-11-06",
+		loadDate: "2024-11-05",
+		departureDate: "2024-11-05",
+		unloadingDate: "2024-11-06",
+		temperature: "cool",
+		transport: "delivery",
+		vehicleOwnership: "own",
+		operationDateFrom: "2024-11-05",
+		operationDateTo: "2024-11-06",
+		dispatchDeptCode: "D010",
+		transportDeptCode: "T220",
+		carrierCode: "CR-120",
+		carNumber: "品川 500 あ 12-34",
+		driverCode: "DRV-010",
+		driverName: "山田 太郎",
+		assistant: "佐藤 花子",
+		fare: "120000",
+		advance: "15000",
+		totalAmount: "135000",
+		internalTransferCode: "IT-020",
+		internalTransferFare: "40000",
+		internalTransferAdvance: "5000",
+		payoutFare: "80000",
+		payoutAdvance: "10000",
+		payoutTotal: "90000",
+		status: "billed_ready",
+	};
 	const rows: SalesHeader[] = [
 		{
 			id: 1,
@@ -223,127 +256,261 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 							<Row className="gx-1 gy-2">
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="売上No">
-										<CommonInputBox id="salesInquirySalesNo" placeholder="売上Noを入力" />
+										<CommonInputBox
+											id="salesInquirySalesNo"
+											defaultValue={salesInquiryData.salesNo}
+											placeholder="売上Noを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="売上明細No">
-										<CommonInputBox id="salesInquirySalesDetailNo" placeholder="売上明細Noを入力" />
+										<CommonInputBox
+											id="salesInquirySalesDetailNo"
+											defaultValue={salesInquiryData.salesDetailNo}
+											placeholder="売上明細Noを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="配送実績No">
-										<CommonInputBox id="salesInquiryDeliveryResultNo" placeholder="配送実績Noを入力" />
+										<CommonInputBox
+											id="salesInquiryDeliveryResultNo"
+											defaultValue={salesInquiryData.deliveryResultNo}
+											placeholder="配送実績Noを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="配送実績明細No">
-										<CommonInputBox id="salesInquiryDeliveryResultDetailNo" placeholder="配送実績明細Noを入力" />
+										<CommonInputBox
+											id="salesInquiryDeliveryResultDetailNo"
+											defaultValue={salesInquiryData.deliveryResultDetailNo}
+											placeholder="配送実績明細Noを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="便CD">
-										<CommonInputBox id="salesInquiryServiceCode" placeholder="便CDを入力" />
+										<CommonInputBox
+											id="salesInquiryServiceCode"
+											defaultValue={salesInquiryData.serviceCode}
+											placeholder="便CDを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運行日">
-										<CommonInputBox id="salesInquiryOperationDate" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryOperationDate"
+											type="date"
+											defaultValue={salesInquiryData.operationDate}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="積込日">
-										<CommonInputBox id="salesInquiryLoadDate" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryLoadDate"
+											type="date"
+											defaultValue={salesInquiryData.loadDate}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="出発日">
-										<CommonInputBox id="salesInquiryDepartureDate" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryDepartureDate"
+											type="date"
+											defaultValue={salesInquiryData.departureDate}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="荷卸日">
-										<CommonInputBox id="salesInquiryUnloadingDate" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryUnloadingDate"
+											type="date"
+											defaultValue={salesInquiryData.unloadingDate}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="温度帯KB">
-										<CommonComboBox id="salesInquiryTemperature" list={temperatureList} showKey={false} />
+										<CommonComboBox
+											id="salesInquiryTemperature"
+											list={temperatureList}
+											showKey={false}
+											defaultValue={salesInquiryData.temperature}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運送KB">
-										<CommonComboBox id="salesInquiryTransport" list={transportList} showKey={false} />
+										<CommonComboBox
+											id="salesInquiryTransport"
+											list={transportList}
+											showKey={false}
+											defaultValue={salesInquiryData.transport}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="自/傭車KB">
-										<CommonComboBox id="salesInquiryVehicleOwnership" list={vehicleOwnershipList} showKey={false} />
+										<CommonComboBox
+											id="salesInquiryVehicleOwnership"
+											list={vehicleOwnershipList}
+											showKey={false}
+											defaultValue={salesInquiryData.vehicleOwnership}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運行日From（積込日）">
-										<CommonInputBox id="salesInquiryOperationDateFrom" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryOperationDateFrom"
+											type="date"
+											defaultValue={salesInquiryData.operationDateFrom}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運行日To（荷卸日）">
-										<CommonInputBox id="salesInquiryOperationDateTo" type="date" defaultValue={localDate} />
+										<CommonInputBox
+											id="salesInquiryOperationDateTo"
+											type="date"
+											defaultValue={salesInquiryData.operationDateTo}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={6} xxl={4}>
 									<CommonGroupLabel required={false} label="配車権部門（売上計上部門）コード">
-										<CommonInputBox id="salesInquiryDispatchDeptCode" placeholder="配車権部門コードを入力" />
+										<CommonInputBox
+											id="salesInquiryDispatchDeptCode"
+											defaultValue={salesInquiryData.dispatchDeptCode}
+											placeholder="配車権部門コードを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運送部門コード">
-										<CommonInputBox id="salesInquiryTransportDeptCode" placeholder="運送部門コードを入力" />
+										<CommonInputBox
+											id="salesInquiryTransportDeptCode"
+											defaultValue={salesInquiryData.transportDeptCode}
+											placeholder="運送部門コードを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運送業者コード">
-										<CommonInputBox id="salesInquiryCarrierCode" placeholder="運送業者コードを入力" />
+										<CommonInputBox
+											id="salesInquiryCarrierCode"
+											defaultValue={salesInquiryData.carrierCode}
+											placeholder="運送業者コードを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="車番">
-										<CommonInputBox id="salesInquiryCarNumber" placeholder="車番を入力" />
+										<CommonInputBox
+											id="salesInquiryCarNumber"
+											defaultValue={salesInquiryData.carNumber}
+											placeholder="車番を入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="ドライバーコード">
-										<CommonInputBox id="salesInquiryDriverCode" placeholder="ドライバーコードを入力" />
+										<CommonInputBox
+											id="salesInquiryDriverCode"
+											defaultValue={salesInquiryData.driverCode}
+											placeholder="ドライバーコードを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="ドライバー名">
-										<CommonInputBox id="salesInquiryDriverName" placeholder="ドライバー名を入力" />
+										<CommonInputBox
+											id="salesInquiryDriverName"
+											defaultValue={salesInquiryData.driverName}
+											placeholder="ドライバー名を入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="助手">
-										<CommonInputBox id="salesInquiryAssistant" placeholder="助手を入力" />
+										<CommonInputBox
+											id="salesInquiryAssistant"
+											defaultValue={salesInquiryData.assistant}
+											placeholder="助手を入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="運賃">
-										<CommonInputBox id="salesInquiryFare" type="number" placeholder="運賃を入力" textAlign="right" />
+										<CommonInputBox
+											id="salesInquiryFare"
+											type="number"
+											defaultValue={salesInquiryData.fare}
+											placeholder="運賃を入力"
+											textAlign="right"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="立替金">
-										<CommonInputBox id="salesInquiryAdvance" type="number" placeholder="立替金を入力" textAlign="right" />
+										<CommonInputBox
+											id="salesInquiryAdvance"
+											type="number"
+											defaultValue={salesInquiryData.advance}
+											placeholder="立替金を入力"
+											textAlign="right"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="合計金額">
-										<CommonInputBox id="salesInquiryTotalAmount" type="number" placeholder="合計金額を入力" textAlign="right" />
+										<CommonInputBox
+											id="salesInquiryTotalAmount"
+											type="number"
+											defaultValue={salesInquiryData.totalAmount}
+											placeholder="合計金額を入力"
+											textAlign="right"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="内部振替先コード">
-										<CommonInputBox id="salesInquiryInternalTransferCode" placeholder="内部振替先コードを入力" />
+										<CommonInputBox
+											id="salesInquiryInternalTransferCode"
+											defaultValue={salesInquiryData.internalTransferCode}
+											placeholder="内部振替先コードを入力"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
@@ -351,8 +518,10 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 										<CommonInputBox
 											id="salesInquiryInternalTransferFare"
 											type="number"
+											defaultValue={salesInquiryData.internalTransferFare}
 											placeholder="内部振替運賃を入力"
 											textAlign="right"
+											readOnly={true}
 										/>
 									</CommonGroupLabel>
 								</Col>
@@ -361,14 +530,23 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 										<CommonInputBox
 											id="salesInquiryInternalTransferAdvance"
 											type="number"
+											defaultValue={salesInquiryData.internalTransferAdvance}
 											placeholder="内部振替立替金を入力"
 											textAlign="right"
+											readOnly={true}
 										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="下払運賃">
-										<CommonInputBox id="salesInquiryPayoutFare" type="number" placeholder="下払運賃を入力" textAlign="right" />
+										<CommonInputBox
+											id="salesInquiryPayoutFare"
+											type="number"
+											defaultValue={salesInquiryData.payoutFare}
+											placeholder="下払運賃を入力"
+											textAlign="right"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
@@ -376,19 +554,34 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 										<CommonInputBox
 											id="salesInquiryPayoutAdvance"
 											type="number"
+											defaultValue={salesInquiryData.payoutAdvance}
 											placeholder="下払立替金を入力"
 											textAlign="right"
+											readOnly={true}
 										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="下払合計金額">
-										<CommonInputBox id="salesInquiryPayoutTotal" type="number" placeholder="下払合計金額を入力" textAlign="right" />
+										<CommonInputBox
+											id="salesInquiryPayoutTotal"
+											type="number"
+											defaultValue={salesInquiryData.payoutTotal}
+											placeholder="下払合計金額を入力"
+											textAlign="right"
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 								<Col md={12} lg={4} xxl={3}>
 									<CommonGroupLabel required={false} label="ステータス">
-										<CommonComboBox id="salesInquiryStatus" list={statusList} showKey={false} />
+										<CommonComboBox
+											id="salesInquiryStatus"
+											list={statusList}
+											showKey={false}
+											defaultValue={salesInquiryData.status}
+											readOnly={true}
+										/>
 									</CommonGroupLabel>
 								</Col>
 							</Row>
