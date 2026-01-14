@@ -245,6 +245,30 @@ textarea {
 	white-space: normal;
 }
 
+.sales010-table {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.sales010-table table {
+	width: 100%;
+}
+
+.sales010-table thead th {
+	vertical-align: middle;
+}
+
+.sales010-table .table-header-text {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.2;
+	max-height: 2.4em;
+	word-break: break-all;
+	white-space: normal;
+}
+
 .rotate-180 {
 	transform: rotate(180deg);
 }
