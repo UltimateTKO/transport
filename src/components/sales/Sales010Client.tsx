@@ -2,13 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
-import {
-	CommonGroupLabel,
-	CommonComboBox,
-	CommonInputBox,
-	RequiredMark,
-	CommonDateRangeBox,
-} from "@/components/CommonComponent";
+import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
 
 type InternalTransferDetail = {
 	id: string;
@@ -53,7 +47,8 @@ type SalesHeader = {
 
 type ListItem = { key: string; value: string };
 
-type SalesInquiryData = {
+type SalesInquiryRow = {
+	id: number;
 	salesDetailNo: string;
 	transport: string;
 	operationDate: string;
@@ -105,22 +100,59 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 		{ key: "delivery", value: "配送" },
 	];
 	const [showInquiryModal, setShowInquiryModal] = useState(false);
-	const salesInquiryData: SalesInquiryData = {
-		salesDetailNo: "1",
-		transport: "delivery",
-		operationDate: "2024-11-06",
-		loadDate: "2024-11-05",
-		departureDate: "2024-11-05",
-		unloadingDate: "2024-11-06",
-		fromLocation: "福岡かすやINC",
-		toLocation: "鹿児島南センター",
-		carrierCode: "CR-120",
-		payoutFare: "80000",
-		payoutAdvance: "10000",
-		internalTransferCode: "IT-020",
-		internalTransferFare: "40000",
-		internalTransferAdvance: "5000",
-	};
+	const salesInquiryRows: SalesInquiryRow[] = [
+		{
+			id: 1,
+			salesDetailNo: "1",
+			operationDate: "2026/02/06",
+			loadDate: "2026/02/05",
+			departureDate: "2026/02/05",
+			unloadingDate: "2026/02/06",
+			transport: "intra_region",
+			fromLocation: "鳥栖営業所",
+			toLocation: "福岡かすやINC",
+			carrierCode: "CR-120",
+			internalTransferCode: "IT-020",
+			internalTransferFare: "40,000",
+			internalTransferAdvance: "5,000",
+			payoutFare: "80,000",
+			payoutAdvance: "10,000",
+		},
+		{
+			id: 2,
+			salesDetailNo: "2",
+			operationDate: "2026/02/07",
+			loadDate: "2026/02/06",
+			departureDate: "2026/02/06",
+			unloadingDate: "2026/02/07",
+			transport: "inter_region",
+			fromLocation: "福岡かすやINC",
+			toLocation: "南九州物流センター",
+			carrierCode: "CR-245",
+			internalTransferCode: "IT-030",
+			internalTransferFare: "65,000",
+			internalTransferAdvance: "8,000",
+			payoutFare: "150,000",
+			payoutAdvance: "8,000",
+		},
+		{
+			id: 3,
+			salesDetailNo: "3",
+			operationDate: "2026/02/08",
+			loadDate: "2026/02/07",
+			departureDate: "2026/02/07",
+			unloadingDate: "2026/02/07",
+			transport: "intra_region",
+			fromLocation: "南九州物流センター",
+			toLocation: "鹿児島南センター",
+			carrierCode: "CR-080",
+			internalTransferCode: "IT-015",
+			internalTransferFare: "30,000",
+			internalTransferAdvance: "0",
+			payoutFare: "60,000",
+			payoutAdvance: "0",
+		},
+	];
 
 	const rows: SalesHeader[] = [
 		{
@@ -181,6 +213,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 
 	const openInquiryModal = () => setShowInquiryModal(true);
 	const closeInquiryModal = () => setShowInquiryModal(false);
+	const resolveLabel = (list: ListItem[], key: string) => list.find((item) => item.key === key)?.value ?? key;
 
 	return (
 		<Container fluid>
@@ -251,189 +284,83 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 
 			<Modal show={showInquiryModal} onHide={closeInquiryModal} size="xl" fullscreen="lg-down" scrollable>
 				<Modal.Header closeButton className="border-0">
-					<Modal.Title>売上照会</Modal.Title>
+					<Modal.Title>売上明細</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="bg-light">
 					<section className="panel-block mb-0">
 						<header className="panel-block-header d-flex align-items-center">
 							<span className="panel-block-title mb-0">売上明細</span>
 						</header>
-						<Form>
-							<Row className="gx-1 gy-2 mb-4">
-								{/* 売上日 */}
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="売上No">
-										<CommonInputBox
-											id="salesInquirySalesNo"
-											defaultValue={salesInquiryData.salesDetailNo}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								{/* 運賃 */}
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="運賃">
-										<CommonInputBox
-											id="salesInquiryFare"
-											type="number"
-											defaultValue={salesInquiryData.payoutFare}
-											textAlign="right"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-							</Row>
-							<Row className="gx-1 gy-2">
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="明細No">
-										<CommonInputBox
-											id="salesInquirySalesDetailNo"
-											defaultValue={salesInquiryData.salesDetailNo}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="運送区分">
-										<CommonComboBox
-											id="salesInquiryTransport"
-											list={transportList}
-											showKey={false}
-											defaultValue={salesInquiryData.transport}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="運行日">
-										<CommonInputBox
-											id="salesInquiryOperationDate"
-											type="date"
-											defaultValue={salesInquiryData.operationDate}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="積込日">
-										<CommonInputBox
-											id="salesInquiryLoadDate"
-											type="date"
-											defaultValue={salesInquiryData.loadDate}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="出発日">
-										<CommonInputBox
-											id="salesInquiryDepartureDate"
-											type="date"
-											defaultValue={salesInquiryData.departureDate}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="荷卸日">
-										<CommonInputBox
-											id="salesInquiryUnloadingDate"
-											type="date"
-											defaultValue={salesInquiryData.unloadingDate}
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="From地点">
-										<CommonInputBox
-											id="salesInquiryFromLocation"
-											defaultValue={salesInquiryData.fromLocation}
-											placeholder="From地点を入力"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="To地点">
-										<CommonInputBox
-											id="salesInquiryToLocation"
-											defaultValue={salesInquiryData.toLocation}
-											placeholder="To地点を入力"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="運送業者コード">
-										<CommonInputBox
-											id="salesInquiryCarrierCode"
-											defaultValue={salesInquiryData.carrierCode}
-											placeholder="運送業者コードを入力"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="下払運賃">
-										<CommonInputBox
-											id="salesInquiryPayoutFare"
-											type="number"
-											defaultValue={salesInquiryData.payoutFare}
-											placeholder="下払運賃を入力"
-											textAlign="right"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="下払立替金">
-										<CommonInputBox
-											id="salesInquiryPayoutAdvance"
-											type="number"
-											defaultValue={salesInquiryData.payoutAdvance}
-											placeholder="下払立替金を入力"
-											textAlign="right"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="内部振替先">
-										<CommonInputBox
-											id="salesInquiryInternalTransferCode"
-											defaultValue={salesInquiryData.internalTransferCode}
-											placeholder="内部振替先を入力"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="内部振替運賃">
-										<CommonInputBox
-											id="salesInquiryInternalTransferFare"
-											type="number"
-											defaultValue={salesInquiryData.internalTransferFare}
-											placeholder="内部振替運賃を入力"
-											textAlign="right"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-								<Col md={12} lg={4} xxl={3}>
-									<CommonGroupLabel required={false} label="内部振替立替金">
-										<CommonInputBox
-											id="salesInquiryInternalTransferAdvance"
-											type="number"
-											defaultValue={salesInquiryData.internalTransferAdvance}
-											placeholder="内部振替立替金を入力"
-											textAlign="right"
-											readOnly={true}
-										/>
-									</CommonGroupLabel>
-								</Col>
-							</Row>
-						</Form>
+						<div className="table-responsive border rounded">
+							<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
+								<thead>
+									<tr className="table-primary">
+										<th>
+											<span className="table-header-text">明細No</span>
+										</th>
+										<th>
+											<span className="table-header-text">運送区分</span>
+										</th>
+										<th>
+											<span className="table-header-text">運行日</span>
+										</th>
+										<th>
+											<span className="table-header-text">積込日</span>
+										</th>
+										<th>
+											<span className="table-header-text">出発日</span>
+										</th>
+										<th>
+											<span className="table-header-text">荷卸日</span>
+										</th>
+										<th>
+											<span className="table-header-text">From地点</span>
+										</th>
+										<th>
+											<span className="table-header-text">To地点</span>
+										</th>
+										<th>
+											<span className="table-header-text">運送業者コード</span>
+										</th>
+										<th className="text-end">
+											<span className="table-header-text">下払運賃</span>
+										</th>
+										<th className="text-end">
+											<span className="table-header-text">下払立替金</span>
+										</th>
+										<th>
+											<span className="table-header-text">内部振替先</span>
+										</th>
+										<th className="text-end">
+											<span className="table-header-text">内部振替運賃</span>
+										</th>
+										<th className="text-end">
+											<span className="table-header-text">内部振替立替金</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{salesInquiryRows.map((row) => (
+										<tr key={row.id}>
+											<td>{row.salesDetailNo}</td>
+											<td>{resolveLabel(transportList, row.transport)}</td>
+											<td>{row.operationDate}</td>
+											<td>{row.loadDate}</td>
+											<td>{row.departureDate}</td>
+											<td>{row.unloadingDate}</td>
+											<td>{row.fromLocation}</td>
+											<td>{row.toLocation}</td>
+											<td>{row.carrierCode}</td>
+											<td className="text-end">{row.payoutFare}</td>
+											<td className="text-end">{row.payoutAdvance}</td>
+											<td>{row.internalTransferCode}</td>
+											<td className="text-end">{row.internalTransferFare}</td>
+											<td className="text-end">{row.internalTransferAdvance}</td>
+										</tr>
+									))}
+								</tbody>
+							</Table>
+						</div>
 					</section>
 				</Modal.Body>
 				<Modal.Footer className="border-0 pt-0">
