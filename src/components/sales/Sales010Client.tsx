@@ -231,7 +231,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="売上計上部門CD">
+							<CommonGroupLabel required={true} label="売上計上部門CD">
 								<CommonComboBox id="locationList" list={locationList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
