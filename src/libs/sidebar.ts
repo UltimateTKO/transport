@@ -40,11 +40,11 @@ export function GetSidebarData() {
 			children: [
 				{
 					id: "handy010",
-					label: "着荷確認",
+					label: "■着荷確認",
 				},
 				{
 					id: "handy020",
-					label: "発荷確認",
+					label: "■発荷確認",
 				},
 			],
 		},
@@ -58,7 +58,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "operation020",
-					label: "運行便照会",
+					label: "■運行便照会",
 				},
 			],
 		},
@@ -90,7 +90,7 @@ export function GetSidebarData() {
 			children: [
 				{
 					id: "sales010",
-					label: "売上照会",
+					label: "■売上照会",
 				},
 			],
 		},
