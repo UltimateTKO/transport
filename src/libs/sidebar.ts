@@ -82,6 +82,10 @@ export function GetSidebarData() {
 					id: "transport040",
 					label: "地域配車処理",
 				},
+				{
+					id: "transport050",
+					label: "■貨物追跡",
+				},
 			],
 		},
 		{
@@ -104,7 +108,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "invoice020",
-					label: "請求照会",
+					label: "■請求照会",
 				},
 			],
 		},
