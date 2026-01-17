@@ -26,7 +26,6 @@ type DeliveryInstructionDetail = {
 	length: string;
 	width: string;
 	height: string;
-	status: string;
 };
 
 type DeliveryInstructionHeader = {
@@ -36,6 +35,8 @@ type DeliveryInstructionHeader = {
 	loadingDate: string;
 	departureDate: string;
 	unloadingPlanDate: string;
+	temperatureBand: string;
+	orderSource: string;
 	officeCode: string;
 	inquirySlipNo: string;
 	shipperCode: string;
@@ -52,20 +53,10 @@ type DeliveryInstructionHeader = {
 	consigneeCity: string;
 	consigneeTown: string;
 	requestedArrivalTime: string;
-	note1: string;
-	note2: string;
-	note3: string;
-	note4: string;
 	quantityTotal: string;
 	volume: string;
 	weight: string;
 	dimensionTotal: string;
-	length: string;
-	width: string;
-	height: string;
-	deliveryClass: string;
-	dispatchTargetClass: string;
-	temperatureBand: string;
 	status: string;
 	details: DeliveryInstructionDetail[];
 };
@@ -82,9 +73,9 @@ type DeliveryInstructionTableProps = {
 
 export default function Transport010Client({ localDate }: Transport010ClientProps) {
 	const temperatureBandList: ListItem[] = [
-		{ key: "ambient", value: "常温" },
-		{ key: "cool", value: "クール" },
-		{ key: "frozen", value: "冷凍" },
+		{ key: "T1", value: "常温" },
+		{ key: "T2", value: "クール" },
+		{ key: "T3", value: "冷凍" },
 	];
 	const statusList: ListItem[] = [
 		{ key: "created", value: "データ作成" },
@@ -93,17 +84,34 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 		{ key: "billed", value: "請求済" },
 		{ key: "deleted", value: "削除" },
 	];
+	// 地点マスタ
+	const locationList: ListItem[] = [
+		{ key: "FOKFKC", value: "福岡かすやINC" },
+		{ key: "FOKK2C", value: "福岡かすや第2センター" },
+		{ key: "FOKFMC", value: "二又瀬物流センター" },
+		{ key: "SAGTSE", value: "鳥栖営業所" },
+		{ key: "KGSMKC", value: "南九州物流センター" },
+		{ key: "KGSKMC", value: "鹿児島南センター" },
+		{ key: "KGSKUE", value: "川内営業所" },
+		{ key: "KGSKKE", value: "加治木営業所" },
+		{ key: "KGSHOE", value: "日置営業所" },
+		{ key: "MYZMJE", value: "都城営業所" },
+		{ key: "MYZMJF", value: "都城フローズンセンター" },
+		{ key: "OITITK", value: "大分委託先" },
+	];
 	const rows: DeliveryInstructionHeader[] = [
 		{
 			id: 1,
 			instructionNo: "TR-2026-0001",
-			runDate: "2026/02/05",
-			loadingDate: "2026/02/05",
-			departureDate: "2026/02/05",
-			unloadingPlanDate: "2026/02/06",
+			runDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingPlanDate: "2026/01/21",
+			temperatureBand: "冷凍",
+			orderSource: "福岡倉庫",
 			officeCode: "南九州物流センター",
 			inquirySlipNo: "20260001",
-			shipperCode: "南九州物流センター",
+			shipperCode: "福岡かすやINC",
 			consigneeCode: "CNS-110",
 			consigneeName: "業務スーパー 谷山店",
 			consigneePostalCode: "891-0141",
@@ -116,21 +124,11 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 			consigneePrefecture: "鹿児島県",
 			consigneeCity: "鹿児島市",
 			consigneeTown: "谷山中央５丁目",
-			requestedArrivalTime: "10:00-12:00",
-			note1: "受付9:30",
-			note2: "台車返却有",
-			note3: "常温帯",
-			note4: "-",
-			quantityTotal: "12/36",
-			volume: "1.8",
-			weight: "230/210",
-			dimensionTotal: "140",
-			length: "40",
-			width: "30",
-			height: "20",
-			deliveryClass: "通常",
-			dispatchTargetClass: "対象",
-			temperatureBand: "常温",
+			requestedArrivalTime: "15:00",
+			quantityTotal: "10",
+			volume: "0.12",
+			weight: "20",
+			dimensionTotal: "700",
 			status: "運行中",
 			details: [
 				{
@@ -139,17 +137,16 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 					detailNo: "001",
 					productCode: "PRD-001",
 					productName: "冷凍スープ",
-					manufactureDate: "2026/09/20",
-					bestBeforeDate: "2027/03/20",
-					lotNo: "LOT-A101",
-					quantity: "6",
-					volume: "0.8",
-					weight: "120/110",
-					dimensionTotal: "40",
+					manufactureDate: "2025/12/20",
+					bestBeforeDate: "2027/12/01",
+					lotNo: "AA100021",
+					quantity: "3",
+					volume: "0.036",
+					weight: "6",
+					dimensionTotal: "210",
 					length: "40",
 					width: "30",
 					height: "20",
-					status: "運行中",
 				},
 				{
 					id: "1-2",
@@ -157,34 +154,67 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 					detailNo: "002",
 					productCode: "PRD-014",
 					productName: "加工肉セット",
-					manufactureDate: "2026/10/01",
-					bestBeforeDate: "2027/04/01",
-					lotNo: "LOT-B220",
-					quantity: "6",
-					volume: "1.0",
-					weight: "110/100",
-					dimensionTotal: "100",
+					manufactureDate: "2025/12/20",
+					bestBeforeDate: "2027/12/01",
+					lotNo: "AA200022",
+					quantity: "7",
+					volume: "0.084",
+					weight: "14",
+					dimensionTotal: "490",
 					length: "45",
 					width: "35",
 					height: "25",
-					status: "運行中",
 				},
 			],
 		},
 		{
 			id: 2,
 			instructionNo: "TR-2026-0002",
-			runDate: "2026/02/07",
-			loadingDate: "2026/02/07",
-			departureDate: "2026/02/07",
-			unloadingPlanDate: "2026/02/08",
-			officeCode: "南九州物流センター",
+			runDate: "2026/01/20",
+			loadingDate: "2026/01/20",
+			departureDate: "2026/01/20",
+			unloadingPlanDate: "2026/01/20",
+			orderSource: "九州倉庫",
+			temperatureBand: "常温",
+			officeCode: "福岡かすやINC",
 			inquirySlipNo: "20260002",
-			shipperCode: "南九州物流センター",
+			shipperCode: "九州倉庫",
 			consigneeCode: "CNS-220",
-			consigneeName: "喫茶店ひまわり・占い",
+			consigneeName: "福岡商店",
 			consigneePostalCode: "891-0150",
-			consigneeAddress: "鹿児島県鹿児島市坂之上６丁目３０−８",
+			consigneeAddress: "福岡市早良区早良2丁目1番1号",
+			consigneePhone: "099-1111-2222",
+			consigneeFax: "099-1111-2223",
+			consigneeAddressCode: "OS-220",
+			consigneePrefectureCode: "40",
+			consigneeAreaCode: "40201",
+			consigneePrefecture: "福岡県",
+			consigneeCity: "福岡市",
+			consigneeTown: "早良２丁目",
+			requestedArrivalTime: "-",
+			quantityTotal: "20",
+			volume: "0.24",
+			weight: "40",
+			dimensionTotal: "1400",
+			status: "配送完了",
+			details: [],
+		},
+		{
+			id: 3,
+			instructionNo: "TR-2026-0003",
+			runDate: "2026/01/20",
+			loadingDate: "2026/01/20",
+			departureDate: "2026/01/20",
+			unloadingPlanDate: "2026/01/20",
+			orderSource: "古賀倉庫",
+			temperatureBand: "常温",
+			officeCode: "鳥栖営業所",
+			inquirySlipNo: "20260003",
+			shipperCode: "古賀倉庫",
+			consigneeCode: "CNS-220",
+			consigneeName: "平川マリーナマルシェ",
+			consigneePostalCode: "891-0150",
+			consigneeAddress: "鹿児島県鹿児島市平川町２８８４",
 			consigneePhone: "099-1111-2222",
 			consigneeFax: "099-1111-2223",
 			consigneeAddressCode: "OS-220",
@@ -192,61 +222,46 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 			consigneeAreaCode: "46201",
 			consigneePrefecture: "鹿児島県",
 			consigneeCity: "鹿児島市",
-			consigneeTown: "坂之上６丁目",
-			requestedArrivalTime: "14:00-16:00",
-			note1: "検品20分",
-			note2: "冷凍帯注意",
-			note3: "パレット回収",
-			note4: "-",
-			quantityTotal: "8/20",
-			volume: "2.4",
-			weight: "310/280",
-			dimensionTotal: "160",
-			length: "50",
-			width: "40",
-			height: "30",
-			deliveryClass: "急ぎ",
-			dispatchTargetClass: "対象",
-			temperatureBand: "冷凍",
+			consigneeTown: "谷山中央５丁目",
+			requestedArrivalTime: "15:00",
+			quantityTotal: "30",
+			volume: "0.36",
+			weight: "50",
+			dimensionTotal: "2100",
+			status: "運行中",
+			details: [],
+		},
+		{
+			id: 4,
+			instructionNo: "TR-2026-0004",
+			runDate: "2026/01/20",
+			loadingDate: "2026/01/20",
+			departureDate: "2026/01/20",
+			unloadingPlanDate: "2026/01/20",
+			orderSource: "古賀倉庫",
+			temperatureBand: "常温",
+			officeCode: "鳥栖営業所",
+			inquirySlipNo: "20260004",
+			shipperCode: "古賀倉庫",
+			consigneeCode: "CNS-220",
+			consigneeName: "平川マリーナマルシェ",
+			consigneePostalCode: "891-0150",
+			consigneeAddress: "鹿児島県鹿児島市平川町２８８４",
+			consigneePhone: "099-1111-2222",
+			consigneeFax: "099-1111-2223",
+			consigneeAddressCode: "OS-220",
+			consigneePrefectureCode: "46",
+			consigneeAreaCode: "46201",
+			consigneePrefecture: "鹿児島県",
+			consigneeCity: "鹿児島市",
+			consigneeTown: "谷山中央５丁目",
+			requestedArrivalTime: "15:00",
+			quantityTotal: "5",
+			volume: "0.06",
+			weight: "15",
+			dimensionTotal: "350",
 			status: "データ作成",
-			details: [
-				{
-					id: "2-1",
-					instructionNo: "TR-2026-0002",
-					detailNo: "001",
-					productCode: "PRD-031",
-					productName: "冷凍うどん",
-					manufactureDate: "2026/09/05",
-					bestBeforeDate: "2027/03/05",
-					lotNo: "LOT-C031",
-					quantity: "5",
-					volume: "1.2",
-					weight: "180/160",
-					dimensionTotal: "80",
-					length: "50",
-					width: "40",
-					height: "30",
-					status: "データ作成",
-				},
-				{
-					id: "2-2",
-					instructionNo: "TR-2026-0002",
-					detailNo: "002",
-					productCode: "PRD-044",
-					productName: "冷凍フルーツ",
-					manufactureDate: "2026/09/12",
-					bestBeforeDate: "2027/03/12",
-					lotNo: "LOT-D044",
-					quantity: "3",
-					volume: "1.2",
-					weight: "130/120",
-					dimensionTotal: "80",
-					length: "45",
-					width: "35",
-					height: "25",
-					status: "データ作成",
-				},
-			],
+			details: [],
 		},
 	];
 
@@ -272,17 +287,12 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="受注営業所">
-								<CommonInputBox id="officeCode" defaultValue="" placeholder="受注営業所を入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="出荷元">
-								<CommonInputBox id="shipperCode" defaultValue="" placeholder="出荷元を入力" />
+								<CommonComboBox id="officeCode" list={locationList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="温度帯K">
-								<CommonComboBox id="temperatureBand" list={temperatureBandList} showKey={false} />
+								<CommonComboBox id="temperatureBand" list={temperatureBandList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -342,8 +352,8 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 	};
 
 	return (
-		<div className="table-responsive border rounded transport010-table">
-			<Table className="mb-0 table-bordered table-hover table-sm table-striped">
+		<div className="table-responsive border rounded">
+			<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
 				<thead>
 					<tr className="table-primary">
 						<th style={{ width: "2.5rem" }}></th>
@@ -364,6 +374,12 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 						</th>
 						<th>
 							<span className="table-header-text">荷下予定日</span>
+						</th>
+						<th>
+							<span className="table-header-text">温度帯</span>
+						</th>
+						<th>
+							<span className="table-header-text">発注元</span>
 						</th>
 						<th>
 							<span className="table-header-text">受注営業所</span>
@@ -422,15 +438,17 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 								<td>{row.loadingDate}</td>
 								<td>{row.departureDate}</td>
 								<td>{row.unloadingPlanDate}</td>
+								<td>{row.temperatureBand}</td>
+								<td>{row.orderSource}</td>
 								<td>{row.officeCode}</td>
 								<td>{row.shipperCode}</td>
 								<td>{row.consigneeName}</td>
 								<td>{row.consigneeAddress}</td>
 								<td>{row.requestedArrivalTime}</td>
-								<td>{row.quantityTotal}</td>
+								<td className="text-end">{row.quantityTotal}</td>
 								<td>{row.volume}</td>
-								<td>{row.weight}</td>
-								<td>{row.dimensionTotal}</td>
+								<td className="text-end">{row.weight}</td>
+								<td className="text-end">{row.dimensionTotal}</td>
 								<td>{row.status}</td>
 							</tr>
 
@@ -438,56 +456,58 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 								<tr className="bg-light">
 									<td></td>
 									<td colSpan={16} className="p-0">
-										<Table className="mb-0 w-75 table-sm table-bordered">
-											<thead>
-												<tr className="table-secondary">
-													<th style={{ width: "2rem" }}>
-														<Form.Check type="checkbox" />
-													</th>
-													<th>
-														<span className="table-header-text">商品</span>
-													</th>
-													<th>
-														<span className="table-header-text">製造年月日</span>
-													</th>
-													<th>
-														<span className="table-header-text">賞味期限</span>
-													</th>
-													<th>
-														<span className="table-header-text">ロット番号</span>
-													</th>
-													<th>
-														<span className="table-header-text">個数</span>
-													</th>
-													<th>
-														<span className="table-header-text">容積</span>
-													</th>
-													<th>
-														<span className="table-header-text">実重量/容積重</span>
-													</th>
-													<th>
-														<span className="table-header-text">寸法</span>
-													</th>
-												</tr>
-											</thead>
-											<tbody>
-												{row.details.map((detail) => (
-													<tr key={detail.id}>
-														<td>
+										<div className="table-responsive border rounded w-50">
+											<Table className="mb-0 table-bordered table-sm table-striped align-middle">
+												<thead>
+													<tr className="table-secondary">
+														<th style={{ width: "2rem" }}>
 															<Form.Check type="checkbox" />
-														</td>
-														<td>{detail.productName}</td>
-														<td>{detail.manufactureDate}</td>
-														<td>{detail.bestBeforeDate}</td>
-														<td>{detail.lotNo}</td>
-														<td className="text-end">{detail.quantity}</td>
-														<td>{detail.volume}</td>
-														<td>{detail.weight}</td>
-														<td>{detail.dimensionTotal}</td>
+														</th>
+														<th>
+															<span className="table-header-text">商品</span>
+														</th>
+														<th style={{ width: "2rem" }}>
+															<span className="table-header-text">製造年月日</span>
+														</th>
+														<th style={{ width: "2rem" }}>
+															<span className="table-header-text">賞味期限</span>
+														</th>
+														<th>
+															<span className="table-header-text">ロット番号</span>
+														</th>
+														<th>
+															<span className="table-header-text">個数</span>
+														</th>
+														<th>
+															<span className="table-header-text">容積</span>
+														</th>
+														<th style={{ width: "2rem" }}>
+															<span className="table-header-text">実重量/容積重</span>
+														</th>
+														<th>
+															<span className="table-header-text">寸法</span>
+														</th>
 													</tr>
-												))}
-											</tbody>
-										</Table>
+												</thead>
+												<tbody>
+													{row.details.map((detail) => (
+														<tr key={detail.id}>
+															<td>
+																<Form.Check type="checkbox" />
+															</td>
+															<td>{detail.productName}</td>
+															<td>{detail.manufactureDate}</td>
+															<td>{detail.bestBeforeDate}</td>
+															<td>{detail.lotNo}</td>
+															<td className="text-end">{detail.quantity}</td>
+															<td className="text-end">{detail.volume}</td>
+															<td className="text-end">{detail.weight}</td>
+															<td className="text-end">{detail.dimensionTotal}</td>
+														</tr>
+													))}
+												</tbody>
+											</Table>
+										</div>
 									</td>
 								</tr>
 							)}

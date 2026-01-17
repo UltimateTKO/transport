@@ -15,6 +15,7 @@ type OperationPlanRow = {
 	temperatureBand: string;
 	transportType: string;
 	ownCharterClass: string;
+	operationDate: string;
 	loadingDate: string;
 	departureDate: string;
 	unloadingDate: string;
@@ -40,19 +41,18 @@ type OperationTableProps = {
 
 export default function Operation020Client({ localDate }: Operation020ClientProps) {
 	const temperatureBandList: ListItem[] = [
-		{ key: "ambient", value: "常温" },
-		{ key: "cool", value: "クール" },
-		{ key: "frozen", value: "冷凍" },
+		{ key: "T1", value: "常温" },
+		{ key: "T2", value: "クール" },
+		{ key: "T3", value: "冷凍" },
 	];
 	const transportList: ListItem[] = [
-		{ key: "pickup", value: "集荷" },
-		{ key: "inter_region", value: "地域外幹線" },
-		{ key: "intra_region", value: "地域内幹線" },
-		{ key: "delivery", value: "配送" },
+		{ key: "01", value: "集荷" },
+		{ key: "02", value: "地域外幹線" },
+		{ key: "03", value: "地域内幹線" },
+		{ key: "04", value: "配送" },
 	];
 	// 運送業者マスタ
 	const carriers: ListItem[] = [
-		{ key: "Y0000", value: "園田陸運 株式会社" },
 		{ key: "Y1000", value: "南九州トランスポート" },
 		{ key: "Y1001", value: "九州第一運輸" },
 		{ key: "Y1002", value: "福岡貨物運送株式会社" },
@@ -76,39 +76,117 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 	const rows: OperationPlanRow[] = [
 		{
 			id: 1,
-			routeCourse: "南九州-川内",
+			routeCourse: "かすや-南九州",
 			temperatureBand: "常温",
-			transportType: "集荷",
+			transportType: "地域外幹線",
 			ownCharterClass: "自車",
-			loadingDate: "2024/11/05",
-			departureDate: "2024/11/05",
-			unloadingDate: "2024/11/06",
-			dispatchDeptCode: "KGSKUE:川内営業所",
-			transportDeptCode: "KGSKUE:川内営業所",
-			vehicleNo: "1234",
-			provisionalVehicleNo: "0001",
-			driverName: "佐藤 太郎",
-			assistant: "鈴木 花子",
-			driverPhone: "090-1234-5678",
-			status: "データ作成",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "福岡かすやINC",
+			transportDeptCode: "福岡かすやINC",
+			vehicleNo: "1201",
+			provisionalVehicleNo: "1001",
+			driverName: "石谷 一郎",
+			assistant: "浜田 次郎",
+			driverPhone: "090-000-0000",
+			status: "運行中",
 		},
 		{
 			id: 2,
-			routeCourse: "南九州-鹿児島南",
+			routeCourse: "かすや-都城F",
+			temperatureBand: "冷凍",
+			transportType: "地域外幹線",
+			ownCharterClass: "自車",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/20",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "福岡かすやINC",
+			transportDeptCode: "都城フローズンセンター",
+			vehicleNo: "3001",
+			provisionalVehicleNo: "2001",
+			driverName: "加藤 三郎",
+			assistant: "ー",
+			driverPhone: "090-000-0000",
+			status: "データ作成",
+		},
+		{
+			id: 3,
+			routeCourse: "かすやコース1",
+			temperatureBand: "常温",
+			transportType: "配送",
+			ownCharterClass: "自車",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "福岡かすやINC",
+			transportDeptCode: "福岡かすやINC",
+			vehicleNo: "1210",
+			provisionalVehicleNo: "4001",
+			driverName: "上田 仁",
+			assistant: "ー",
+			driverPhone: "090-000-0000",
+			status: "配送完了",
+		},
+		{
+			id: 4,
+			routeCourse: "南九州-川内",
+			temperatureBand: "常温",
+			transportType: "地域内幹線",
+			ownCharterClass: "自車",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "福岡かすやINC",
+			transportDeptCode: "南九州物流センター",
+			vehicleNo: "2001",
+			provisionalVehicleNo: "5001",
+			driverName: "木村 雄一",
+			assistant: "大城 和也",
+			driverPhone: "090-000-0000",
+			status: "配送完了",
+		},
+		{
+			id: 5,
+			routeCourse: "川内コース1",
+			temperatureBand: "常温",
+			transportType: "配送",
+			ownCharterClass: "自車",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "南九州物流センター",
+			transportDeptCode: "南九州物流センター",
+			vehicleNo: "2012",
+			provisionalVehicleNo: "5002",
+			driverName: "渡辺 徹",
+			assistant: "ー",
+			driverPhone: "090-000-0000",
+			status: "削除",
+		},
+		{
+			id: 6,
+			routeCourse: "都城Fコース1",
 			temperatureBand: "冷凍",
 			transportType: "配送",
-			ownCharterClass: "傭車",
-			loadingDate: "2024/11/06",
-			departureDate: "2024/11/06",
-			unloadingDate: "2024/11/07",
-			dispatchDeptCode: "KGSKMC:鹿児島南センター",
-			transportDeptCode: "Y1001:九州第一運輸",
-			vehicleNo: "3344",
-			provisionalVehicleNo: "0002",
-			driverName: "森川 亮",
-			assistant: "-",
-			driverPhone: "090-7777-9999",
-			status: "削除",
+			ownCharterClass: "庸車",
+			operationDate: "2026/01/20",
+			loadingDate: "2026/01/19",
+			departureDate: "2026/01/20",
+			unloadingDate: "2026/01/20",
+			dispatchDeptCode: "都城フローズンセンター",
+			transportDeptCode: "Y1000:南九州トランスポート",
+			vehicleNo: "9999",
+			provisionalVehicleNo: "0001",
+			driverName: "黒田 鉄",
+			assistant: "ー",
+			driverPhone: "090-000-0000",
+			status: "運行中",
 		},
 	];
 
@@ -129,27 +207,27 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="From地点">
-								<CommonComboBox id="fromLocation" list={locationList} showKey={false} />
+								<CommonComboBox id="fromLocation" list={locationList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="To地点">
-								<CommonComboBox id="toLocation" list={locationList} showKey={false} />
+								<CommonComboBox id="toLocation" list={locationList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="温度帯K">
-								<CommonComboBox id="temperatureBand" list={temperatureBandList} showKey={false} />
+								<CommonComboBox id="temperatureBand" list={temperatureBandList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="運送K">
-								<CommonComboBox id="transportType" list={transportList} showKey={false} />
+								<CommonComboBox id="transportType" list={transportList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={12} lg={4} xxl={3}>
+						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={false} label="運送業者CD">
-								<CommonComboBox id="carrierCode" list={carriers} showKey={false} />
+								<CommonComboBox id="carrierCode" list={carriers} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 
@@ -203,7 +281,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 function OperationPlanTable({ rows }: OperationTableProps) {
 	return (
 		<div className="table-responsive border rounded">
-			<Table className="mb-0 table-bordered table-hover table-sm table-striped" responsive size="sm">
+			<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
 				<thead>
 					<tr className="table-primary">
 						<th style={{ width: "2rem" }}>
@@ -213,6 +291,7 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 						<th>温度帯K</th>
 						<th>運送K</th>
 						<th>自/傭</th>
+						<th>運行日</th>
 						<th>積込日</th>
 						<th>出発日</th>
 						<th>荷卸日</th>
@@ -236,6 +315,7 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 							<td>{row.temperatureBand}</td>
 							<td>{row.transportType}</td>
 							<td>{row.ownCharterClass}</td>
+							<td>{row.operationDate}</td>
 							<td>{row.loadingDate}</td>
 							<td>{row.departureDate}</td>
 							<td>{row.unloadingDate}</td>

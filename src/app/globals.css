@@ -200,26 +200,42 @@ textarea {
 }
 .transport010-table {
 	width: 100%;
-	overflow-x: auto;
+	max-width: 100%;
+	overflow-x: scroll;
 }
 
 .transport010-table table {
-	width: 100%;
+	/* width: max-content;
+	min-width: 100%; */
+	max-width: 100%;
+}
+
+.transport010-table table th,
+.transport010-table table td {
+	/* white-space: nowrap; */
 }
 
 .transport010-table thead th {
-	vertical-align: middle;
+	/* vertical-align: middle; */
+	max-width: 100%;
 }
 
 .transport010-table .table-header-text {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	line-height: 1.2;
-	max-height: 2.4em;
-	word-break: break-all;
-	white-space: normal;
+	/* display: inline-block;
+	white-space: nowrap; */
+	max-width: 100%;
+}
+
+.transport010-subtable {
+	width: 70%;
+	max-width: 70%;
+	/* overflow-x: auto; */
+}
+
+.transport010-subtable table {
+	/* width: max-content;
+	min-width: 100%; */
+	max-width: 100%;
 }
 .transport020-table {
 	width: 80%;
