@@ -99,21 +99,53 @@ export default function Transport050Client() {
 				<Form>
 					<Row className="gx-1 gy-2 mb-4">
 						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel required={true} label="伝票No/問い合わせNo">
+							<CommonGroupLabel
+								required={true}
+								label="伝票No/問い合わせNo"
+								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
+							>
 								<CommonInputBox id="trackingNoPrimary" defaultValue="" placeholder="伝票No/問い合わせNoを入力" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel required={false} label="伝票No/問い合わせNo">
+							<CommonGroupLabel required={false} label="ステータス">
+								<CommonInputBox id="statusPrimary" defaultValue="" readOnly />
+							</CommonGroupLabel>
+						</Col>
+					</Row>
+					<Row className="gx-1 gy-2 mb-4">
+						<Col md={12} lg={4} xxl={4}>
+							<CommonGroupLabel
+								required={false}
+								label="伝票No/問い合わせNo"
+								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
+							>
 								<CommonInputBox id="trackingNoSecondary" defaultValue="" placeholder="伝票No/問い合わせNoを入力" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel required={false} label="伝票No/問い合わせNo">
+							<CommonGroupLabel required={false} label="ステータス">
+								<CommonInputBox id="statusPrimary" defaultValue="" readOnly />
+							</CommonGroupLabel>
+						</Col>
+					</Row>
+					<Row className="gx-1 gy-2 mb-4">
+						<Col md={12} lg={4} xxl={4}>
+							<CommonGroupLabel
+								required={false}
+								label="伝票No/問い合わせNo"
+								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
+							>
 								<CommonInputBox id="trackingNoTertiary" defaultValue="" placeholder="伝票No/問い合わせNoを入力" />
 							</CommonGroupLabel>
 						</Col>
-
+						<Col md={12} lg={4} xxl={4}>
+							<CommonGroupLabel required={false} label="ステータス">
+								<CommonInputBox id="statusPrimary" defaultValue="" readOnly />
+							</CommonGroupLabel>
+						</Col>
+					</Row>
+					<Row className="gx-1 gy-2 mb-4">
 						<Col md={12} className="d-flex justify-content-center gap-2 mt-3">
 							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
