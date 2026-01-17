@@ -32,11 +32,7 @@ type TrackingInput = {
 	status: string;
 };
 
-type TrackingFormState = {
-	primary: TrackingInput;
-	secondary: TrackingInput;
-	tertiary: TrackingInput;
-};
+type TrackingFormState = TrackingInput[];
 
 const TRACKING_DATA: TrackingResult[] = [
 	{
@@ -131,25 +127,18 @@ const TRACKING_DATA: TrackingResult[] = [
 ];
 
 const applyStatuses = (state: TrackingFormState): TrackingFormState => {
-	const next: TrackingFormState = {
-		primary: { value: state.primary.value, status: "" },
-		secondary: { value: state.secondary.value, status: "" },
-		tertiary: { value: state.tertiary.value, status: "" },
-	};
-
-	(Object.keys(next) as Array<keyof TrackingFormState>).forEach((key) => {
-		const inputValue = next[key].value.trim();
+	return state.map((input) => {
+		const inputValue = input.value.trim();
 		const matchedRow = TRACKING_DATA.find((row) => row.trackingNo === inputValue);
-		next[key].status = matchedRow ? matchedRow.status : inputValue ? "該当なし" : "";
+		return {
+			value: input.value,
+			status: matchedRow ? matchedRow.status : inputValue ? "該当なし" : "",
+		};
 	});
-
-	return next;
 };
 
 const filterRows = (state: TrackingFormState): TrackingResult[] => {
-	const activeNos = Object.values(state)
-		.map((entry) => entry.value.trim())
-		.filter((value) => value.length > 0);
+	const activeNos = state.map((entry) => entry.value.trim()).filter((value) => value.length > 0);
 
 	if (activeNos.length === 0) {
 		return TRACKING_DATA;
@@ -158,26 +147,26 @@ const filterRows = (state: TrackingFormState): TrackingResult[] => {
 	return TRACKING_DATA.filter((row) => activeNos.includes(row.trackingNo));
 };
 
-const INITIAL_FORM_STATE: TrackingFormState = applyStatuses({
-	primary: { value: "202601200001", status: "" },
-	secondary: { value: "202601200002", status: "" },
-	tertiary: { value: "202601200003", status: "" },
-});
+const INITIAL_FORM_STATE: TrackingFormState = applyStatuses([
+	{ value: "202601200001", status: "" },
+	{ value: "202601200002", status: "" },
+	{ value: "202601200003", status: "" },
+]);
 
 export default function Transport050Client() {
 	const [formState, setFormState] = useState<TrackingFormState>(INITIAL_FORM_STATE);
 
 	const [tableRows, setTableRows] = useState<TrackingResult[]>(() => filterRows(INITIAL_FORM_STATE));
 
-	const handleTrackingChange = (key: keyof TrackingFormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) => ({
-			...prev,
-			[key]: {
-				value: inputValue,
-				status: "",
-			},
-		}));
+		setFormState((prev) =>
+			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input))
+		);
+	};
+
+	const handleAddInput = () => {
+		setFormState((prev) => [...prev, { value: "", status: "" }]);
 	};
 
 	const handleSearch = () => {
@@ -197,52 +186,29 @@ export default function Transport050Client() {
 				</header>
 
 				<Form>
+					{formState.map((input, index) => (
+						<Row className="gx-1 gy-2 mb-2" key={`tracking-input-${index}`}>
+							<Col md={12} lg={4} xxl={4}>
+								<CommonGroupLabel
+									required={index === 0}
+									label="伝票No/問い合わせNo"
+									style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
+								>
+									<CommonInputBox
+										id={`trackingNo-${index}`}
+										value={input.value}
+										placeholder="伝票No/問い合わせNoを入力"
+										onChange={handleTrackingChange(index)}
+									/>
+								</CommonGroupLabel>
+							</Col>
+						</Row>
+					))}
 					<Row className="gx-1 gy-2 mb-2">
 						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel
-								required={true}
-								label="伝票No/問い合わせNo"
-								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
-							>
-								<CommonInputBox
-									id="trackingNoPrimary"
-									value={formState.primary.value}
-									placeholder="伝票No/問い合わせNoを入力"
-									onChange={handleTrackingChange("primary")}
-								/>
-							</CommonGroupLabel>
-						</Col>
-					</Row>
-					<Row className="gx-1 gy-2 mb-2">
-						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel
-								required={false}
-								label="伝票No/問い合わせNo"
-								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
-							>
-								<CommonInputBox
-									id="trackingNoSecondary"
-									value={formState.secondary.value}
-									placeholder="伝票No/問い合わせNoを入力"
-									onChange={handleTrackingChange("secondary")}
-								/>
-							</CommonGroupLabel>
-						</Col>
-					</Row>
-					<Row className="gx-1 gy-2 mb-2">
-						<Col md={12} lg={4} xxl={4}>
-							<CommonGroupLabel
-								required={false}
-								label="伝票No/問い合わせNo"
-								style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
-							>
-								<CommonInputBox
-									id="trackingNoTertiary"
-									value={formState.tertiary.value}
-									placeholder="伝票No/問い合わせNoを入力"
-									onChange={handleTrackingChange("tertiary")}
-								/>
-							</CommonGroupLabel>
+							<Button className="btn btn-gradient px-3" type="button" onClick={handleAddInput}>
+								入力欄を追加
+							</Button>
 						</Col>
 					</Row>
 					<Row className="gx-1 gy-2 mb-4">
