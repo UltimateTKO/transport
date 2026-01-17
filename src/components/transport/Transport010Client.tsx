@@ -253,7 +253,7 @@ export default function Transport010Client({ localDate }: Transport010ClientProp
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<header className="panel-block-header d-flex align-items-center gap-2">
+				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
 					<span className="small fw-semibold">は入力必須項目です</span>
 				</header>

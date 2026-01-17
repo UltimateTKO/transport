@@ -20,6 +20,9 @@ type RoutePanel = {
 	id: string;
 	label: string;
 	carNo: string;
+	carKind: string;
+	maxLoad: string;
+	maxVolume: string;
 	isFinal: boolean;
 	totals: {
 		weight: string;
@@ -36,8 +39,11 @@ type Transport040ClientProps = {
 const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-1",
-		label: "",
+		label: "南九州物流センター",
 		carNo: "1001",
+		carKind: "3トン平ボディ",
+		maxLoad: "3,000Kg",
+		maxVolume: "13㎥",
 		isFinal: true,
 		totals: {
 			weight: "30Kg",
@@ -59,7 +65,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "コメダ珈琲店 鹿児島七ツ島店",
 				weight: "10Kg",
-				volume: "5㎥",
+				volume: "3㎥",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
@@ -68,7 +74,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "喫茶店ひまわり・占い",
 				weight: "10Kg",
-				volume: "5㎥",
+				volume: "2㎥",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
@@ -77,8 +83,11 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-2",
-		label: "",
+		label: "南九州物流センター",
 		carNo: "1002",
+		carKind: "2トン箱車",
+		maxLoad: "2,000Kg",
+		maxVolume: "10㎥",
 		isFinal: false,
 		totals: {
 			weight: "40Kg",
@@ -91,7 +100,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "平川マリーナマルシェ",
 				weight: "40Kg",
-				volume: "5㎥",
+				volume: "4㎥",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
@@ -102,8 +111,11 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-3",
-		label: "",
+		label: "南九州物流センター",
 		carNo: "1003",
+		carKind: "2トン冷蔵車",
+		maxLoad: "1,500Kg",
+		maxVolume: "9㎥",
 		isFinal: false,
 		totals: {
 			weight: "15Kg",
@@ -116,7 +128,7 @@ const initialRoutes: RoutePanel[] = [
 				tag: "CM",
 				name: "サンキュー和田店",
 				weight: "15Kg",
-				volume: "5㎥",
+				volume: "4㎥",
 				slips: "1伝票",
 				tempClass: "cool",
 			},
@@ -129,6 +141,9 @@ const initialRoutes: RoutePanel[] = [
 		id: "route-4",
 		label: "鹿児島総合",
 		carNo: "2004",
+		carKind: "5トン冷凍車",
+		maxLoad: "4,500Kg",
+		maxVolume: "30㎥",
 		isFinal: false,
 		totals: {
 			weight: "1Kg",
@@ -188,74 +203,74 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 	// ルートコースリスト
 	const routeCourses: ListItem[] = [
-		{ key: "FOKFKCK001", value: "かすや-二又瀬" },
-		{ key: "FOKFKCK002", value: "かすや-鳥栖" },
-		{ key: "FOKFKCK003", value: "かすや-南九州" },
-		{ key: "FOKFKCK004", value: "かすや-都城" },
-		{ key: "FOKFKCK005", value: "かすや-都城F" },
-		{ key: "FOKFKCK006", value: "かすや-かすや第2" },
-		{ key: "FOKFKCK007", value: "かすや-大分" },
+		{ key: "MTKSY001", value: "かすや-二又瀬" },
+		{ key: "MTKSY002", value: "かすや-鳥栖" },
+		{ key: "MTKSY003", value: "かすや-南九州" },
+		{ key: "MTKSY004", value: "かすや-都城" },
+		{ key: "MTKSY005", value: "かすや-都城F" },
+		{ key: "MTKSY006", value: "かすや-かすや第2" },
+		{ key: "MTKSY007", value: "かすや-大分" },
 
-		{ key: "FOKFKCC001", value: "かすやコース1" },
-		{ key: "FOKFKCC002", value: "かすやコース2" },
-		{ key: "FOKFKCC003", value: "かすやコース3" },
+		{ key: "CSKSY001", value: "かすやコース1" },
+		{ key: "CSKSY002", value: "かすやコース2" },
+		{ key: "CSKSY003", value: "かすやコース3" },
 
-		{ key: "FOKK2CC001", value: "かすや第2コース1" },
-		{ key: "FOKK2CC002", value: "かすや第2コース2" },
-		{ key: "FOKK2CC003", value: "かすや第2コース3" },
+		{ key: "CSKSYSECOND001", value: "かすや第2コース1" },
+		{ key: "CSKSYSECOND002", value: "かすや第2コース2" },
+		{ key: "CSKSYSECOND003", value: "かすや第2コース3" },
 
-		{ key: "FOKFMCC001", value: "二又瀬コース1" },
-		{ key: "FOKFMCC002", value: "二又瀬コース1" },
-		{ key: "FOKFMCC003", value: "二又瀬コース1" },
+		{ key: "CSFMS001", value: "二又瀬コース1" },
+		{ key: "CSFMS002", value: "二又瀬コース1" },
+		{ key: "CSFMS003", value: "二又瀬コース1" },
 
-		{ key: "SAGTSEC001", value: "鳥栖コース1" },
-		{ key: "SAGTSEC002", value: "鳥栖コース2" },
-		{ key: "SAGTSEC003", value: "鳥栖コース3" },
+		{ key: "CSTOS001", value: "鳥栖コース1" },
+		{ key: "CSTOS002", value: "鳥栖コース2" },
+		{ key: "CSTOS003", value: "鳥栖コース3" },
 
-		{ key: "KGSMKCK001", value: "南九州-鹿児島南" },
-		{ key: "KGSMKCK002", value: "南九州-川内" },
-		{ key: "KGSMKCK003", value: "南九州-加治木" },
-		{ key: "KGSMKCK004", value: "南九州-日置" },
+		{ key: "MTMKS001", value: "南九州-鹿児島南" },
+		{ key: "MTMKS002", value: "南九州-川内" },
+		{ key: "MTMKS003", value: "南九州-加治木" },
+		{ key: "MTMKS004", value: "南九州-日置" },
 
-		{ key: "KGSMKCC001", value: "南九州コース1" },
-		{ key: "KGSMKCC002", value: "南九州コース2" },
-		{ key: "KGSMKCC003", value: "南九州コース3" },
+		{ key: "CSMKS001", value: "南九州コース1" },
+		{ key: "CSMKS002", value: "南九州コース2" },
+		{ key: "CSMKS003", value: "南九州コース3" },
 
-		{ key: "KGSKMCC001", value: "鹿児島南コース1" },
-		{ key: "KGSKMCC002", value: "鹿児島南コース2" },
-		{ key: "KGSKMCC003", value: "鹿児島南コース3" },
+		{ key: "CSKGS001", value: "鹿児島南コース1" },
+		{ key: "CSKGS002", value: "鹿児島南コース2" },
+		{ key: "CSKGS003", value: "鹿児島南コース3" },
 
-		{ key: "KGSKUEC001", value: "川内コース1" },
-		{ key: "KGSKUEC002", value: "川内コース2" },
-		{ key: "KGSKUEC003", value: "川内コース3" },
+		{ key: "CSKCH001", value: "川内コース1" },
+		{ key: "CSKCH002", value: "川内コース2" },
+		{ key: "CSKCH003", value: "川内コース3" },
 
-		{ key: "KGSKKEC001", value: "加治木コース1" },
-		{ key: "KGSKKEC002", value: "加治木コース2" },
-		{ key: "KGSKKEC003", value: "加治木コース3" },
+		{ key: "CSKKJK001", value: "加治木コース1" },
+		{ key: "CSKKJK002", value: "加治木コース2" },
+		{ key: "CSKKJK003", value: "加治木コース3" },
 
 		{ key: "KGSHOEC001", value: "日置コース1" },
 		{ key: "KGSHOEC002", value: "日置コース2" },
 
-		{ key: "MYZMJEC001", value: "都城コース1" },
-		{ key: "MYZMJEC002", value: "都城コース2" },
-		{ key: "MYZMJEC003", value: "都城コース3" },
+		{ key: "CSMNJ001", value: "都城コース1" },
+		{ key: "CSMNJ002", value: "都城コース2" },
+		{ key: "CSMNJ003", value: "都城コース3" },
 
-		{ key: "MYZMJFC001", value: "都城Fコース1" },
-		{ key: "MYZMJFC002", value: "都城Fコース2" },
-		{ key: "MYZMJFC003", value: "都城Fコース3" },
+		{ key: "CSMNJF001", value: "都城Fコース1" },
+		{ key: "CSMNJF002", value: "都城Fコース2" },
+		{ key: "CSMNJF003", value: "都城Fコース3" },
 
-		{ key: "FOKFMCK001", value: "二又瀬-かすや" },
-		{ key: "SAGTKAS001", value: "鳥栖-かすや" },
-		{ key: "KGSMKCK005", value: "南九州-かすや" },
-		{ key: "MYZMJEK001", value: "都城-かすや" },
-		{ key: "MYZMJFK001", value: "都城F-かすや" },
-		{ key: "FOKK2CK001", value: "かすや第2-かすや" },
-		{ key: "OITITKK001", value: "大分-かすや" },
+		// { key: "FOKFMCK001", value: "二又瀬-かすや" },
+		// { key: "SAGTKAS001", value: "鳥栖-かすや" },
+		// { key: "KGSMKCK005", value: "南九州-かすや" },
+		// { key: "MYZMJEK001", value: "都城-かすや" },
+		// { key: "MYZMJFK001", value: "都城F-かすや" },
+		// { key: "FOKK2CK001", value: "かすや第2-かすや" },
+		// { key: "OITITKK001", value: "大分-かすや" },
 
-		{ key: "KGSKMCK001", value: "鹿児島南-南九州" },
-		{ key: "KGSKUEK001", value: "川内-南九州" },
-		{ key: "KGSKKEK001", value: "加治木-南九州" },
-		{ key: "KGSHOEK001", value: "日置-南九州" },
+		// { key: "KGSKMCK001", value: "鹿児島南-南九州" },
+		// { key: "KGSKUEK001", value: "川内-南九州" },
+		// { key: "KGSKKEK001", value: "加治木-南九州" },
+		// { key: "KGSHOEK001", value: "日置-南九州" },
 	];
 
 	const handleStopDragStart = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
@@ -352,7 +367,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<header className="panel-block-header d-flex align-items-center gap-2">
+				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
 					<span className="small fw-semibold">は入力必須項目です</span>
 				</header>
@@ -364,46 +379,59 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 								<CommonInputBox id="operationDate" type="date" defaultValue={localDate} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={4} xl={3}>
+						<Col md={12} xl={4}>
 							<CommonGroupLabel required={true} label="営業所">
-								<CommonComboBox id="office" list={offices} showKey={true} />
+								<CommonComboBox id="office" list={offices} showKey={true} defaultValue="KGSMKC" readOnly />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={4} xl={3}>
+						<Col md={12} xl={4}>
 							<CommonGroupLabel required={true} label="ルートコース">
 								<CommonComboBox
 									id="routeCourse"
-									list={routeCourses.filter((course) => course.value.includes("コース"))}
+									list={routeCourses.filter((course) => course.key.includes("CS") && course.key.includes("MKS"))}
+									defaultValue="CSMKS001"
 									showKey={true}
 								/>
 							</CommonGroupLabel>
 						</Col>
-						<Col md={4} xl={3}>
+						<Col md={12} xl={4}>
 							<CommonGroupLabel required={false} label="運送会社">
 								<CommonComboBox id="carrier" list={carriers} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={4} xl={3}>
+						<Col md={12} xl={3}>
 							<CommonGroupLabel required={false} label="車両番号">
 								<CommonComboBox id="vehicleNo" list={vehicleNumbers} showKey={false} />
 							</CommonGroupLabel>
-						</Col>
-						<Col md={4} xl={3} className="ms-auto">
-							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
 					</Row>
 
 					<Row className="mt-3">
 						<Col md={12} className="d-flex justify-content-center gap-2">
-							<Button className="btn btn-gradient px-3" onClick={activateAllRoutes}>
-								全体配車確定
-							</Button>
-							<Button className="btn btn-gradient px-3" onClick={handleMapClick}>
-								マップ
-							</Button>
+							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
 					</Row>
 				</Form>
+			</section>
+
+			<section className="panel-block">
+				<Row className="mt-3">
+					<Col md={6} className="d-flex justify-content-start gap-2">
+						<Button className="btn btn-gradient px-3" onClick={activateAllRoutes}>
+							全体配車確定
+						</Button>
+						<Button className="btn btn-gradient px-3" onClick={handleMapClick}>
+							マップ
+						</Button>
+					</Col>
+					<Col md={6} className="d-flex justify-content-end gap-2">
+						{/* 温度帯の説明 */}
+						<span className="small text-muted">温度帯</span>
+						<span className="small transport040-ambient">常温：黒字</span>
+						<span className="small transport040-cool">クール：青字</span>
+						<span className="small transport040-frozen">冷凍：橙字</span>
+					</Col>
+				</Row>
 
 				<div className="transport040-route-board">
 					<div
@@ -415,17 +443,24 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						</div>
 						{routes.map((route) => (
 							<div key={route.id} className="transport040-cell transport040-route-head bg-primary-subtle">
-								<div className="d-flex align-items-center gap-2">
-									<span className="badge bg-primary text-white">{route.label}</span>
-									<span className="fw-bold text-primary">{route.carNo}</span>
-									<Form.Check
-										type="switch"
-										id={`route-toggle-${route.id}`}
-										checked={route.isFinal}
-										onChange={() => toggleRoute(route.id)}
-										className="ms-auto"
-									/>
-								</div>
+								<Row className="d-flex align-items-start">
+									<Col xs="9" className="text-primary">
+										<div className="badge bg-primary text-white">{route.label}</div>
+										<div className="small">車番　　:{route.carNo}</div>
+										<div className="small">車種　　: {route.carKind}</div>
+										<div className="small">最大重量: {route.maxLoad}</div>
+										<div className="small">最大容積: {route.maxVolume}</div>
+									</Col>
+									<Col xs="3" className="d-flex align-items-center">
+										<Form.Check
+											type="switch"
+											id={`route-toggle-${route.id}`}
+											checked={route.isFinal}
+											onChange={() => toggleRoute(route.id)}
+											className="ms-auto"
+										/>
+									</Col>
+								</Row>
 							</div>
 						))}
 
