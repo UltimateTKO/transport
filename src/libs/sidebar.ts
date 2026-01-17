@@ -58,7 +58,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "operation020",
-					label: "■運行便照会",
+					label: "■車番/ドライバー照会",
 				},
 			],
 		},
@@ -80,7 +80,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "transport040",
-					label: "地域配車処理",
+					label: "■地域配車処理",
 				},
 				{
 					id: "transport050",

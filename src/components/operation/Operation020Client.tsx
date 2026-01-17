@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
 import {
 	CommonGroupLabel,
@@ -10,39 +9,23 @@ import {
 	CommonDateRangeBox,
 } from "@/components/CommonComponent";
 
-type OperationPlanDetail = {
-	id: string;
-	planNo: string;
-	sequenceNo: string;
-	serviceCode: string;
-	temperatureClass: string;
-	transportClass: string;
+type OperationPlanRow = {
+	id: number;
+	routeCourse: string;
+	temperatureBand: string;
+	transportType: string;
 	ownCharterClass: string;
-	operationDateFrom: string;
-	operationDateTo: string;
+	loadingDate: string;
+	departureDate: string;
+	unloadingDate: string;
 	dispatchDeptCode: string;
 	transportDeptCode: string;
-	carrierCode: string;
 	vehicleNo: string;
-	driverCode: string;
+	provisionalVehicleNo: string;
 	driverName: string;
 	assistant: string;
 	driverPhone: string;
 	status: string;
-};
-
-type OperationPlanRow = {
-	id: number;
-	planNo: string;
-	operationDateFrom: string;
-	routeCode: string;
-	fromAreaCode: string;
-	toAreaCode: string;
-	temperatureBand: string;
-	routeName: string;
-	currentLocationCode: string;
-	status: string;
-	details: OperationPlanDetail[];
 };
 
 type ListItem = { key: string; value: string };
@@ -61,171 +44,112 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{ key: "cool", value: "クール" },
 		{ key: "frozen", value: "冷凍" },
 	];
-	const statusList: ListItem[] = [
-		{ key: "created", value: "データ作成" },
-		{ key: "delivered", value: "配送完了" },
-		{ key: "billed", value: "請求済" },
-		{ key: "deleted", value: "削除" },
+	const transportList: ListItem[] = [
+		{ key: "pickup", value: "集荷" },
+		{ key: "inter_region", value: "地域外幹線" },
+		{ key: "intra_region", value: "地域内幹線" },
+		{ key: "delivery", value: "配送" },
+	];
+	// 運送業者マスタ
+	const carriers: ListItem[] = [
+		{ key: "Y0000", value: "園田陸運 株式会社" },
+		{ key: "Y1000", value: "南九州トランスポート" },
+		{ key: "Y1001", value: "九州第一運輸" },
+		{ key: "Y1002", value: "福岡貨物運送株式会社" },
+		{ key: "Y1003", value: "鹿児島総合運送" },
+	];
+	// 地点マスタ
+	const locationList: ListItem[] = [
+		{ key: "FOKFKC", value: "福岡かすやINC" },
+		{ key: "FOKK2C", value: "福岡かすや第2センター" },
+		{ key: "FOKFMC", value: "二又瀬物流センター" },
+		{ key: "SAGTSE", value: "鳥栖営業所" },
+		{ key: "KGSMKC", value: "南九州物流センター" },
+		{ key: "KGSKMC", value: "鹿児島南センター" },
+		{ key: "KGSKUE", value: "川内営業所" },
+		{ key: "KGSKKE", value: "加治木営業所" },
+		{ key: "KGSHOE", value: "日置営業所" },
+		{ key: "MYZMJE", value: "都城営業所" },
+		{ key: "MYZMJF", value: "都城フローズンセンター" },
+		{ key: "OITITK", value: "大分委託先" },
 	];
 	const rows: OperationPlanRow[] = [
 		{
 			id: 1,
-			planNo: "0001",
-			operationDateFrom: "2024/11/05",
-			routeCode: "R-010",
-			fromAreaCode: "A-01",
-			toAreaCode: "A-07",
+			routeCourse: "南九州-川内",
 			temperatureBand: "常温",
-			routeName: "関東→東北",
-			currentLocationCode: "LOC-01",
+			transportType: "集荷",
+			ownCharterClass: "自車",
+			loadingDate: "2024/11/05",
+			departureDate: "2024/11/05",
+			unloadingDate: "2024/11/06",
+			dispatchDeptCode: "KGSKUE:川内営業所",
+			transportDeptCode: "KGSKUE:川内営業所",
+			vehicleNo: "1234",
+			provisionalVehicleNo: "0001",
+			driverName: "佐藤 太郎",
+			assistant: "鈴木 花子",
+			driverPhone: "090-1234-5678",
 			status: "データ作成",
-			details: [
-				{
-					id: "1-1",
-					planNo: "0001",
-					sequenceNo: "1",
-					serviceCode: "BIN-001",
-					temperatureClass: "常温",
-					transportClass: "集荷",
-					ownCharterClass: "自車輌",
-					operationDateFrom: "2024/11/05",
-					operationDateTo: "2024/11/05",
-					dispatchDeptCode: "D001",
-					transportDeptCode: "T010",
-					carrierCode: "C010",
-					vehicleNo: "品川 500 あ 1234",
-					driverCode: "DRV-001",
-					driverName: "佐藤 太郎",
-					assistant: "鈴木 花子",
-					driverPhone: "090-1234-5678",
-					status: "データ作成",
-				},
-				{
-					id: "1-2",
-					planNo: "0001",
-					sequenceNo: "2",
-					serviceCode: "BIN-002",
-					temperatureClass: "常温",
-					transportClass: "地域外幹線",
-					ownCharterClass: "傭車",
-					operationDateFrom: "2024/11/05",
-					operationDateTo: "2024/11/06",
-					dispatchDeptCode: "D001",
-					transportDeptCode: "T020",
-					carrierCode: "C020",
-					vehicleNo: "品川 300 か 5678",
-					driverCode: "DRV-014",
-					driverName: "高橋 健",
-					assistant: "-",
-					driverPhone: "080-2222-3333",
-					status: "配送完了",
-				},
-			],
 		},
 		{
 			id: 2,
-			planNo: "0002",
-			operationDateFrom: "2024/11/06",
-			routeCode: "R-020",
-			fromAreaCode: "A-03",
-			toAreaCode: "A-12",
+			routeCourse: "南九州-鹿児島南",
 			temperatureBand: "冷凍",
-			routeName: "関西→九州",
-			currentLocationCode: "LOC-04",
-			status: "請求済",
-			details: [
-				{
-					id: "2-1",
-					planNo: "OP-2024-0002",
-					sequenceNo: "1",
-					serviceCode: "BIN-010",
-					temperatureClass: "冷凍",
-					transportClass: "地域内幹線",
-					ownCharterClass: "自車輌",
-					operationDateFrom: "2024/11/06",
-					operationDateTo: "2024/11/06",
-					dispatchDeptCode: "D010",
-					transportDeptCode: "T110",
-					carrierCode: "C110",
-					vehicleNo: "大阪 580 た 1122",
-					driverCode: "DRV-022",
-					driverName: "井上 修",
-					assistant: "山田 奈央",
-					driverPhone: "070-5555-8888",
-					status: "請求済",
-				},
-				{
-					id: "2-2",
-					planNo: "OP-2024-0002",
-					sequenceNo: "2",
-					serviceCode: "BIN-011",
-					temperatureClass: "冷凍",
-					transportClass: "配送",
-					ownCharterClass: "傭車",
-					operationDateFrom: "2024/11/06",
-					operationDateTo: "2024/11/07",
-					dispatchDeptCode: "D010",
-					transportDeptCode: "T120",
-					carrierCode: "C120",
-					vehicleNo: "福岡 400 う 3344",
-					driverCode: "DRV-031",
-					driverName: "森川 亮",
-					assistant: "-",
-					driverPhone: "090-7777-9999",
-					status: "削除",
-				},
-			],
+			transportType: "配送",
+			ownCharterClass: "傭車",
+			loadingDate: "2024/11/06",
+			departureDate: "2024/11/06",
+			unloadingDate: "2024/11/07",
+			dispatchDeptCode: "KGSKMC:鹿児島南センター",
+			transportDeptCode: "Y1001:九州第一運輸",
+			vehicleNo: "3344",
+			provisionalVehicleNo: "0002",
+			driverName: "森川 亮",
+			assistant: "-",
+			driverPhone: "090-7777-9999",
+			status: "削除",
 		},
 	];
 
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<header className="panel-block-header d-flex align-items-center gap-2">
+				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
 					<span className="small fw-semibold">は入力必須項目です</span>
 				</header>
 
 				<Form>
 					<Row className="gx-1 gy-2 mb-4">
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="運行計画No">
-								<CommonInputBox id="operationPlanNo" defaultValue="" placeholder="運行計画Noを入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="運行日">
+						<Col md={12} lg={5} xxl={4}>
+							<CommonGroupLabel required label="運行日">
 								<CommonDateRangeBox id="operationDate" defaultFromValue={localDate} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="運行経路CD">
-								<CommonInputBox id="routeCode" defaultValue="" placeholder="運行経路CDを入力" />
+							<CommonGroupLabel required={false} label="From地点">
+								<CommonComboBox id="fromLocation" list={locationList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="FromエリアCD">
-								<CommonInputBox id="fromAreaCode" defaultValue="" placeholder="FromエリアCDを入力" />
+							<CommonGroupLabel required={false} label="To地点">
+								<CommonComboBox id="toLocation" list={locationList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="ToエリアCD">
-								<CommonInputBox id="toAreaCode" defaultValue="" placeholder="ToエリアCDを入力" />
-							</CommonGroupLabel>
-						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="温度帯">
+							<CommonGroupLabel required={false} label="温度帯K">
 								<CommonComboBox id="temperatureBand" list={temperatureBandList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="現地点コード">
-								<CommonInputBox id="currentLocationCode" defaultValue="" placeholder="現地点コードを入力" />
+							<CommonGroupLabel required={false} label="運送K">
+								<CommonComboBox id="transportType" list={transportList} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="ステータス">
-								<CommonComboBox id="status" list={statusList} showKey={false} />
+							<CommonGroupLabel required={false} label="運送業者CD">
+								<CommonComboBox id="carrierCode" list={carriers} showKey={false} />
 							</CommonGroupLabel>
 						</Col>
 
@@ -237,6 +161,14 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			</section>
 
 			<section className="panel-block">
+				<div className="d-flex justify-content-start gap-2 mb-3">
+					<Button type="button" className="btn btn-gradient px-3">
+						車番/ドライバー編集ボタン
+					</Button>
+					<Button type="button" className="btn btn-gradient px-3">
+						配送完了
+					</Button>
+				</div>
 				<OperationPlanTable rows={rows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
@@ -277,35 +209,45 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 						<th style={{ width: "2rem" }}>
 							<Form.Check type="checkbox" />
 						</th>
-						<th>運行計画No</th>
-						<th>運行日From（積込日）</th>
-						<th>運行経路CD</th>
-						<th>FromエリアCD</th>
-						<th>ToエリアCD</th>
-						<th>温度帯</th>
-						<th>運行経路名</th>
-						<th>現地点コード</th>
+						<th>ルートコース</th>
+						<th>温度帯K</th>
+						<th>運送K</th>
+						<th>自/傭</th>
+						<th>積込日</th>
+						<th>出発日</th>
+						<th>荷卸日</th>
+						<th>配車権部門</th>
+						<th>運送部門</th>
+						<th>車番</th>
+						<th>仮車番</th>
+						<th>ドライバー</th>
+						<th>助手</th>
+						<th>電話番号</th>
 						<th>ステータス</th>
 					</tr>
 				</thead>
 				<tbody>
 					{rows.map((row) => (
-						<Fragment key={row.id}>
-							<tr className="align-middle">
-								<td>
-									<Form.Check type="checkbox" />
-								</td>
-								<td>{row.planNo}</td>
-								<td>{row.operationDateFrom}</td>
-								<td>{row.routeCode}</td>
-								<td>{row.fromAreaCode}</td>
-								<td>{row.toAreaCode}</td>
-								<td>{row.temperatureBand}</td>
-								<td>{row.routeName}</td>
-								<td>{row.currentLocationCode}</td>
-								<td>{row.status}</td>
-							</tr>
-						</Fragment>
+						<tr className="align-middle" key={row.id}>
+							<td>
+								<Form.Check type="checkbox" />
+							</td>
+							<td>{row.routeCourse}</td>
+							<td>{row.temperatureBand}</td>
+							<td>{row.transportType}</td>
+							<td>{row.ownCharterClass}</td>
+							<td>{row.loadingDate}</td>
+							<td>{row.departureDate}</td>
+							<td>{row.unloadingDate}</td>
+							<td>{row.dispatchDeptCode}</td>
+							<td>{row.transportDeptCode}</td>
+							<td>{row.vehicleNo}</td>
+							<td>{row.provisionalVehicleNo}</td>
+							<td>{row.driverName}</td>
+							<td>{row.assistant}</td>
+							<td>{row.driverPhone}</td>
+							<td>{row.status}</td>
+						</tr>
 					))}
 				</tbody>
 			</Table>

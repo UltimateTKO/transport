@@ -528,6 +528,19 @@ textarea {
 	background: transparent;
 }
 
+.btn-gradient {
+	border: 1px solid #aab7e3;
+	background: linear-gradient(180deg, #f9fbff 0%, #e3e9ff 100%);
+	color: var(--accent-text);
+	font-weight: 600;
+}
+
+.btn-gradient:hover,
+.btn-gradient:focus-visible {
+	border-color: #93a4d8;
+	color: var(--accent-text);
+}
+
 .panel-area {
 	flex: 1 1 auto;
 	padding: 0.3rem;
