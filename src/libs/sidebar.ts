@@ -68,12 +68,12 @@ export function GetSidebarData() {
 			children: [
 				{
 					id: "transport010",
-					label: "配送指示照会",
+					label: "■配送指示照会",
 				},
-				{
-					id: "transport020",
-					label: "配送実績照会",
-				},
+				// {
+				// 	id: "transport020",
+				// 	label: "配送実績照会",
+				// },
 				{
 					id: "transport030",
 					label: "配送完了受信",
