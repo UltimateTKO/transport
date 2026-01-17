@@ -33,13 +33,17 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 				<div className="handy-terminal-screen">
 					<section className="">
 						<header className="panel-block-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-							<span className="panel-block-title mb-0">着荷確認 -荷札番号読み取り-</span>
+							<span className="panel-block-title mb-0">着荷確認 -バーコード読み取り-</span>
 						</header>
 						<Form className="handy-form">
 							<div className="handy-form-body">
 								<Row className="gx-1 gy-2">
 									<Col md={12}>
-										<CommonGroupLabel required label="荷札番号" style={{ gridTemplateColumns: "5rem minmax(0, 1fr)" }}>
+										<CommonGroupLabel
+											required
+											label="バーコード"
+											style={{ gridTemplateColumns: "5rem minmax(0, 1fr)" }}
+										>
 											<CommonInputBox
 												id="labelNo"
 												value={labelNo}
@@ -56,7 +60,7 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 											label="個数"
 											style={{ gridTemplateColumns: "5rem minmax(0, 1fr)" }}
 										>
-											<CommonInputBox id="scanCount" value={`${scanCount}個`} readOnly />
+											<CommonInputBox id="scanCount" value={`${scanCount}個`} textAlign="right" readOnly />
 										</CommonGroupLabel>
 									</Col>
 								</Row>
@@ -64,7 +68,7 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 							<div className="handy-terminal-actions">
 								<Button
 									type="button"
-									className="btn btn-primary px-4"
+									className="btn btn-primary px-3"
 									onClick={handleScanConfirm}
 									disabled={!labelNo.trim()}
 								>
