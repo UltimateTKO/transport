@@ -33,7 +33,7 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 				<div className="handy-terminal-screen">
 					<section className="">
 						<header className="panel-block-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-							<span className="panel-block-title mb-0">荷札番号読み取り</span>
+							<span className="panel-block-title mb-0">着荷確認 -荷札番号読み取り-</span>
 						</header>
 						<Form className="handy-form">
 							<div className="handy-form-body">
