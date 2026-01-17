@@ -6,6 +6,7 @@ import CreatableSelect from "react-select/creatable";
 type GroupLabelProps = PropsWithChildren<{
 	required: boolean;
 	label: string;
+	style?: React.CSSProperties;
 }>;
 
 type ComboProps = {
@@ -202,8 +203,8 @@ export const CommonDateRangeBox = ({ id, defaultFromValue, defaultToValue }: Dat
 );
 
 // グループラベルコンポーネント（呼び出し側で必要に応じてラップ）
-export const CommonGroupLabel = ({ required, label, children }: GroupLabelProps) => (
-	<Form.Group className={`panel-field required`}>
+export const CommonGroupLabel = ({ required, label, children, style }: GroupLabelProps) => (
+	<Form.Group className={`panel-field required`} style={style}>
 		<Form.Label className="panel-field-label">
 			{required ? <RequiredMark /> : null}
 			{label}
