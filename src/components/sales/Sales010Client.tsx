@@ -27,20 +27,12 @@ type PayoutDetail = {
 };
 
 type SalesHeader = {
-	id: number;
 	salesNo: string;
-	deliveryResultNo: string;
 	salesDate: string;
-	dispatchDeptCode: string;
-	shipperCode: string;
 	operationStartDate: string;
 	unloadingDate: string;
 	fare: string;
 	advance: string;
-	totalAmount: string;
-	payoutFare: string;
-	payoutAdvance: string;
-	payoutTotal: string;
 	billingMonth: string;
 	status: string;
 };
@@ -104,109 +96,121 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 		{
 			id: 1,
 			salesDetailNo: "1",
-			operationDate: "2026/02/06",
-			loadDate: "2026/02/05",
-			departureDate: "2026/02/05",
-			unloadingDate: "2026/02/06",
-			transport: "intra_region",
-			fromLocation: "鳥栖営業所",
+			operationDate: "2026/01/09",
+			loadDate: "2026/01/09",
+			departureDate: "-",
+			unloadingDate: "2026/01/09",
+			transport: "集荷",
+			fromLocation: "-",
 			toLocation: "福岡かすやINC",
-			carrierCode: "CR-120",
-			internalTransferCode: "IT-020",
-			internalTransferFare: "40,000",
-			internalTransferAdvance: "5,000",
-			payoutFare: "80,000",
-			payoutAdvance: "10,000",
+			carrierCode: "-",
+			internalTransferCode: "-",
+			internalTransferFare: "0",
+			internalTransferAdvance: "0",
+			payoutFare: "0",
+			payoutAdvance: "0",
 		},
 		{
 			id: 2,
 			salesDetailNo: "2",
-			operationDate: "2026/02/07",
-			loadDate: "2026/02/06",
-			departureDate: "2026/02/06",
-			unloadingDate: "2026/02/07",
-			transport: "inter_region",
+			operationDate: "2026/01/09",
+			loadDate: "2026/01/09",
+			departureDate: "2026/01/09",
+			unloadingDate: "2026/01/09",
+			transport: "地域外幹線",
 			fromLocation: "福岡かすやINC",
 			toLocation: "南九州物流センター",
-			carrierCode: "CR-245",
-			internalTransferCode: "IT-030",
-			internalTransferFare: "65,000",
-			internalTransferAdvance: "8,000",
-			payoutFare: "150,000",
-			payoutAdvance: "8,000",
+			carrierCode: "-",
+			internalTransferCode: "-",
+			internalTransferFare: "0",
+			internalTransferAdvance: "0",
+			payoutFare: "0",
+			payoutAdvance: "0",
 		},
 		{
 			id: 3,
 			salesDetailNo: "3",
-			operationDate: "2026/02/08",
-			loadDate: "2026/02/07",
-			departureDate: "2026/02/07",
-			unloadingDate: "2026/02/07",
-			transport: "intra_region",
+			operationDate: "2026/01/10",
+			loadDate: "2026/01/09",
+			departureDate: "2026/01/10",
+			unloadingDate: "2026/01/10",
+			transport: "地域内幹線",
 			fromLocation: "南九州物流センター",
 			toLocation: "鹿児島南センター",
-			carrierCode: "CR-080",
-			internalTransferCode: "IT-015",
-			internalTransferFare: "30,000",
-			internalTransferAdvance: "0",
-			payoutFare: "60,000",
+			carrierCode: "-",
+			internalTransferCode: "南九州物流センター",
+			internalTransferFare: "50,000",
+			internalTransferAdvance: "2,000",
+			payoutFare: "0",
 			payoutAdvance: "0",
+		},
+		{
+			id: 4,
+			salesDetailNo: "4",
+			operationDate: "2026/01/10",
+			loadDate: "2026/01/10",
+			departureDate: "2026/01/10",
+			unloadingDate: "2026/01/10",
+			transport: "配送",
+			fromLocation: "鹿児島南センター",
+			toLocation: "鹿児島商会",
+			carrierCode: "九州第一運輸",
+			internalTransferCode: "-",
+			internalTransferFare: "0",
+			internalTransferAdvance: "0",
+			payoutFare: "20,000",
+			payoutAdvance: "1,000",
 		},
 	];
-
 	const rows: SalesHeader[] = [
 		{
-			id: 1,
 			salesNo: "1",
-			deliveryResultNo: "1",
-			salesDate: "2026/02/06",
-			dispatchDeptCode: "D010",
-			shipperCode: "SHP-010",
-			operationStartDate: "2026/02/05",
-			unloadingDate: "2026/02/06",
+			salesDate: "2025/12/21",
+			operationStartDate: "2025/12/21",
+			unloadingDate: "2025/12/21",
+			fare: "100,000",
+			advance: "10,000",
+			billingMonth: "2025/12",
+			status: "請求済み",
+		},
+		{
+			salesNo: "2",
+			salesDate: "2025/12/25",
+			operationStartDate: "2025/12/25",
+			unloadingDate: "2025/12/25",
+			fare: "100,000",
+			advance: "10,000",
+			billingMonth: "2025/12",
+			status: "請求済み",
+		},
+		{
+			salesNo: "3",
+			salesDate: "2026/01/10",
+			operationStartDate: "2026/01/09",
+			unloadingDate: "2026/01/10",
 			fare: "120,000",
 			advance: "15,000",
-			totalAmount: "135,000",
-			payoutFare: "80,000",
-			payoutAdvance: "10,000",
-			payoutTotal: "90,000",
-			billingMonth: "2026/02",
-			status: "請求作成済み",
+			billingMonth: "-",
+			status: "データ作成",
 		},
 		{
-			id: 2,
-			salesNo: "2",
-			deliveryResultNo: "2",
-			salesDate: "2026/02/07",
-			dispatchDeptCode: "D020",
-			shipperCode: "SHP-020",
-			operationStartDate: "2026/02/06",
-			unloadingDate: "2026/02/07",
+			salesNo: "4",
+			salesDate: "2026/01/15",
+			operationStartDate: "2026/01/15",
+			unloadingDate: "2026/01/15",
 			fare: "210,000",
 			advance: "12,000",
-			totalAmount: "222,000",
-			payoutFare: "150,000",
-			payoutAdvance: "8,000",
-			payoutTotal: "158,000",
-			billingMonth: "2026/02",
-			status: "請求済",
+			billingMonth: "-",
+			status: "データ作成",
 		},
 		{
-			id: 3,
-			salesNo: "3",
-			deliveryResultNo: "3",
-			salesDate: "2026/02/08",
-			dispatchDeptCode: "D030",
-			shipperCode: "SHP-030",
-			operationStartDate: "2026/02/07",
-			unloadingDate: "2026/02/07",
+			salesNo: "5",
+			salesDate: "2026/01/19",
+			operationStartDate: "2026/01/19",
+			unloadingDate: "2026/01/19",
 			fare: "95,000",
 			advance: "0",
-			totalAmount: "95,000",
-			payoutFare: "60,000",
-			payoutAdvance: "0",
-			payoutTotal: "60,000",
-			billingMonth: "2026/02",
+			billingMonth: "-",
 			status: "データ作成",
 		},
 	];
@@ -230,9 +234,9 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 								<CommonDateRangeBox id="salesDate" defaultFromValue={localDate} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={12} lg={4} xxl={3}>
+						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門CD">
-								<CommonComboBox id="locationList" list={locationList} showKey={true} />
+								<CommonComboBox id="locationList" list={locationList} showKey={true} defaultValue="FOKFKC" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -251,7 +255,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			<section className="panel-block">
 				<div className="d-flex justify-content-start gap-2 mb-3">
 					<Button className="btn btn-gradient px-3" onClick={openInquiryModal}>
-						売上照会
+						売上明細
 					</Button>
 				</div>
 				<SalesTable rows={rows} />
@@ -282,7 +286,13 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 				</footer>
 			</section>
 
-			<Modal show={showInquiryModal} onHide={closeInquiryModal} size="xl" fullscreen="lg-down" scrollable>
+			<Modal
+				show={showInquiryModal}
+				onHide={closeInquiryModal}
+				dialogClassName="modal-xxl"
+				fullscreen="lg-down"
+				scrollable
+			>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>売上明細</Modal.Title>
 				</Modal.Header>
@@ -322,19 +332,19 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 										<th>
 											<span className="table-header-text">運送業者コード</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">下払運賃</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">下払立替金</span>
 										</th>
 										<th>
 											<span className="table-header-text">内部振替先</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">内部振替運賃</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">内部振替立替金</span>
 										</th>
 									</tr>
@@ -387,22 +397,22 @@ function SalesTable({ rows }: SalesTableProps) {
 						<th style={{ width: "2rem" }}>
 							<Form.Check type="checkbox" />
 						</th>
-						<th>
+						<th style={{ width: "8rem" }}>
 							<span className="table-header-text">売上日</span>
 						</th>
-						<th>
+						<th style={{ width: "8rem" }}>
 							<span className="table-header-text">運行開始日</span>
 						</th>
-						<th>
+						<th style={{ width: "8rem" }}>
 							<span className="table-header-text">荷卸日</span>
 						</th>
-						<th className="text-end">
+						<th>
 							<span className="table-header-text">運賃</span>
 						</th>
-						<th className="text-end">
+						<th>
 							<span className="table-header-text">立替金</span>
 						</th>
-						<th>
+						<th style={{ width: "8rem" }}>
 							<span className="table-header-text">請求年月</span>
 						</th>
 						<th>
@@ -412,7 +422,7 @@ function SalesTable({ rows }: SalesTableProps) {
 				</thead>
 				<tbody>
 					{rows.map((row) => (
-						<Fragment key={row.id}>
+						<Fragment key={row.salesNo}>
 							<tr className="align-middle">
 								<td>
 									<Form.Check type="checkbox" />

@@ -20,16 +20,13 @@ type InvoiceHeader = {
 type InvoiceDetail = {
 	id: number;
 	invoiceDetailNo: string;
-	transportClass: string;
 	operationDate: string;
 	unloadingDate: string;
-	slipNo: string;
+	slipOrInquiryNo: string;
 	deliveryDestination: string;
 	billingFare: string;
 	billingAdvance: string;
 	billingTotal: string;
-	status: string;
-	inquiryNo: string;
 };
 
 type Invoice020ClientProps = {
@@ -47,48 +44,41 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{ key: "1", value: "請求済み" },
 	];
 	const billingCustomerList: ListItem[] = [
-		{ key: "C010", value: "東京商事" },
-		{ key: "C020", value: "大阪物流サービス" },
-		{ key: "C030", value: "九州フーズ" },
-		{ key: "C040", value: "北関東スーパーストア" },
-	];
-	const transportClassList: ListItem[] = [
-		{ key: "pickup", value: "集荷" },
-		{ key: "inter_region", value: "地域外幹線" },
-		{ key: "intra_region", value: "地域内幹線" },
-		{ key: "delivery", value: "配送" },
+		{ key: "C010", value: "福岡倉庫" },
+		{ key: "C020", value: "九州倉庫" },
+		{ key: "C030", value: "古賀倉庫" },
 	];
 	const [showDetailModal, setShowDetailModal] = useState(false);
 
 	const invoiceHeaders: InvoiceHeader[] = [
 		{
 			id: 1,
-			invoiceNo: "1",
-			invoiceMonth: "2026/02",
-			billingCustomerCode: "C010",
+			invoiceNo: "20251210001",
+			invoiceMonth: "2025/12",
+			billingCustomerCode: "福岡倉庫",
 			billingFare: "420,000",
-			billingAdvance: "30,000",
-			billingTotal: "450,000",
-			status: "データ作成",
+			billingAdvance: "20,000",
+			billingTotal: "440,000",
+			status: "請求済み",
 		},
 		{
 			id: 2,
-			invoiceNo: "2",
-			invoiceMonth: "2026/02",
-			billingCustomerCode: "C030",
-			billingFare: "310,000",
-			billingAdvance: "18,000",
-			billingTotal: "328,000",
+			invoiceNo: "20251210002",
+			invoiceMonth: "2025/12",
+			billingCustomerCode: "九州倉庫",
+			billingFare: "200,000",
+			billingAdvance: "10,000",
+			billingTotal: "210,000",
 			status: "請求済み",
 		},
 		{
 			id: 3,
-			invoiceNo: "3",
-			invoiceMonth: "2026/01",
-			billingCustomerCode: "C020",
-			billingFare: "275,000",
-			billingAdvance: "12,000",
-			billingTotal: "287,000",
+			invoiceNo: "20251210003",
+			invoiceMonth: "2025/12",
+			billingCustomerCode: "古賀倉庫",
+			billingFare: "150,000",
+			billingAdvance: "7,500",
+			billingTotal: "157,500",
 			status: "請求済み",
 		},
 	];
@@ -96,51 +86,63 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 	const invoiceDetails: InvoiceDetail[] = [
 		{
 			id: 1,
-			invoiceDetailNo: "001",
-			transportClass: "pickup",
-			operationDate: "2026/02/03",
-			unloadingDate: "2026/02/04",
-			slipNo: "20261101",
-			inquiryNo: "QT-5510",
-			deliveryDestination: "福岡かすやINC",
+			invoiceDetailNo: "1",
+			operationDate: "2025/12/02",
+			unloadingDate: "2025/12/03",
+			slipOrInquiryNo: "20251202000001",
+			deliveryDestination: "平川マリーナマルシェ",
 			billingFare: "120,000",
-			billingAdvance: "5,000",
-			billingTotal: "125,000",
-			status: "データ作成",
+			billingAdvance: "5,500",
+			billingTotal: "125,500",
 		},
 		{
 			id: 2,
-			invoiceDetailNo: "002",
-			transportClass: "intra_region",
-			operationDate: "2026/02/05",
-			unloadingDate: "2026/02/05",
-			slipNo: "20261102",
-			inquiryNo: "QT-5511",
-			deliveryDestination: "南九州物流センター",
-			billingFare: "150,000",
-			billingAdvance: "8,000",
-			billingTotal: "158,000",
-			status: "データ作成",
+			invoiceDetailNo: "2",
+			operationDate: "2025/12/04",
+			unloadingDate: "2025/12/05",
+			slipOrInquiryNo: "20251204000002",
+			deliveryDestination: "福岡商店",
+			billingFare: "50,000",
+			billingAdvance: "1,000",
+			billingTotal: "51,000",
 		},
 		{
 			id: 3,
-			invoiceDetailNo: "003",
-			transportClass: "delivery",
-			operationDate: "2026/02/06",
-			unloadingDate: "2026/02/07",
-			slipNo: "20261103",
-			inquiryNo: "QT-5512",
-			deliveryDestination: "鹿児島南センター",
-			billingFare: "150,000",
-			billingAdvance: "17,000",
-			billingTotal: "167,000",
-			status: "請求済み",
+			invoiceDetailNo: "3",
+			operationDate: "2025/12/10",
+			unloadingDate: "2025/12/11",
+			slipOrInquiryNo: "20251210000003",
+			deliveryDestination: "鹿児島商会",
+			billingFare: "75,000",
+			billingAdvance: "4,000",
+			billingTotal: "79,000",
+		},
+		{
+			id: 4,
+			invoiceDetailNo: "4",
+			operationDate: "2025/12/19",
+			unloadingDate: "2025/12/22",
+			slipOrInquiryNo: "20251219000004",
+			deliveryDestination: "平川マリーナマルシェ",
+			billingFare: "100,000",
+			billingAdvance: "5,500",
+			billingTotal: "105,500",
+		},
+		{
+			id: 5,
+			invoiceDetailNo: "5",
+			operationDate: "2025/12/24",
+			unloadingDate: "2025/12/25",
+			slipOrInquiryNo: "20251224000005",
+			deliveryDestination: "鹿児島商会",
+			billingFare: "75,000",
+			billingAdvance: "4,000",
+			billingTotal: "79,000",
 		},
 	];
 
 	const openDetailModal = () => setShowDetailModal(true);
 	const closeDetailModal = () => setShowDetailModal(false);
-	const resolveLabel = (list: ListItem[], key: string) => list.find((item) => item.key === key)?.value ?? key;
 	const resolveCustomerLabel = (code: string) => {
 		const customer = billingCustomerList.find((item) => item.key === code);
 		return customer ? `${customer.key}:${customer.value}` : code;
@@ -209,11 +211,17 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 						<Button className="btn btn-gradient btn-sm px-2 py-1">{">>"}</Button>
 					</div>
 
-					<div className="small text-muted">全 3 アイテム中 1 から 3 を表示中</div>
+					<div className="small text-muted">全 5 アイテム中 1 から 5 を表示中</div>
 				</footer>
 			</section>
 
-			<Modal show={showDetailModal} onHide={closeDetailModal} size="xl" fullscreen="lg-down" scrollable>
+			<Modal
+				show={showDetailModal}
+				onHide={closeDetailModal}
+				dialogClassName="modal-xxl"
+				fullscreen="lg-down"
+				scrollable
+			>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>請求明細</Modal.Title>
 				</Modal.Header>
@@ -230,34 +238,25 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 											<span className="table-header-text">請求明細No</span>
 										</th>
 										<th>
-											<span className="table-header-text">運送区分</span>
-										</th>
-										<th>
-											<span className="table-header-text">運行日</span>
+											<span className="table-header-text">運行開始日</span>
 										</th>
 										<th>
 											<span className="table-header-text">荷卸日</span>
 										</th>
 										<th>
-											<span className="table-header-text">伝票No</span>
-										</th>
-										<th>
-											<span className="table-header-text">問い合わせNo</span>
+											<span className="table-header-text">伝票No/問い合わせNo</span>
 										</th>
 										<th>
 											<span className="table-header-text">納品先</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">請求運賃</span>
 										</th>
-										<th className="text-end">
+										<th>
 											<span className="table-header-text">請求立替金</span>
 										</th>
-										<th className="text-end">
-											<span className="table-header-text">請求合計金額</span>
-										</th>
 										<th>
-											<span className="table-header-text">ステータス</span>
+											<span className="table-header-text">請求合計金額</span>
 										</th>
 									</tr>
 								</thead>
@@ -265,16 +264,13 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 									{invoiceDetails.map((row) => (
 										<tr key={row.id}>
 											<td>{row.invoiceDetailNo}</td>
-											<td>{resolveLabel(transportClassList, row.transportClass)}</td>
 											<td>{row.operationDate}</td>
 											<td>{row.unloadingDate}</td>
-											<td>{row.slipNo}</td>
-											<td>{row.inquiryNo}</td>
+											<td>{row.slipOrInquiryNo}</td>
 											<td>{row.deliveryDestination}</td>
 											<td className="text-end">{row.billingFare}</td>
 											<td className="text-end">{row.billingAdvance}</td>
 											<td className="text-end">{row.billingTotal}</td>
-											<td>{row.status}</td>
 										</tr>
 									))}
 								</tbody>
@@ -310,13 +306,13 @@ function InvoiceTable({ rows, resolveCustomerLabel }: InvoiceTableProps) {
 						<th>
 							<span className="table-header-text">請求先</span>
 						</th>
-						<th className="text-end">
+						<th>
 							<span className="table-header-text">請求運賃</span>
 						</th>
-						<th className="text-end">
+						<th>
 							<span className="table-header-text">請求立替金</span>
 						</th>
-						<th className="text-end">
+						<th>
 							<span className="table-header-text">請求合計金額</span>
 						</th>
 						<th>

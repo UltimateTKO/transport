@@ -11,7 +11,8 @@ export function Sales010Panel(props: Sales010PanelProps) {
 	void childId;
 
 	const today = new Date();
-	const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+	// const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+	const localDate = "2025-12-20";
 
 	return <Sales010Client localDate={localDate} />;
 }

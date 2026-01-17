@@ -692,6 +692,12 @@ textarea {
 	}
 }
 
+@media (min-width: 1400px) {
+  .modal-xxl {
+    --bs-modal-width: 1400px;
+  }
+}
+
 .handy-terminal-stage {
 	display: flex;
 	justify-content: center;
