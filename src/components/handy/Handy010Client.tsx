@@ -42,7 +42,7 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 										<CommonGroupLabel
 											required
 											label="バーコード"
-											style={{ gridTemplateColumns: "5rem minmax(0, 1fr)" }}
+											style={{ gridTemplateColumns: "6rem minmax(0, 1fr)" }}
 										>
 											<CommonInputBox
 												id="labelNo"
@@ -58,7 +58,7 @@ export default function Handy010Client({ localDate }: Handy010ClientProps) {
 										<CommonGroupLabel
 											required={false}
 											label="個数"
-											style={{ gridTemplateColumns: "5rem minmax(0, 1fr)" }}
+											style={{ gridTemplateColumns: "6rem minmax(0, 1fr)" }}
 										>
 											<CommonInputBox id="scanCount" value={`${scanCount}個`} textAlign="right" readOnly />
 										</CommonGroupLabel>
