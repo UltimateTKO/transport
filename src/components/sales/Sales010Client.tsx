@@ -28,11 +28,16 @@ type PayoutDetail = {
 
 type SalesHeader = {
 	salesNo: string;
+	inquiryNo: string;
 	salesDate: string;
-	operationStartDate: string;
-	unloadingDate: string;
+	operationDate: string;
+	deliveryDate: string;
+	requester: string;
+	destination: string;
+	quantity: string;
 	fare: string;
-	advance: string;
+	payoutFare: string;
+	internalTransferFare: string;
 	billingMonth: string;
 	status: string;
 };
@@ -139,7 +144,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			toLocation: "鹿児島南センター",
 			carrierCode: "-",
 			internalTransferCode: "南九州物流センター",
-			internalTransferFare: "50,000",
+			internalTransferFare: "10,000",
 			internalTransferAdvance: "2,000",
 			payoutFare: "0",
 			payoutAdvance: "0",
@@ -165,51 +170,76 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 	const rows: SalesHeader[] = [
 		{
 			salesNo: "1",
+			inquiryNo: "INQ-20251221-01",
 			salesDate: "2025/12/21",
-			operationStartDate: "2025/12/21",
-			unloadingDate: "2025/12/21",
-			fare: "100,000",
-			advance: "10,000",
+			operationDate: "2025/12/21",
+			deliveryDate: "2025/12/21",
+			requester: "福岡倉庫",
+			destination: "福岡商店",
+			quantity: "20",
+			fare: "20,000",
+			payoutFare: "0",
+			internalTransferFare: "0",
 			billingMonth: "2025/12",
 			status: "請求済み",
 		},
 		{
 			salesNo: "2",
+			inquiryNo: "INQ-20251225-01",
 			salesDate: "2025/12/25",
-			operationStartDate: "2025/12/25",
-			unloadingDate: "2025/12/25",
-			fare: "100,000",
-			advance: "10,000",
+			operationDate: "2025/12/25",
+			deliveryDate: "2025/12/25",
+			requester: "福岡倉庫",
+			destination: "福岡商店",
+			quantity: "20",
+			fare: "20,000",
+			payoutFare: "0",
+			internalTransferFare: "0",
 			billingMonth: "2025/12",
 			status: "請求済み",
 		},
 		{
 			salesNo: "3",
+			inquiryNo: "INQ-20260110-01",
 			salesDate: "2026/01/10",
-			operationStartDate: "2026/01/09",
-			unloadingDate: "2026/01/10",
-			fare: "120,000",
-			advance: "15,000",
+			operationDate: "2026/01/09",
+			deliveryDate: "2026/01/10",
+			requester: "九州倉庫",
+			destination: "平川マリーナマルシェ",
+			quantity: "40",
+			fare: "40,000",
+			payoutFare: "20,000",
+			internalTransferFare: "10,000",
 			billingMonth: "-",
 			status: "データ作成",
 		},
 		{
 			salesNo: "4",
+			inquiryNo: "INQ-20260115-01",
 			salesDate: "2026/01/15",
-			operationStartDate: "2026/01/15",
-			unloadingDate: "2026/01/15",
-			fare: "210,000",
-			advance: "12,000",
+			operationDate: "2026/01/15",
+			deliveryDate: "2026/01/15",
+			requester: "福岡倉庫",
+			destination: "福岡商店",
+			quantity: "20",
+			fare: "20,000",
+			payoutFare: "0",
+			internalTransferFare: "0",
 			billingMonth: "-",
 			status: "データ作成",
 		},
 		{
 			salesNo: "5",
+			inquiryNo: "INQ-20260119-01",
 			salesDate: "2026/01/19",
-			operationStartDate: "2026/01/19",
-			unloadingDate: "2026/01/19",
-			fare: "95,000",
-			advance: "0",
+			operationDate: "2026/01/19",
+			deliveryDate: "2026/01/19",
+			requester: "福岡倉庫",
+			destination: "福岡商店",
+			quantity: "20",
+			fare: "20,000",
+			payoutFare: "0",
+			internalTransferFare: "0",
 			billingMonth: "-",
 			status: "データ作成",
 		},
@@ -222,7 +252,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<header className="panel-block-header d-flex align-items-center gap-2">
+				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
 					<span className="small fw-semibold">は入力必須項目です</span>
 				</header>
@@ -255,8 +285,9 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			<section className="panel-block">
 				<div className="d-flex justify-content-start gap-2 mb-3">
 					<Button className="btn btn-gradient px-3" onClick={openInquiryModal}>
-						売上明細
+						下払/内振明細
 					</Button>
+					<Button className="btn btn-gradient px-3">キャンセル</Button>
 				</div>
 				<SalesTable rows={rows} />
 
@@ -293,14 +324,14 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 				fullscreen="lg-down"
 				scrollable
 			>
-				<Modal.Header closeButton className="border-0">
-					<Modal.Title>売上明細</Modal.Title>
+				<Modal.Header closeButton className="border-0 bg-light">
+					<Modal.Title>下払/内振明細</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="bg-light">
 					<section className="panel-block mb-0">
-						<header className="panel-block-header d-flex align-items-center">
-							<span className="panel-block-title mb-0">売上明細</span>
-						</header>
+						{/* <header className="panel-block-header d-flex align-items-center">
+							<span className="panel-block-title mb-0">下払/内振明細</span>
+						</header> */}
 						<div className="table-responsive border rounded">
 							<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
 								<thead>
@@ -336,16 +367,10 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 											<span className="table-header-text">下払運賃</span>
 										</th>
 										<th>
-											<span className="table-header-text">下払立替金</span>
-										</th>
-										<th>
 											<span className="table-header-text">内部振替先</span>
 										</th>
 										<th>
 											<span className="table-header-text">内部振替運賃</span>
-										</th>
-										<th>
-											<span className="table-header-text">内部振替立替金</span>
 										</th>
 									</tr>
 								</thead>
@@ -362,10 +387,8 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 											<td>{row.toLocation}</td>
 											<td>{row.carrierCode}</td>
 											<td className="text-end">{row.payoutFare}</td>
-											<td className="text-end">{row.payoutAdvance}</td>
 											<td>{row.internalTransferCode}</td>
 											<td className="text-end">{row.internalTransferFare}</td>
-											<td className="text-end">{row.internalTransferAdvance}</td>
 										</tr>
 									))}
 								</tbody>
@@ -397,20 +420,35 @@ function SalesTable({ rows }: SalesTableProps) {
 						<th style={{ width: "2rem" }}>
 							<Form.Check type="checkbox" />
 						</th>
-						<th style={{ width: "8rem" }}>
+						<th>
 							<span className="table-header-text">売上日</span>
 						</th>
-						<th style={{ width: "8rem" }}>
-							<span className="table-header-text">運行開始日</span>
+						<th>
+							<span className="table-header-text">問合せNo/伝票No</span>
 						</th>
-						<th style={{ width: "8rem" }}>
-							<span className="table-header-text">荷卸日</span>
+						<th>
+							<span className="table-header-text">運行日</span>
+						</th>
+						<th>
+							<span className="table-header-text">納品日</span>
+						</th>
+						<th>
+							<span className="table-header-text">依頼元</span>
+						</th>
+						<th>
+							<span className="table-header-text">納品先</span>
+						</th>
+						<th>
+							<span className="table-header-text">個数</span>
 						</th>
 						<th>
 							<span className="table-header-text">運賃</span>
 						</th>
 						<th>
-							<span className="table-header-text">立替金</span>
+							<span className="table-header-text">下払運賃</span>
+						</th>
+						<th>
+							<span className="table-header-text">内部振替運賃</span>
 						</th>
 						<th style={{ width: "8rem" }}>
 							<span className="table-header-text">請求年月</span>
@@ -428,10 +466,15 @@ function SalesTable({ rows }: SalesTableProps) {
 									<Form.Check type="checkbox" />
 								</td>
 								<td>{row.salesDate}</td>
-								<td>{row.operationStartDate}</td>
-								<td>{row.unloadingDate}</td>
+								<td>{row.inquiryNo}</td>
+								<td>{row.operationDate}</td>
+								<td>{row.deliveryDate}</td>
+								<td>{row.requester}</td>
+								<td>{row.destination}</td>
+								<td className="text-end">{row.quantity}</td>
 								<td className="text-end">{row.fare}</td>
-								<td className="text-end">{row.advance}</td>
+								<td className="text-end">{row.payoutFare}</td>
+								<td className="text-end">{row.internalTransferFare}</td>
 								<td>{row.billingMonth}</td>
 								<td>{row.status}</td>
 							</tr>

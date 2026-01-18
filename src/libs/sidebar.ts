@@ -25,12 +25,12 @@ export function GetSidebarData() {
 					label: "配送依頼受信",
 				},
 				{
-					id: "orders020",
-					label: "配送依頼入力",
-				},
-				{
 					id: "orders030",
 					label: "配送依頼履歴照会",
+				},
+				{
+					id: "orders020",
+					label: "配送依頼入力",
 				},
 				{
 					id: "orders040",
@@ -85,6 +85,16 @@ export function GetSidebarData() {
 				{
 					id: "transport050",
 					label: "■貨物追跡",
+				},
+			],
+		},
+		{
+			id: "tablet",
+			label: "タブレット",
+			children: [
+				{
+					id: "tablet010",
+					label: "受領",
 				},
 			],
 		},
