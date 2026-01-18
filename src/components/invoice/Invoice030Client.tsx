@@ -80,18 +80,22 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 	const rows: BillingTrendRow[] = [
 		{
 			billingCustomer: "福岡倉庫",
-			fare: [420000, 405000, 398500, 392000, 387500, 381000, 376500, 370000, 365500, 360000, 355000, 348000],
-			advance: [20000, 19500, 19000, 18500, 18250, 17800, 17400, 17000, 16800, 16500, 16000, 15800],
+			fare: [1000000, 900000, 950000, 1000000, 1500000, 1000000, 950000, 950000, 1000000, 1500000, 900000, 1000000],
+			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
 			billingCustomer: "九州倉庫",
-			fare: [235000, 228000, 223500, 219000, 215000, 210500, 206000, 202500, 198000, 194000, 190500, 187000],
-			advance: [11000, 10800, 10700, 10400, 10200, 10100, 9900, 9600, 9400, 9100, 8900, 8700],
+			fare: [
+				2000000, 1800000, 1900000, 2000000, 2500000, 2000000, 1900000, 1900000, 2000000, 2000000, 1800000, 2000000,
+			],
+			advance: [200000, 180000, 190000, 200000, 250000, 200000, 190000, 190000, 200000, 200000, 180000, 200000],
 		},
 		{
 			billingCustomer: "古賀倉庫",
-			fare: [180500, 176000, 172500, 169000, 166000, 163500, 160000, 157500, 154000, 151500, 149000, 146000],
-			advance: [9800, 9600, 9400, 9100, 9000, 8800, 8600, 8450, 8200, 7950, 7800, 7600],
+			fare: [
+				1500000, 1100000, 1300000, 1500000, 2000000, 1500000, 1300000, 1300000, 1500000, 2000000, 1100000, 1500000,
+			],
+			advance: [200000, 150000, 170000, 200000, 250000, 200000, 170000, 170000, 200000, 250000, 150000, 200000],
 		},
 	];
 
@@ -146,15 +150,6 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 								>
 									<span className="table-header-text">運賃/立替金</span>
 								</th>
-								<th
-									rowSpan={2}
-									style={{
-										minWidth: rem(totalColWidthRem),
-										...makeStickyStyle(stickyOffsets.third, "var(--bs-table-bg)", 6),
-									}}
-								>
-									<span className="table-header-text">合計額</span>
-								</th>
 								{months.map((month) => (
 									<th key={`${month.year}-${month.month}`} className="text-center" style={{ minWidth: "6.5rem" }}>
 										<div className="small fw-semibold">{month.label}</div>
@@ -190,15 +185,6 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 											>
 												運賃
 											</td>
-											<td
-												className="text-end fw-semibold bg-white"
-												style={{
-													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
-												}}
-											>
-												{renderAmount(fareTotal)}
-											</td>
 											{months.map((month, index) => (
 												<td key={`fare-${row.billingCustomer}-${month.label}`} className="text-end">
 													{renderAmount(row.fare[index] ?? null)}
@@ -214,15 +200,6 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 												}}
 											>
 												立替金
-											</td>
-											<td
-												className="text-end fw-semibold bg-white"
-												style={{
-													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
-												}}
-											>
-												{renderAmount(advanceTotal)}
 											</td>
 											{months.map((month, index) => (
 												<td key={`advance-${row.billingCustomer}-${month.label}`} className="text-end">
@@ -240,22 +217,11 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 											>
 												合計
 											</td>
-											<td
-												className="text-end fw-semibold"
-												style={{
-													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#e9ecef", 4),
-												}}
-											>
-												{renderAmount(combinedTotal)}
-											</td>
 											{months.map((month, index) => {
 												const fareValue = row.fare[index] ?? null;
 												const advanceValue = row.advance[index] ?? null;
 												const monthlyTotal =
-													fareValue === null && advanceValue === null
-														? null
-														: (fareValue ?? 0) + (advanceValue ?? 0);
+													fareValue === null && advanceValue === null ? null : (fareValue ?? 0) + (advanceValue ?? 0);
 
 												return (
 													<td key={`total-${row.billingCustomer}-${month.label}`} className="text-end fw-semibold">
