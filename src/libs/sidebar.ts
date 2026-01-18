@@ -114,6 +114,10 @@ export function GetSidebarData() {
 					id: "invoice020",
 					label: "■請求照会",
 				},
+				{
+					id: "invoice030",
+					label: "■請求推移表",
+				},
 			],
 		},
 		{
