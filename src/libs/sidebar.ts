@@ -93,8 +93,12 @@ export function GetSidebarData() {
 			label: "売上",
 			children: [
 				{
-					id: "sales010",
+					id: "sales005",
 					label: "■売上照会",
+				},
+				{
+					id: "sales010",
+					label: "■売上明細",
 				},
 				{
 					id: "sales020",
