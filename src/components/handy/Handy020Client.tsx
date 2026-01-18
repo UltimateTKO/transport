@@ -235,7 +235,7 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 											onClick={handleBackToScan}
 											size="sm"
 										>
-											戻る
+											F2:発荷確認
 										</Button>
 
 										<Button
