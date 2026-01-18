@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { CommonComboBox, CommonComboBoxInputable, CommonGroupLabel, CommonInputBox } from "@/components/CommonComponent";
+import {
+	CommonComboBox,
+	CommonComboBoxInputable,
+	CommonGroupLabel,
+	CommonInputBox,
+} from "@/components/CommonComponent";
 
 type Tablet010ClientProps = {
 	deliveryDateTime: string;
@@ -13,9 +18,9 @@ type ScreenMode = "form" | "signature";
 export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientProps) {
 	const destinationList = useMemo(
 		() => [
-			{ key: "D001", value: "東京港センター" },
-			{ key: "D002", value: "京浜運輸倉庫" },
-			{ key: "D003", value: "神戸湾岸デポ" },
+			{ key: "D001", value: "ホームプラザナフコ 谷山店" },
+			{ key: "D002", value: "コメダ珈琲店 鹿児島七ツ島店" },
+			{ key: "D003", value: "喫茶店ひまわり・占い" },
 		],
 		[],
 	);
@@ -30,13 +35,13 @@ export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientPro
 	);
 
 	const [mode, setMode] = useState<ScreenMode>("form");
-	const [destination, setDestination] = useState("");
+	const [destination, setDestination] = useState(() => destinationList[0]?.key ?? "");
 	const [receiver, setReceiver] = useState("");
 	const [message, setMessage] = useState("タブレット上で納品内容を確認してください。");
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const contextRef = useRef<CanvasRenderingContext2D | null>(null);
 
-	const vehicleNo = "品川 800 か 12-34";
+	const vehicleNo = "1234";
 
 	const handleReceive = () => {
 		if (!destination || !receiver) {
@@ -149,7 +154,9 @@ export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientPro
 									</div>
 									<div className="d-flex align-items-center gap-2 text-muted small">
 										<span className="badge bg-light text-dark border">サイン待ち</span>
-										<span className="badge bg-primary-subtle text-primary border border-primary-subtle">オンライン</span>
+										<span className="badge bg-primary-subtle text-primary border border-primary-subtle">
+											オンライン
+										</span>
 									</div>
 								</header>
 
@@ -202,7 +209,9 @@ export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientPro
 										<p className="text-muted small mb-0">タブレットの枠内で手書き入力ができます。</p>
 									</div>
 									<div className="d-flex flex-wrap gap-2 small">
-										<span className="badge bg-secondary-subtle text-secondary-emphasis border">受領者: {receiver || "未選択"}</span>
+										<span className="badge bg-secondary-subtle text-secondary-emphasis border">
+											受領者: {receiver || "未選択"}
+										</span>
 										<span className="badge bg-light text-dark border">納品先: {destination || "未選択"}</span>
 									</div>
 								</header>

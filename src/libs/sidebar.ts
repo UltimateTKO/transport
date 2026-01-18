@@ -94,7 +94,7 @@ export function GetSidebarData() {
 			children: [
 				{
 					id: "tablet010",
-					label: "受領",
+					label: "■受領",
 				},
 			],
 		},
