@@ -96,6 +96,10 @@ export function GetSidebarData() {
 					id: "sales010",
 					label: "■売上照会",
 				},
+				{
+					id: "sales020",
+					label: "■売上推移表",
+				},
 			],
 		},
 		{
