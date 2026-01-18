@@ -12,7 +12,7 @@ export function Sales020Panel(props: Sales020PanelProps) {
 
 	const today = new Date();
 	// const localMonth = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 7);
-	const localMonth = "2025-12";
+	const localMonth = "2026-01";
 
 	return <Sales020Client localMonth={localMonth} />;
 }

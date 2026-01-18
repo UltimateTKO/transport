@@ -48,6 +48,7 @@ const toMonthDays = (monthValue: string): DayInfo[] => {
 };
 
 const formatAmount = (value: number) => value.toLocaleString("ja-JP");
+const renderAmount = (value: number | null) => (value === null ? "" : formatAmount(value));
 
 export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const deptList: ListItem[] = [
@@ -99,7 +100,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			<section className="panel-block mb-4">
-				<header className="panel-block-header d-flex align-items-center gap-2">
+				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
 					<span className="small fw-semibold">は入力必須項目です</span>
 				</header>
@@ -138,8 +139,6 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 								<th rowSpan={2} style={{ minWidth: "6rem" }}>
 									<span className="table-header-text">合計額</span>
 								</th>
-							</tr>
-							<tr className="table-primary">
 								{days.map((day) => (
 									<th key={day.day} className="text-center" style={{ minWidth: "3.5rem" }}>
 										<div className="small">{day.day}</div>
@@ -150,9 +149,15 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const fareTotal = row.fare.reduce((sum, value) => sum + value, 0);
-								const advanceTotal = row.advance.reduce((sum, value) => sum + value, 0);
-								const combinedTotal = fareTotal + advanceTotal;
+								const normalizedFare = row.fare.slice(0, days.length + 1);
+								const normalizedAdvance = row.advance.slice(0, days.length + 1);
+								const visibleFare = normalizedFare.map((value, index) => (days[index - 1]?.day >= 20 ? null : value));
+								const visibleAdvance = normalizedAdvance.map((value, index) =>
+									days[index - 1]?.day >= 20 ? null : value,
+								);
+								const fareTotal = visibleFare.reduce((sum, value) => (sum ?? 0) + (value ?? 0), 0);
+								const advanceTotal = visibleAdvance.reduce((sum, value) => (sum ?? 0) + (value ?? 0), 0);
+								// const combinedTotal = (fareTotal ?? 0) + (advanceTotal ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
@@ -161,27 +166,27 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 												{row.requestor}
 											</td>
 											<td className="bg-white">運賃</td>
-											{row.fare.map((value, index) => (
+											{visibleFare.map((value, index) => (
 												<td key={`fare-${row.requestor}-${index}`} className="text-end">
-													{value ? formatAmount(value) : ""}
+													{renderAmount(value)}
 												</td>
 											))}
 											{/* <td className="text-end fw-semibold bg-white">{formatAmount(fareTotal)}</td> */}
 										</tr>
 										<tr>
 											<td className="bg-white">立替金</td>
-											{row.advance.map((value, index) => (
+											{visibleAdvance.map((value, index) => (
 												<td key={`advance-${row.requestor}-${index}`} className="text-end">
-													{value ? formatAmount(value) : ""}
+													{renderAmount(value)}
 												</td>
 											))}
 											{/* <td className="text-end fw-semibold bg-white">{formatAmount(advanceTotal)}</td> */}
 										</tr>
 										<tr className="table-secondary">
 											<td className="fw-semibold">合計</td>
-											{row.fare.map((value, index) => (
+											{visibleFare.map((value, index) => (
 												<td key={`total-${row.requestor}-${index}`} className="text-end fw-semibold">
-													{value + row.advance[index] ? formatAmount(value + row.advance[index]) : ""}
+													{renderAmount(value === null ? null : value + (visibleAdvance[index] ?? 0))}
 												</td>
 											))}
 											{/* <td className="text-end fw-semibold">{formatAmount(combinedTotal)}</td> */}
