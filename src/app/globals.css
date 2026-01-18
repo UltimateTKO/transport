@@ -759,3 +759,102 @@ textarea {
 	justify-content: flex-end;
 	gap: 0.5rem;
 }
+
+.tablet-stage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 70vh;
+	padding: clamp(1rem, 2vw, 2rem);
+}
+
+.tablet-frame {
+	--tablet-screen-top: 7%;
+	--tablet-screen-right: 6%;
+	--tablet-screen-bottom: 8.5%;
+	--tablet-screen-left: 6%;
+	position: relative;
+	width: min(1100px, 98vw);
+	aspect-ratio: 4 / 3;
+	background: url("/tablet010.png") center/contain no-repeat;
+}
+
+.tablet-screen {
+	position: absolute;
+	top: var(--tablet-screen-top);
+	right: var(--tablet-screen-right);
+	bottom: var(--tablet-screen-bottom);
+	left: var(--tablet-screen-left);
+	display: flex;
+}
+
+.tablet-panel {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1rem;
+	backdrop-filter: blur(2px);
+	background: rgba(255, 255, 255, 0.97);
+}
+
+.tablet-form,
+.tablet-signature {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	height: 100%;
+}
+
+.tablet-fields {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.65rem;
+}
+
+@media (min-width: 768px) {
+	.tablet-fields {
+		grid-template-columns: 1fr;
+	}
+}
+
+.tablet-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.tablet-actions {
+	margin-top: auto;
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}
+
+.signature-board {
+	border: 1px dashed rgba(0, 0, 0, 0.18);
+	border-radius: 0.75rem;
+	background: linear-gradient(180deg, rgba(246, 249, 255, 0.9) 0%, rgba(232, 238, 250, 0.9) 100%);
+	padding: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	min-height: 220px;
+}
+
+.signature-board-label {
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: #2f3c6c;
+}
+
+.signature-canvas {
+	flex: 1 1 auto;
+	width: 100%;
+	height: clamp(220px, 42vh, 360px);
+	border-radius: 0.65rem;
+	background: #ffffff;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
