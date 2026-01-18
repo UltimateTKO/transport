@@ -32,6 +32,10 @@ export function GetSidebarData() {
 					id: "orders030",
 					label: "配送依頼履歴照会",
 				},
+				{
+					id: "orders040",
+					label: "■配送指示照会",
+				},
 			],
 		},
 		{
@@ -66,10 +70,6 @@ export function GetSidebarData() {
 			id: "transport",
 			label: "配送指示",
 			children: [
-				{
-					id: "transport010",
-					label: "■配送指示照会",
-				},
 				// {
 				// 	id: "transport020",
 				// 	label: "配送実績照会",

@@ -2,7 +2,7 @@ import { Handy010Panel } from "./handy/Handy010";
 import { Handy020Panel } from "./handy/Handy020";
 import { Operation020Panel } from "./operation/Operation020";
 import { Sales010Panel } from "./sales/Sales010";
-import { Transport010Panel } from "./transport/Transport010";
+import { Orders040Panel } from "./orders/Orders040";
 import { Transport020Panel } from "./transport/Transport020";
 import { Transport040Panel } from "./transport/Transport040";
 import { Transport050Panel } from "./transport/Transport050";
@@ -16,7 +16,7 @@ export const panelRegistry: Record<string, PanelComponent> = {
 	"operation:operation020": Operation020Panel,
 	"sales:sales010": Sales010Panel,
 	"invoice:invoice020": Invoice020Panel,
-	"transport:transport010": Transport010Panel,
+	"orders:orders040": Orders040Panel,
 	"transport:transport020": Transport020Panel,
 	"transport:transport040": Transport040Panel,
 	"transport:transport050": Transport050Panel,

@@ -63,7 +63,7 @@ type DeliveryInstructionHeader = {
 
 type ListItem = { key: string; value: string };
 
-type Transport010ClientProps = {
+type Orders040ClientProps = {
 	localDate: string;
 };
 
@@ -71,7 +71,7 @@ type DeliveryInstructionTableProps = {
 	rows: DeliveryInstructionHeader[];
 };
 
-export default function Transport010Client({ localDate }: Transport010ClientProps) {
+export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
 		{ key: "T2", value: "クール" },
