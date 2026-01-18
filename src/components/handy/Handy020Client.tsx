@@ -33,15 +33,14 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 	const selectedRouteLabel = operationRoutes.find((r) => r.key === selectedRoute)?.value ?? "";
 
 	const [labelNo, setLabelNo] = useState("");
-	const [scanCount, setScanCount] = useState(0);
 	const [scannedLabels, setScannedLabels] = useState<string[]>([]);
+	const scanCount = scannedLabels.length;
 
 	const handleRouteConfirm = () => {
 		if (!selectedRoute) return;
 		// 車番確定 -> 読み取り画面へ（読み取り系はリセット）
 		setScreen("scan");
 		setLabelNo("");
-		setScanCount(0);
 		setScannedLabels([]);
 	};
 
@@ -50,7 +49,6 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 		const code = labelNo.trim();
 
 		setScannedLabels((prev) => [...prev, code]);
-		setScanCount((prev) => prev + 1);
 		setLabelNo("");
 	};
 
@@ -69,9 +67,6 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 			if (idx === -1) return prev;
 
 			console.log("Code found, proceeding to deduct.");
-			// 見つかったときだけ count を減らす（同じイベント内でOK）
-			setScanCount((c) => Math.max(0, c - 1));
-
 			const updated = [...prev];
 			updated.splice(idx, 1);
 			return updated;
@@ -89,7 +84,6 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 		// 完了 -> 車番選択へ戻す（読み取り系はリセット）
 		setScreen("route");
 		setLabelNo("");
-		setScanCount(0);
 		setScannedLabels([]);
 	};
 
