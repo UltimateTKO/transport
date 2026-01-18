@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { CSSProperties, Fragment } from "react";
 import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonInputBox } from "@/components/CommonComponent";
 
@@ -28,6 +28,25 @@ type Sales020ClientProps = {
 };
 
 const weekdayLabels = ["日", "月", "火", "水", "木", "金", "土"];
+
+const requestorColWidthRem = 10;
+const typeColWidthRem = 6;
+const totalColWidthRem = 6;
+
+const rem = (value: number) => `${value}rem`;
+
+const stickyOffsets = {
+	first: rem(0),
+	second: rem(requestorColWidthRem),
+	third: rem(requestorColWidthRem + typeColWidthRem),
+};
+
+const makeStickyStyle = (left: string, backgroundColor = "#fff", zIndex = 3): CSSProperties => ({
+	position: "sticky",
+	left,
+	backgroundColor,
+	zIndex,
+});
 
 const toMonthDays = (monthValue: string): DayInfo[] => {
 	const [yearText, monthText] = monthValue.split("-");
@@ -130,13 +149,31 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 					<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
 						<thead>
 							<tr className="table-primary">
-								<th rowSpan={2} style={{ minWidth: "10rem" }}>
+								<th
+									rowSpan={2}
+									style={{
+										minWidth: rem(requestorColWidthRem),
+										...makeStickyStyle(stickyOffsets.first, "var(--bs-table-bg)", 6),
+									}}
+								>
 									<span className="table-header-text">依頼元</span>
 								</th>
-								<th rowSpan={2} style={{ minWidth: "6rem" }}>
+								<th
+									rowSpan={2}
+									style={{
+										minWidth: rem(typeColWidthRem),
+										...makeStickyStyle(stickyOffsets.second, "var(--bs-table-bg)", 6),
+									}}
+								>
 									<span className="table-header-text">運賃/立替金</span>
 								</th>
-								<th rowSpan={2} style={{ minWidth: "6rem" }}>
+								<th
+									rowSpan={2}
+									style={{
+										minWidth: rem(totalColWidthRem),
+										...makeStickyStyle(stickyOffsets.third, "var(--bs-table-bg)", 6),
+									}}
+								>
 									<span className="table-header-text">合計額</span>
 								</th>
 								{days.map((day) => (
@@ -149,47 +186,101 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const normalizedFare = row.fare.slice(0, days.length + 1);
-								const normalizedAdvance = row.advance.slice(0, days.length + 1);
-								const visibleFare = normalizedFare.map((value, index) => (days[index - 1]?.day >= 20 ? null : value));
-								const visibleAdvance = normalizedAdvance.map((value, index) =>
-									days[index - 1]?.day >= 20 ? null : value,
+								const visibleFare = days.map((day, index) => (day.day >= 20 ? null : (row.fare[index + 1] ?? null)));
+								const visibleAdvance = days.map((day, index) =>
+									day.day >= 20 ? null : (row.advance[index + 1] ?? null),
 								);
-								const fareTotal = visibleFare.reduce((sum, value) => (sum ?? 0) + (value ?? 0), 0);
-								const advanceTotal = visibleAdvance.reduce((sum, value) => (sum ?? 0) + (value ?? 0), 0);
-								// const combinedTotal = (fareTotal ?? 0) + (advanceTotal ?? 0);
+								const fareFirst = row.fare[0] ?? null;
+								const advanceFirst = row.advance[0] ?? null;
+								const combinedFirst =
+									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
 										<tr>
-											<td rowSpan={3} className="align-middle fw-semibold bg-white">
+											<td
+												rowSpan={3}
+												className="align-middle fw-semibold bg-white"
+												style={{
+													minWidth: rem(requestorColWidthRem),
+													...makeStickyStyle(stickyOffsets.first, "#fff", 5),
+												}}
+											>
 												{row.requestor}
 											</td>
-											<td className="bg-white">運賃</td>
+											<td
+												className="bg-white"
+												style={{
+													minWidth: rem(typeColWidthRem),
+													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
+												}}
+											>
+												運賃
+											</td>
+											<td
+												className="text-end fw-semibold bg-white"
+												style={{
+													minWidth: rem(totalColWidthRem),
+													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
+												}}
+											>
+												{renderAmount(fareFirst)}
+											</td>
 											{visibleFare.map((value, index) => (
 												<td key={`fare-${row.requestor}-${index}`} className="text-end">
 													{renderAmount(value)}
 												</td>
 											))}
-											{/* <td className="text-end fw-semibold bg-white">{formatAmount(fareTotal)}</td> */}
 										</tr>
 										<tr>
-											<td className="bg-white">立替金</td>
+											<td
+												className="bg-white"
+												style={{
+													minWidth: rem(typeColWidthRem),
+													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
+												}}
+											>
+												立替金
+											</td>
+											<td
+												className="text-end fw-semibold bg-white"
+												style={{
+													minWidth: rem(totalColWidthRem),
+													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
+												}}
+											>
+												{renderAmount(advanceFirst)}
+											</td>
 											{visibleAdvance.map((value, index) => (
 												<td key={`advance-${row.requestor}-${index}`} className="text-end">
 													{renderAmount(value)}
 												</td>
 											))}
-											{/* <td className="text-end fw-semibold bg-white">{formatAmount(advanceTotal)}</td> */}
 										</tr>
 										<tr className="table-secondary">
-											<td className="fw-semibold">合計</td>
+											<td
+												className="fw-semibold"
+												style={{
+													minWidth: rem(typeColWidthRem),
+													...makeStickyStyle(stickyOffsets.second, "#e9ecef", 4),
+												}}
+											>
+												合計
+											</td>
+											<td
+												className="text-end fw-semibold"
+												style={{
+													minWidth: rem(totalColWidthRem),
+													...makeStickyStyle(stickyOffsets.third, "#e9ecef", 4),
+												}}
+											>
+												{renderAmount(combinedFirst)}
+											</td>
 											{visibleFare.map((value, index) => (
 												<td key={`total-${row.requestor}-${index}`} className="text-end fw-semibold">
 													{renderAmount(value === null ? null : value + (visibleAdvance[index] ?? 0))}
 												</td>
 											))}
-											{/* <td className="text-end fw-semibold">{formatAmount(combinedTotal)}</td> */}
 										</tr>
 									</Fragment>
 								);
