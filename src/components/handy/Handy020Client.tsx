@@ -16,12 +16,22 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 	void localDate;
 
 	// 車番（発営業所）一覧
-	const operationRoutes: ListItem[] = [
-		{ key: "1", value: "1234：福岡かすやINC" },
-		{ key: "2", value: "5678：鹿児島南センター" },
-		{ key: "3", value: "9012：川内営業所" },
-		{ key: "4", value: "3456：加治木営業所" },
-		{ key: "5", value: "7890：日置営業所" },
+	const viecleNums: ListItem[] = [
+		{ key: "1", value: "1234" },
+		{ key: "2", value: "5678" },
+		{ key: "3", value: "9012" },
+		{ key: "4", value: "3456" },
+		{ key: "5", value: "7890" },
+	];
+
+	const routecourses: ListItem[] = [
+		{ key: "FOKFKCK001", value: "かすや-二又瀬" },
+		{ key: "FOKFKCK002", value: "かすや-鳥栖" },
+		{ key: "FOKFKCK003", value: "かすや-南九州" },
+		{ key: "FOKFKCK004", value: "かすや-都城" },
+		{ key: "FOKFKCK005", value: "かすや-都城F" },
+		{ key: "FOKFKCK006", value: "かすや-かすや第2" },
+		{ key: "FOKFKCK007", value: "かすや-大分" },
 	];
 
 	// 1画面目 -> 車番選択（route）
@@ -29,15 +39,15 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 	// 3画面目 -> 戻し処理（deduct）
 	const [screen, setScreen] = useState<HandyScreen>("route");
 
-	const [selectedRoute, setSelectedRoute] = useState("");
-	const selectedRouteLabel = operationRoutes.find((r) => r.key === selectedRoute)?.value ?? "";
+	const [selectedViecleNum, setSelectedViecleNum] = useState("");
+	const selectedViecleNumLabel = viecleNums.find((r) => r.key === selectedViecleNum)?.value ?? "";
 
 	const [labelNo, setLabelNo] = useState("");
 	const [scannedLabels, setScannedLabels] = useState<string[]>([]);
 	const scanCount = scannedLabels.length;
 
 	const handleRouteConfirm = () => {
-		if (!selectedRoute) return;
+		if (!selectedViecleNum) return;
 		// 車番確定 -> 読み取り画面へ（読み取り系はリセット）
 		setScreen("scan");
 		setLabelNo("");
@@ -98,13 +108,27 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 									<div className="handy-form-body">
 										<Row className="gx-1 gy-2">
 											<Col md={12}>
+												<CommonGroupLabel
+													required
+													label="ルートコース"
+													style={{ gridTemplateColumns: "6rem minmax(0, 1fr)" }}
+												>
+													<CommonComboBox
+														id="operationRoute"
+														list={routecourses}
+														showKey={true}
+														defaultValue="FOKFKCK001"
+													/>
+												</CommonGroupLabel>
+											</Col>
+											<Col md={12}>
 												<CommonGroupLabel required label="車番" style={{ gridTemplateColumns: "6rem minmax(0, 1fr)" }}>
 													<CommonComboBox
 														id="operationRoute"
-														list={operationRoutes}
+														list={viecleNums}
 														showKey={false}
-														value={selectedRoute}
-														onChange={(e) => setSelectedRoute(e.target.value)}
+														value={selectedViecleNum}
+														onChange={(e) => setSelectedViecleNum(e.target.value)}
 													/>
 												</CommonGroupLabel>
 											</Col>
@@ -116,7 +140,7 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 											type="button"
 											className="btn btn-primary px-3"
 											onClick={handleRouteConfirm}
-											disabled={!selectedRoute}
+											disabled={!selectedViecleNum}
 										>
 											決定
 										</Button>
