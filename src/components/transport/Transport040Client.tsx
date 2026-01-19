@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark } from "@/components/CommonComponent";
 
@@ -142,8 +142,8 @@ const initialRoutes: RoutePanel[] = [
 		label: "鹿児島総合",
 		carNo: "2004",
 		carKind: "5トン冷凍車",
-		maxLoad: "4,500Kg",
-		maxVolume: "30㎥",
+		maxLoad: "",
+		maxVolume: "",
 		isFinal: false,
 		totals: {
 			weight: "1Kg",
@@ -171,6 +171,12 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	const [routes, setRoutes] = useState<RoutePanel[]>(initialRoutes);
 	const [draggedStop, setDraggedStop] = useState<{ routeId: string; stopIndex: number } | null>(null);
 	const [dragOverCell, setDragOverCell] = useState<{ routeId: string; stopIndex: number } | null>(null);
+	const [contextMenu, setContextMenu] = useState<{
+		x: number;
+		y: number;
+		routeId: string;
+		stopId: string;
+	} | null>(null);
 
 	// 営業所一覧
 	const offices: ListItem[] = [
@@ -344,6 +350,12 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		setDragOverCell(null);
 	};
 
+	const handleStopContextMenu = (routeId: string, stopId: string) => (event: React.MouseEvent<HTMLSpanElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		setContextMenu({ x: event.clientX, y: event.clientY, routeId, stopId });
+	};
+
 	const toggleRoute = (id: string) => {
 		setRoutes((prev) => prev.map((route) => (route.id === id ? { ...route, isFinal: !route.isFinal } : route)));
 	};
@@ -363,6 +375,24 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	};
 
 	const maxStops = Math.max(...routes.map((route) => route.stops.length));
+
+	useEffect(() => {
+		if (!contextMenu) return;
+		const closeMenu = () => setContextMenu(null);
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				setContextMenu(null);
+			}
+		};
+		window.addEventListener("click", closeMenu);
+		window.addEventListener("contextmenu", closeMenu);
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("click", closeMenu);
+			window.removeEventListener("contextmenu", closeMenu);
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [contextMenu]);
 
 	return (
 		<Container fluid>
@@ -416,7 +446,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 			<section className="panel-block">
 				<Row className="mt-3">
-					<Col md={6} className="d-flex justify-content-start gap-2">
+					<Col md={3} className="d-flex justify-content-start gap-2">
 						<Button className="btn btn-gradient px-3" onClick={activateAllRoutes}>
 							全体配車確定
 						</Button>
@@ -424,12 +454,15 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							マップ
 						</Button>
 					</Col>
-					<Col md={6} className="d-flex justify-content-end gap-2">
-						{/* 温度帯の説明 */}
-						<span className="small text-muted">温度帯</span>
-						<span className="small transport040-ambient">常温：黒字</span>
-						<span className="small transport040-cool">クール：青字</span>
-						<span className="small transport040-frozen">冷凍：橙字</span>
+					<Col md={9} className="d-flex flex-column align-items-end gap-1">
+						<div className="d-flex justify-content-end gap-2">
+							{/* 温度帯の説明 */}
+							<span className="small text-muted">温度帯</span>
+							<span className="small transport040-ambient">常温：黒字</span>
+							<span className="small transport040-cool">クール：青字</span>
+							<span className="small transport040-frozen">冷凍：橙字</span>
+						</div>
+						<span className="small text-muted">ラベル右クリックで処理を選択</span>
 					</Col>
 				</Row>
 
@@ -448,8 +481,8 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 										<div className="badge bg-primary text-white">{route.label}</div>
 										<div className="small">車番　　:{route.carNo}</div>
 										<div className="small">車種　　: {route.carKind}</div>
-										<div className="small">最大重量: {route.maxLoad}</div>
-										<div className="small">最大容積: {route.maxVolume}</div>
+										<div className="small">{route.maxLoad == "" ? "" : `最大重量: ${route.maxLoad}`}</div>
+										<div className="small">{route.maxVolume == "" ? "" : `最大容積: ${route.maxVolume}`}</div>
 									</Col>
 									<Col xs="3" className="d-flex align-items-center">
 										<Form.Check
@@ -496,6 +529,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 													draggable={!route.isFinal}
 													onDragStart={handleStopDragStart(route.id, rowIndex)}
 													onDragEnd={handleStopDragEnd}
+													onContextMenu={handleStopContextMenu(route.id, stop.id)}
 												>
 													<div className="d-flex align-items-center gap-2 mb-1">
 														<span className={`fw-semibold transport040-${stop.tempClass}`}>{stop.name}</span>
@@ -516,6 +550,46 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 					</div>
 				</div>
 			</section>
+			{contextMenu ? (
+				<div
+					className="transport040-context-layer"
+					onClick={() => setContextMenu(null)}
+					onContextMenu={(event) => event.preventDefault()}
+				>
+					<div className="transport040-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }} role="menu">
+						<button
+							type="button"
+							className="btn btn-sm w-100 text-start"
+							onClick={(event) => {
+								event.stopPropagation();
+								setContextMenu(null);
+							}}
+						>
+							配送完了
+						</button>
+						<button
+							type="button"
+							className="btn btn-sm w-100 text-start"
+							onClick={(event) => {
+								event.stopPropagation();
+								setContextMenu(null);
+							}}
+						>
+							受取拒否
+						</button>
+						<button
+							type="button"
+							className="btn btn-sm w-100 text-start"
+							onClick={(event) => {
+								event.stopPropagation();
+								setContextMenu(null);
+							}}
+						>
+							不在再送
+						</button>
+					</div>
+				</div>
+			) : null}
 			<section className="panel-block"></section>
 			<style jsx>{`
 				.transport040-route-board {
@@ -574,6 +648,43 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 				.transport040-frozen {
 					color: #ffaa00;
+				}
+
+				.transport040-context-layer {
+					position: fixed;
+					inset: 0;
+					z-index: 1080;
+					pointer-events: auto;
+				}
+
+				.transport040-context-menu {
+					position: absolute;
+					min-width: 160px;
+					background: #ffffff;
+					border: 1px solid #cfe2ff;
+					border-radius: 8px;
+					box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+					padding: 6px;
+					pointer-events: auto;
+				}
+
+				.transport040-context-menu button {
+					border: none;
+					background: transparent;
+					padding: 8px 10px;
+					border-radius: 6px;
+					color: #0d6efd;
+					font-weight: 600;
+				}
+
+				.transport040-context-menu button + button {
+					margin-top: 4px;
+				}
+
+				.transport040-context-menu button:hover,
+				.transport040-context-menu button:focus {
+					background: #e7f1ff;
+					outline: none;
 				}
 			`}</style>
 		</Container>
