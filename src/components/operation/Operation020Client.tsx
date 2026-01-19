@@ -2,13 +2,22 @@
 
 import { useState } from "react";
 import { Container, Button, Form, Row, Col, Badge } from "react-bootstrap";
-import {
-	CommonGroupLabel,
-	CommonComboBox,
-	CommonInputBox,
-	RequiredMark,
-	CommonDateRangeBox,
-} from "@/components/CommonComponent";
+import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
+
+type ViecleNumber = {
+	id: number;
+	vehicleNo: string;
+	provisionalVehicleNo: string;
+	driverName: string;
+	assistant: string;
+	driverPhone: string;
+	status: string;
+	operationDate: string;
+	loadingDate: string;
+	departureDate: string;
+	unloadingDate: string;
+	dispatchDeptCode: string;
+};
 
 type OperationPlanRow = {
 	id: number;
@@ -17,19 +26,9 @@ type OperationPlanRow = {
 	toLocation: string;
 	temperatureBand: string;
 	transportType: string;
-	ownCharterClass: string;
-	operationDate: string;
-	loadingDate: string;
-	departureDate: string;
-	unloadingDate: string;
-	dispatchDeptCode: string;
 	transportDeptCode: string;
-	vehicleNo: string;
-	provisionalVehicleNo: string;
-	driverName: string;
-	assistant: string;
-	driverPhone: string;
-	status: string;
+	ownCharterClass: string;
+	vehicles: ViecleNumber[];
 };
 
 type ListItem = { key: string; value: string };
@@ -85,18 +84,37 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			temperatureBand: "常温",
 			transportType: "地域外幹線",
 			ownCharterClass: "自車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "福岡かすやINC",
-			transportDeptCode: "福岡かすやINC",
-			vehicleNo: "1201",
-			provisionalVehicleNo: "1001",
-			driverName: "石谷 一郎",
-			assistant: "浜田 次郎",
-			driverPhone: "090-000-0000",
-			status: "運行中",
+			transportDeptCode: "",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "1201",
+					provisionalVehicleNo: "9000",
+					driverName: "石谷 一郎",
+					assistant: "",
+					driverPhone: "090-000-0000",
+					status: "運行中",
+					operationDate: "2026/01/20",
+					loadingDate: "2026/01/19",
+					departureDate: "2026/01/20",
+					unloadingDate: "2026/01/20",
+					dispatchDeptCode: "福岡かすやINC",
+				},
+				{
+					id: 2,
+					vehicleNo: "1202",
+					provisionalVehicleNo: "9001",
+					driverName: "浜田 次郎",
+					assistant: "",
+					driverPhone: "090-111-1111",
+					status: "運行中",
+					operationDate: "2026/01/20",
+					loadingDate: "2026/01/19",
+					departureDate: "2026/01/20",
+					unloadingDate: "2026/01/20",
+					dispatchDeptCode: "福岡かすやINC",
+				},
+			],
 		},
 		{
 			id: 2,
@@ -106,18 +124,23 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			temperatureBand: "冷凍",
 			transportType: "地域外幹線",
 			ownCharterClass: "自車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/20",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "福岡かすやINC",
-			transportDeptCode: "都城フローズンセンター",
-			vehicleNo: "3001",
-			provisionalVehicleNo: "2001",
-			driverName: "加藤 三郎",
-			assistant: "ー",
-			driverPhone: "090-000-0000",
-			status: "データ作成",
+			transportDeptCode: "",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "3001",
+					provisionalVehicleNo: "2001",
+					driverName: "加藤 三郎",
+					assistant: "ー",
+					driverPhone: "090-000-0000",
+					status: "データ作成",
+					operationDate: "2026/01/20",
+					loadingDate: "2026/01/20",
+					departureDate: "2026/01/20",
+					unloadingDate: "2026/01/20",
+					dispatchDeptCode: "福岡かすやINC",
+				},
+			],
 		},
 		{
 			id: 3,
@@ -127,81 +150,23 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			temperatureBand: "常温",
 			transportType: "配送",
 			ownCharterClass: "自車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "福岡かすやINC",
-			transportDeptCode: "福岡かすやINC",
-			vehicleNo: "1210",
-			provisionalVehicleNo: "4001",
-			driverName: "上田 仁",
-			assistant: "ー",
-			driverPhone: "090-000-0000",
-			status: "配送完了",
-		},
-		{
-			id: 4,
-			routeCourse: "南九州-川内",
-			fromLocation: "南九州物流センター",
-			toLocation: "川内営業所",
-			temperatureBand: "常温",
-			transportType: "地域内幹線",
-			ownCharterClass: "自車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "福岡かすやINC",
-			transportDeptCode: "南九州物流センター",
-			vehicleNo: "2001",
-			provisionalVehicleNo: "5001",
-			driverName: "木村 雄一",
-			assistant: "大城 和也",
-			driverPhone: "090-000-0000",
-			status: "配送完了",
-		},
-		{
-			id: 5,
-			routeCourse: "川内コース1",
-			fromLocation: "川内営業所",
-			toLocation: "",
-			temperatureBand: "常温",
-			transportType: "配送",
-			ownCharterClass: "自車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "南九州物流センター",
-			transportDeptCode: "南九州物流センター",
-			vehicleNo: "2012",
-			provisionalVehicleNo: "5002",
-			driverName: "渡辺 徹",
-			assistant: "ー",
-			driverPhone: "090-000-0000",
-			status: "削除",
-		},
-		{
-			id: 6,
-			routeCourse: "都城Fコース1",
-			fromLocation: "都城フローズンセンター",
-			toLocation: "",
-			temperatureBand: "冷凍",
-			transportType: "配送",
-			ownCharterClass: "庸車",
-			operationDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
-			unloadingDate: "2026/01/20",
-			dispatchDeptCode: "都城フローズンセンター",
-			transportDeptCode: "Y1000:南九州トランスポート",
-			vehicleNo: "9999",
-			provisionalVehicleNo: "0001",
-			driverName: "黒田 鉄",
-			assistant: "ー",
-			driverPhone: "090-000-0000",
-			status: "運行中",
+			transportDeptCode: "",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "1210",
+					provisionalVehicleNo: "4001",
+					driverName: "上田 仁",
+					assistant: "ー",
+					driverPhone: "090-000-0000",
+					status: "配送完了",
+					operationDate: "2026/01/20",
+					loadingDate: "2026/01/19",
+					departureDate: "2026/01/20",
+					unloadingDate: "2026/01/20",
+					dispatchDeptCode: "福岡かすやINC",
+				},
+			],
 		},
 	];
 
@@ -254,14 +219,6 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			</section>
 
 			<section className="panel-block">
-				<div className="d-flex justify-content-start gap-2 mb-3">
-					<Button type="button" className="btn btn-gradient px-3">
-						車番/ドライバー編集ボタン
-					</Button>
-					<Button type="button" className="btn btn-gradient px-3">
-						配送完了
-					</Button>
-				</div>
 				<OperationPlanPanels rows={rows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
@@ -294,40 +251,42 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 }
 
 function OperationPlanPanels({ rows }: OperationTableProps) {
-	const [selectedId, setSelectedId] = useState(rows[0]?.id ?? null);
-	const selectedRow = rows.find((row) => row.id === selectedId);
+	const [selectedRouteId, setSelectedRouteId] = useState(rows[0]?.routeCourse ?? null);
+	const selectedRoute = rows.find((route) => route.routeCourse === selectedRouteId);
+	const vehicles = selectedRoute?.vehicles ?? [];
 
 	return (
 		<Row className="gy-3">
 			<Col lg={5} className="d-flex flex-column gap-2">
-				{rows.map((row) => {
-					const isSelected = row.id === selectedId;
+				{rows.map((route) => {
+					const isSelected = route.routeCourse === selectedRouteId;
+					const primaryTransport = route.transportDeptCode ?? "-";
 					return (
 						<button
 							type="button"
-							key={row.id}
-							onClick={() => setSelectedId(row.id)}
+							key={route.routeCourse}
+							onClick={() => setSelectedRouteId(route.routeCourse)}
 							className={`w-100 text-start border rounded p-3 shadow-sm d-flex flex-column gap-2 ${
 								isSelected ? "bg-primary text-white border-primary" : "bg-light text-body"
 							}`}
 							style={{ cursor: "pointer" }}
 						>
 							<div className="d-flex justify-content-between align-items-center">
-								<div className="fw-semibold">{row.routeCourse}</div>
+								<div className="fw-semibold">{route.routeCourse}</div>
 								<Badge bg={isSelected ? "light" : "secondary"} text={isSelected ? "dark" : undefined}>
-									{row.temperatureBand}
+									{route.temperatureBand}
 								</Badge>
 							</div>
 							<div className="small d-flex flex-column flex-sm-row flex-wrap gap-2">
 								<span className="fw-semibold">From:</span>
-								<span>{row.fromLocation}</span>
-								<span className="fw-semibold">To:</span>
-								<span>{row.toLocation || "未設定"}</span>
+								<span>{route.fromLocation}</span>
+								<span className="fw-semibold">{route.toLocation ? "To:" : ""}</span>
+								<span>{route.toLocation}</span>
 							</div>
 							<div className="small d-flex flex-wrap gap-3">
-								<span>運送K: {row.transportType}</span>
-								<span>自/傭: {row.ownCharterClass}</span>
-								<span>運送会社: {row.transportDeptCode}</span>
+								<span>運送K: {route.transportType}</span>
+								<span>自/傭: {route.ownCharterClass}</span>
+								<span>運送会社: {primaryTransport}</span>
 							</div>
 						</button>
 					);
@@ -336,62 +295,48 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 
 			<Col lg={7}>
 				<div className="border rounded p-3 bg-white shadow-sm h-100">
-					{selectedRow ? (
-						<div className="d-flex flex-column gap-3">
+					{selectedRoute ? (
+						<div className="d-flex flex-column gap-3 h-100">
 							<div className="d-flex justify-content-between align-items-center">
 								<div>
-									<div className="fw-bold">{selectedRow.routeCourse}</div>
+									<div className="fw-bold">{selectedRoute.routeCourse}</div>
 									<div className="text-muted small">
-										From {selectedRow.fromLocation} → {selectedRow.toLocation || "未設定"}
+										{selectedRoute.toLocation
+											? `From ${selectedRoute.fromLocation} → ${selectedRoute.toLocation}`
+											: `${selectedRoute.fromLocation}`}
 									</div>
 								</div>
 								<Badge bg="info" text="dark">
-									{selectedRow.status}
+									{vehicles.length} 台
 								</Badge>
 							</div>
 
-							<Row className="g-3">
-								<Col md={6}>
-									<div className="small text-muted">車番</div>
-									<div className="fw-semibold">{selectedRow.vehicleNo}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">仮車番</div>
-									<div className="fw-semibold">{selectedRow.provisionalVehicleNo}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">ドライバー</div>
-									<div className="fw-semibold">{selectedRow.driverName}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">電話番号</div>
-									<div className="fw-semibold">{selectedRow.driverPhone}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">配車部門</div>
-									<div className="fw-semibold">{selectedRow.dispatchDeptCode}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">運送会社</div>
-									<div className="fw-semibold">{selectedRow.transportDeptCode}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">運行日</div>
-									<div className="fw-semibold">{selectedRow.operationDate}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">積込日</div>
-									<div className="fw-semibold">{selectedRow.loadingDate}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">出発日</div>
-									<div className="fw-semibold">{selectedRow.departureDate}</div>
-								</Col>
-								<Col md={6}>
-									<div className="small text-muted">荷卸日</div>
-									<div className="fw-semibold">{selectedRow.unloadingDate}</div>
-								</Col>
-							</Row>
+							{vehicles.length > 0 ? (
+								<Row className="g-3">
+									{vehicles.map((vehicle) => (
+										<Col sm={12} md={6} xl={4} key={vehicle.id}>
+											<div className="border rounded p-2 bg-white shadow-sm h-100 d-flex flex-column gap-2">
+												<div className="d-flex justify-content-between align-items-center">
+													<div className="fw-semibold">車番 {vehicle.vehicleNo}</div>
+													<Badge bg="secondary" text="light">
+														{vehicle.status}
+													</Badge>
+												</div>
+												<div className="small">仮車番: {vehicle.provisionalVehicleNo}</div>
+												<div className="small">ドライバー: {vehicle.driverName}</div>
+												<div className="small">電話番号: {vehicle.driverPhone}</div>
+												<div className="small">配車部門: {vehicle.dispatchDeptCode}</div>
+												<div className="small">運行日: {vehicle.operationDate}</div>
+												<div className="small">積込日: {vehicle.loadingDate}</div>
+												<div className="small">出発日: {vehicle.departureDate}</div>
+												<div className="small">荷卸日: {vehicle.unloadingDate}</div>
+											</div>
+										</Col>
+									))}
+								</Row>
+							) : (
+								<div className="text-muted">車番情報がありません</div>
+							)}
 						</div>
 					) : (
 						<div className="text-muted">ルートコースを選択してください</div>
