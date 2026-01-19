@@ -1,6 +1,7 @@
 "use client";
 
-import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Button, Form, Row, Col, Badge } from "react-bootstrap";
 import {
 	CommonGroupLabel,
 	CommonComboBox,
@@ -261,7 +262,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 						配送完了
 					</Button>
 				</div>
-				<OperationPlanTable rows={rows} />
+				<OperationPlanPanels rows={rows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 					<div className="d-flex align-items-center gap-2">
@@ -292,63 +293,111 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 	);
 }
 
-function OperationPlanTable({ rows }: OperationTableProps) {
+function OperationPlanPanels({ rows }: OperationTableProps) {
+	const [selectedId, setSelectedId] = useState(rows[0]?.id ?? null);
+	const selectedRow = rows.find((row) => row.id === selectedId);
+
 	return (
-		<div className="table-responsive border rounded">
-			<Table className="mb-0 table-bordered table-sm table-striped align-middle text-nowrap">
-				<thead>
-					<tr className="table-primary">
-						<th style={{ width: "2rem" }}>
-							<Form.Check type="checkbox" />
-						</th>
-						<th>ルートコース</th>
-						<th>From地点</th>
-						<th>To地点</th>
-						<th>温度帯K</th>
-						<th>運送K</th>
-						<th>自/傭</th>
-						<th>運行日</th>
-						<th>積込日</th>
-						<th>出発日</th>
-						<th>荷卸日</th>
-						<th>配車権部門</th>
-						<th>運送部門</th>
-						<th>車番</th>
-						<th>仮車番</th>
-						<th>ドライバー</th>
-						<th>助手</th>
-						<th>電話番号</th>
-						<th>ステータス</th>
-					</tr>
-				</thead>
-				<tbody>
-					{rows.map((row) => (
-						<tr className="align-middle" key={row.id}>
-							<td>
-								<Form.Check type="checkbox" />
-							</td>
-							<td>{row.routeCourse}</td>
-							<td>{row.fromLocation}</td>
-							<td>{row.toLocation}</td>
-							<td>{row.temperatureBand}</td>
-							<td>{row.transportType}</td>
-							<td>{row.ownCharterClass}</td>
-							<td>{row.operationDate}</td>
-							<td>{row.loadingDate}</td>
-							<td>{row.departureDate}</td>
-							<td>{row.unloadingDate}</td>
-							<td>{row.dispatchDeptCode}</td>
-							<td>{row.transportDeptCode}</td>
-							<td>{row.vehicleNo}</td>
-							<td>{row.provisionalVehicleNo}</td>
-							<td>{row.driverName}</td>
-							<td>{row.assistant}</td>
-							<td>{row.driverPhone}</td>
-							<td>{row.status}</td>
-						</tr>
-					))}
-				</tbody>
-			</Table>
-		</div>
+		<Row className="gy-3">
+			<Col lg={5} className="d-flex flex-column gap-2">
+				{rows.map((row) => {
+					const isSelected = row.id === selectedId;
+					return (
+						<button
+							type="button"
+							key={row.id}
+							onClick={() => setSelectedId(row.id)}
+							className={`w-100 text-start border rounded p-3 shadow-sm d-flex flex-column gap-2 ${
+								isSelected ? "bg-primary text-white border-primary" : "bg-light text-body"
+							}`}
+							style={{ cursor: "pointer" }}
+						>
+							<div className="d-flex justify-content-between align-items-center">
+								<div className="fw-semibold">{row.routeCourse}</div>
+								<Badge bg={isSelected ? "light" : "secondary"} text={isSelected ? "dark" : undefined}>
+									{row.temperatureBand}
+								</Badge>
+							</div>
+							<div className="small d-flex flex-column flex-sm-row flex-wrap gap-2">
+								<span className="fw-semibold">From:</span>
+								<span>{row.fromLocation}</span>
+								<span className="fw-semibold">To:</span>
+								<span>{row.toLocation || "未設定"}</span>
+							</div>
+							<div className="small d-flex flex-wrap gap-3">
+								<span>運送K: {row.transportType}</span>
+								<span>自/傭: {row.ownCharterClass}</span>
+								<span>運送会社: {row.transportDeptCode}</span>
+							</div>
+						</button>
+					);
+				})}
+			</Col>
+
+			<Col lg={7}>
+				<div className="border rounded p-3 bg-white shadow-sm h-100">
+					{selectedRow ? (
+						<div className="d-flex flex-column gap-3">
+							<div className="d-flex justify-content-between align-items-center">
+								<div>
+									<div className="fw-bold">{selectedRow.routeCourse}</div>
+									<div className="text-muted small">
+										From {selectedRow.fromLocation} → {selectedRow.toLocation || "未設定"}
+									</div>
+								</div>
+								<Badge bg="info" text="dark">
+									{selectedRow.status}
+								</Badge>
+							</div>
+
+							<Row className="g-3">
+								<Col md={6}>
+									<div className="small text-muted">車番</div>
+									<div className="fw-semibold">{selectedRow.vehicleNo}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">仮車番</div>
+									<div className="fw-semibold">{selectedRow.provisionalVehicleNo}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">ドライバー</div>
+									<div className="fw-semibold">{selectedRow.driverName}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">電話番号</div>
+									<div className="fw-semibold">{selectedRow.driverPhone}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">配車部門</div>
+									<div className="fw-semibold">{selectedRow.dispatchDeptCode}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">運送会社</div>
+									<div className="fw-semibold">{selectedRow.transportDeptCode}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">運行日</div>
+									<div className="fw-semibold">{selectedRow.operationDate}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">積込日</div>
+									<div className="fw-semibold">{selectedRow.loadingDate}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">出発日</div>
+									<div className="fw-semibold">{selectedRow.departureDate}</div>
+								</Col>
+								<Col md={6}>
+									<div className="small text-muted">荷卸日</div>
+									<div className="fw-semibold">{selectedRow.unloadingDate}</div>
+								</Col>
+							</Row>
+						</div>
+					) : (
+						<div className="text-muted">ルートコースを選択してください</div>
+					)}
+				</div>
+			</Col>
+		</Row>
 	);
 }
