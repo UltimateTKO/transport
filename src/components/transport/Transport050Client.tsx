@@ -1,8 +1,9 @@
 "use client";
 
 import { Fragment, useEffect, useState } from "react";
-import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
+import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
 import { CommonGroupLabel, CommonInputBox, RequiredMark } from "@/components/CommonComponent";
+import { BsTruck } from "react-icons/bs";
 
 type TrackingDetail = {
 	id: string;
@@ -25,6 +26,7 @@ type TrackingResult = {
 
 type TrackingResultTableProps = {
 	rows: TrackingResult[];
+	onShowSignature: (row: TrackingResult) => void;
 };
 
 type TrackingInput = {
@@ -92,7 +94,7 @@ const TRACKING_DATA: TrackingResult[] = [
 		shipper: "鳥栖倉庫",
 		consignee: "業務スーパー 谷山店",
 		deliveryDate: "2026/1/19",
-		status: "到着済",
+		status: "納品済",
 		details: [
 			{
 				id: "1",
@@ -157,11 +159,13 @@ export default function Transport050Client() {
 	const [formState, setFormState] = useState<TrackingFormState>(INITIAL_FORM_STATE);
 
 	const [tableRows, setTableRows] = useState<TrackingResult[]>(() => filterRows(INITIAL_FORM_STATE));
+	const [showSignatureModal, setShowSignatureModal] = useState(false);
+	const [selectedTrackingNo, setSelectedTrackingNo] = useState<string | null>(null);
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
 		setFormState((prev) =>
-			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input))
+			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
 		);
 	};
 
@@ -175,6 +179,16 @@ export default function Transport050Client() {
 			setTableRows(filterRows(next));
 			return next;
 		});
+	};
+
+	const handleShowSignature = (row: TrackingResult) => {
+		setSelectedTrackingNo(row.trackingNo);
+		setShowSignatureModal(true);
+	};
+
+	const handleCloseSignature = () => {
+		setShowSignatureModal(false);
+		setSelectedTrackingNo(null);
 	};
 
 	return (
@@ -222,7 +236,7 @@ export default function Transport050Client() {
 			</section>
 
 			<section className="panel-block">
-				<TrackingResultTable rows={tableRows} />
+				<TrackingResultTable rows={tableRows} onShowSignature={handleShowSignature} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 					<div className="d-flex align-items-center gap-2">
@@ -249,11 +263,25 @@ export default function Transport050Client() {
 					<div className="small text-muted">全 {tableRows.length} アイテム表示中</div>
 				</footer>
 			</section>
+
+			<Modal show={showSignatureModal} onHide={handleCloseSignature} centered size="lg">
+				<Modal.Header closeButton>
+					<Modal.Title>受領確認{selectedTrackingNo ? ` - ${selectedTrackingNo}` : ""}</Modal.Title>
+				</Modal.Header>
+				<Modal.Body className="text-center">
+					<img src="/サイン.png" alt="受領サイン" className="img-fluid" />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleCloseSignature}>
+						閉じる
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</Container>
 	);
 }
 
-function TrackingResultTable({ rows }: TrackingResultTableProps) {
+function TrackingResultTable({ rows, onShowSignature }: TrackingResultTableProps) {
 	const [expandedRows, setExpandedRows] = useState<number[]>([]);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
@@ -285,6 +313,9 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 							<span className="table-header-text">納品先</span>
 						</th>
 						<th>
+							<span className="table-header-text">受領確認</span>
+						</th>
+						<th>
 							<span className="table-header-text">ステータス</span>
 						</th>
 					</tr>
@@ -309,6 +340,11 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 								<td>{row.deliveryDate}</td>
 								<td>{row.shipper}</td>
 								<td>{row.consignee}</td>
+								<td>
+									<Button className="btn btn-gradient px-3" type="button" onClick={() => onShowSignature(row)}>
+										受領確認
+									</Button>
+								</td>
 								<td>{row.status}</td>
 							</tr>
 
@@ -323,10 +359,11 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 														<span className="table-header-text">出発日時</span>
 													</th>
 													<th>
-														<span className="table-header-text">到着日時</span>
-													</th>
-													<th>
 														<span className="table-header-text">From地点</span>
+													</th>
+													<th></th>
+													<th>
+														<span className="table-header-text">到着日時</span>
 													</th>
 													<th>
 														<span className="table-header-text">To地点</span>
@@ -336,10 +373,17 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 											<tbody>
 												{row.details.map((detail) => (
 													<tr key={detail.id}>
-														<td>{detail.departAt}</td>
-														<td>{detail.arriveAt}</td>
-														<td>{detail.fromLocation}</td>
-														<td>{detail.toLocation}</td>
+														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.departAt}</td>
+														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.fromLocation}</td>
+														<td
+															className={
+																detail.arriveAt ? "text-muted justify-content-center" : "justify-content-center"
+															}
+														>
+															<BsTruck size={24} />
+														</td>
+														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.arriveAt}</td>
+														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.toLocation}</td>
 													</tr>
 												))}
 											</tbody>
