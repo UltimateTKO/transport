@@ -287,6 +287,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 					<Button className="btn btn-gradient px-3" onClick={openInquiryModal}>
 						下払/内振明細
 					</Button>
+					<Button className="btn btn-gradient px-3">売上修正</Button>
 					<Button className="btn btn-gradient px-3">キャンセル</Button>
 				</div>
 				<SalesTable rows={rows} />

@@ -137,7 +137,8 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 							</CommonGroupLabel>
 						</Col>
 
-						<Col md={12} className="d-flex justify-content-center gap-2 mt-3">
+						<Col md={6} className="d-flex justify-content-center gap-2 mt-3">
+							<Button className="btn btn-gradient px-3">再計算</Button>
 							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
 					</Row>
