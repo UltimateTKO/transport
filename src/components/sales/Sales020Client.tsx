@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, Fragment } from "react";
+import { CSSProperties, Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonInputBox } from "@/components/CommonComponent";
 
@@ -80,9 +80,8 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	];
 
 	const days = toMonthDays(localMonth);
-	const rows: SalesTrendRow[] = [
+	const baseRows: SalesTrendRow[] = [
 		{
-			// 福岡倉庫
 			requestor: "福岡倉庫",
 			fare: [
 				99000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500,
@@ -91,7 +90,6 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			// 九州倉庫
 			requestor: "九州倉庫",
 			fare: [
 				189000, 0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0,
@@ -103,7 +101,6 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 			],
 		},
 		{
-			// 古賀倉庫
 			requestor: "古賀倉庫",
 			fare: [
 				117000, 0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0,
@@ -116,8 +113,37 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 		},
 	];
 
+	const altRows: SalesTrendRow[] = baseRows.map((row) => ({
+		requestor: `${row.requestor}`,
+		fare: row.fare.map((value) => Math.round(value * 1.1)),
+		advance: row.advance,
+	}));
+
+	const rowSets: SalesTrendRow[][] = [baseRows, altRows];
+	const [rowSetIndex, setRowSetIndex] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const rows = rowSets[rowSetIndex];
+
+	const handleRecalculate = async () => {
+		if (isLoading) return;
+		setIsLoading(true);
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		setRowSetIndex((prev) => (prev + 1) % rowSets.length);
+		setIsLoading(false);
+	};
+
 	return (
 		<Container fluid>
+			{isLoading ? (
+				<div
+					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
+					style={{ zIndex: 1050 }}
+				>
+					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
+					<span className="text-muted small">再計算中...</span>
+				</div>
+			) : null}
+
 			<section className="panel-block mb-4">
 				<header className="panel-block-header d-flex align-items-center justify-content-end gap-2">
 					<RequiredMark />
@@ -138,7 +164,21 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</Col>
 
 						<Col md={6} className="d-flex justify-content-center gap-2 mt-3">
-							<Button className="btn btn-gradient px-3">再計算</Button>
+							<Button
+								type="button"
+								className="btn btn-gradient px-3 d-flex align-items-center gap-2"
+								onClick={handleRecalculate}
+								disabled={isLoading}
+							>
+								{isLoading ? (
+									<>
+										<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+										<span>処理中...</span>
+									</>
+								) : (
+									<span>再計算</span>
+								)}
+							</Button>
 							<Button className="btn btn-gradient px-3">検索</Button>
 						</Col>
 					</Row>
