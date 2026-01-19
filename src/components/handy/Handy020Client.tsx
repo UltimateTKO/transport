@@ -41,6 +41,15 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 
 	const [selectedViecleNum, setSelectedViecleNum] = useState("");
 	const selectedViecleNumLabel = viecleNums.find((r) => r.key === selectedViecleNum)?.value ?? "";
+	const [selectedRoute, setSelectedRoute] = useState("");
+	const selectedRouteLabel = routecourses.find((r) => r.key === selectedRoute)?.value ?? "";
+	const headerLabelBlock =
+		selectedRouteLabel || selectedViecleNumLabel ? (
+			<div className="text-muted small d-flex flex-column text-end gap-1">
+				{selectedRouteLabel ? <span>{selectedRouteLabel}</span> : null}
+				{selectedViecleNumLabel ? <span>{selectedViecleNumLabel}</span> : null}
+			</div>
+		) : null;
 
 	const [labelNo, setLabelNo] = useState("");
 	const [scannedLabels, setScannedLabels] = useState<string[]>([]);
@@ -117,14 +126,15 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 														id="operationRoute"
 														list={routecourses}
 														showKey={true}
-														defaultValue="FOKFKCK001"
+														value={selectedRoute}
+														onChange={(e) => setSelectedRoute(e.target.value)}
 													/>
 												</CommonGroupLabel>
 											</Col>
 											<Col md={12}>
 												<CommonGroupLabel required label="車番" style={{ gridTemplateColumns: "6rem minmax(0, 1fr)" }}>
 													<CommonComboBox
-														id="operationRoute"
+														id="operationVehicleNum"
 														list={viecleNums}
 														showKey={false}
 														value={selectedViecleNum}
@@ -150,8 +160,12 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 						) : screen === "scan" ? (
 							<>
 								<header className="panel-block-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-									<span className="panel-block-title mb-0">発荷確認 -バーコード読み取り-</span>
-									{selectedRouteLabel ? <span className="text-muted small">{selectedRouteLabel}</span> : null}
+									<span className="panel-block-title mb-0">
+										発荷確認
+										<br />
+										-バーコード読み取り-
+									</span>
+									{headerLabelBlock}
 								</header>
 
 								<Form className="handy-form">
@@ -216,8 +230,12 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 						) : (
 							<>
 								<header className="panel-block-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-									<span className="panel-block-title mb-0">発荷確認 -戻し処理-</span>
-									{selectedRouteLabel ? <span className="text-muted small">{selectedRouteLabel}</span> : null}
+									<span className="panel-block-title mb-0">
+										発荷確認
+										<br />
+										-戻し処理-
+									</span>
+									{headerLabelBlock}
 								</header>
 
 								<Form className="handy-form">
