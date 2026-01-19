@@ -12,6 +12,8 @@ import {
 type OperationPlanRow = {
 	id: number;
 	routeCourse: string;
+	fromLocation: string;
+	toLocation: string;
 	temperatureBand: string;
 	transportType: string;
 	ownCharterClass: string;
@@ -77,6 +79,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 1,
 			routeCourse: "かすや-南九州",
+			fromLocation: "福岡かすやINC",
+			toLocation: "南九州物流センター",
 			temperatureBand: "常温",
 			transportType: "地域外幹線",
 			ownCharterClass: "自車",
@@ -96,6 +100,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 2,
 			routeCourse: "かすや-都城F",
+			fromLocation: "福岡かすやINC",
+			toLocation: "都城フローズンセンター",
 			temperatureBand: "冷凍",
 			transportType: "地域外幹線",
 			ownCharterClass: "自車",
@@ -115,6 +121,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 3,
 			routeCourse: "かすやコース1",
+			fromLocation: "福岡かすやINC",
+			toLocation: "",
 			temperatureBand: "常温",
 			transportType: "配送",
 			ownCharterClass: "自車",
@@ -134,6 +142,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 4,
 			routeCourse: "南九州-川内",
+			fromLocation: "南九州物流センター",
+			toLocation: "川内営業所",
 			temperatureBand: "常温",
 			transportType: "地域内幹線",
 			ownCharterClass: "自車",
@@ -153,6 +163,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 5,
 			routeCourse: "川内コース1",
+			fromLocation: "川内営業所",
+			toLocation: "",
 			temperatureBand: "常温",
 			transportType: "配送",
 			ownCharterClass: "自車",
@@ -172,6 +184,8 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{
 			id: 6,
 			routeCourse: "都城Fコース1",
+			fromLocation: "都城フローズンセンター",
+			toLocation: "",
 			temperatureBand: "冷凍",
 			transportType: "配送",
 			ownCharterClass: "庸車",
@@ -288,6 +302,8 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 							<Form.Check type="checkbox" />
 						</th>
 						<th>ルートコース</th>
+						<th>From地点</th>
+						<th>To地点</th>
 						<th>温度帯K</th>
 						<th>運送K</th>
 						<th>自/傭</th>
@@ -312,6 +328,8 @@ function OperationPlanTable({ rows }: OperationTableProps) {
 								<Form.Check type="checkbox" />
 							</td>
 							<td>{row.routeCourse}</td>
+							<td>{row.fromLocation}</td>
+							<td>{row.toLocation}</td>
 							<td>{row.temperatureBand}</td>
 							<td>{row.transportType}</td>
 							<td>{row.ownCharterClass}</td>
