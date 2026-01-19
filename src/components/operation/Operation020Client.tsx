@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { MouseEvent } from "react";
 import { Container, Button, Form, Row, Col, Badge } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
 
@@ -29,6 +30,13 @@ type OperationPlanRow = {
 	transportDeptCode: string;
 	ownCharterClass: string;
 	vehicles: ViecleNumber[];
+};
+
+type ContextMenuState = {
+	x: number;
+	y: number;
+	vehicle: ViecleNumber | null;
+	show: boolean;
 };
 
 type ListItem = { key: string; value: string };
@@ -185,12 +193,12 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 								<CommonDateRangeBox id="operationDate" defaultFromValue={localDate} />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={12} lg={4} xxl={3}>
-							<CommonGroupLabel required={false} label="From地点">
-								<CommonComboBox id="fromLocation" list={locationList} showKey={true} />
+						<Col md={12} lg={5} xxl={4}>
+							<CommonGroupLabel required={true} label="From地点">
+								<CommonComboBox id="fromLocation" list={locationList} showKey={true} defaultValue="FOKFKC" />
 							</CommonGroupLabel>
 						</Col>
-						<Col md={12} lg={4} xxl={3}>
+						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={false} label="To地点">
 								<CommonComboBox id="toLocation" list={locationList} showKey={true} />
 							</CommonGroupLabel>
@@ -254,6 +262,14 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 	const [selectedRouteId, setSelectedRouteId] = useState(rows[0]?.routeCourse ?? null);
 	const selectedRoute = rows.find((route) => route.routeCourse === selectedRouteId);
 	const vehicles = selectedRoute?.vehicles ?? [];
+	const [contextMenu, setContextMenu] = useState<ContextMenuState>({ x: 0, y: 0, vehicle: null, show: false });
+
+	const handleContextMenu = (event: MouseEvent, vehicle: ViecleNumber) => {
+		event.preventDefault();
+		setContextMenu({ x: event.clientX, y: event.clientY, vehicle, show: true });
+	};
+
+	const hideContextMenu = () => setContextMenu((prev) => ({ ...prev, show: false, vehicle: null }));
 
 	return (
 		<Row className="gy-3">
@@ -265,7 +281,10 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 						<button
 							type="button"
 							key={route.routeCourse}
-							onClick={() => setSelectedRouteId(route.routeCourse)}
+							onClick={() => {
+								setSelectedRouteId(route.routeCourse);
+								hideContextMenu();
+							}}
 							className={`w-100 text-start border rounded p-3 shadow-sm d-flex flex-column gap-2 ${
 								isSelected ? "bg-primary text-white border-primary" : "bg-light text-body"
 							}`}
@@ -293,7 +312,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 				})}
 			</Col>
 
-			<Col lg={7}>
+			<Col lg={7} onClick={hideContextMenu} className="position-relative">
 				<div className="border rounded p-3 bg-white shadow-sm h-100">
 					{selectedRoute ? (
 						<div className="d-flex flex-column gap-3 h-100">
@@ -315,7 +334,10 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 								<Row className="g-3">
 									{vehicles.map((vehicle) => (
 										<Col sm={12} md={6} xl={4} key={vehicle.id}>
-											<div className="border rounded p-2 bg-white shadow-sm h-100 d-flex flex-column gap-2">
+											<div
+												className="border rounded p-2 bg-white shadow-sm h-100 d-flex flex-column gap-2"
+												onContextMenu={(event) => handleContextMenu(event, vehicle)}
+											>
 												<div className="d-flex justify-content-between align-items-center">
 													<div className="fw-semibold">車番 {vehicle.vehicleNo}</div>
 													<Badge bg="secondary" text="light">
@@ -342,6 +364,20 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 						<div className="text-muted">ルートコースを選択してください</div>
 					)}
 				</div>
+				{contextMenu.show && contextMenu.vehicle && (
+					<div
+						className="position-fixed bg-white border rounded shadow-sm"
+						style={{ top: contextMenu.y, left: contextMenu.x, zIndex: 1080, minWidth: "160px" }}
+						onClick={(event) => event.stopPropagation()}
+					>
+						<Button variant="link" className="w-100 text-start px-3 py-2" onClick={hideContextMenu}>
+							車番入力
+						</Button>
+						<Button variant="link" className="w-100 text-start px-3 py-2" onClick={hideContextMenu}>
+							ドライバー選択
+						</Button>
+					</div>
+				)}
 			</Col>
 		</Row>
 	);
