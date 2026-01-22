@@ -215,13 +215,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 				</footer>
 			</section>
 
-			<Modal
-				show={showDetailModal}
-				onHide={closeDetailModal}
-				dialogClassName="modal-xxl"
-				fullscreen="lg-down"
-				scrollable
-			>
+			<Modal show={showDetailModal} onHide={closeDetailModal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>請求明細</Modal.Title>
 				</Modal.Header>
@@ -252,12 +246,12 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 										<th>
 											<span className="table-header-text">請求運賃</span>
 										</th>
-										<th>
+										{/* <th>
 											<span className="table-header-text">請求立替金</span>
 										</th>
 										<th>
 											<span className="table-header-text">請求合計金額</span>
-										</th>
+										</th> */}
 									</tr>
 								</thead>
 								<tbody>
@@ -269,8 +263,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 											<td>{row.slipOrInquiryNo}</td>
 											<td>{row.deliveryDestination}</td>
 											<td className="text-end">{row.billingFare}</td>
-											<td className="text-end">{row.billingAdvance}</td>
-											<td className="text-end">{row.billingTotal}</td>
+											{/* <td className="text-end">{row.billingAdvance}</td> */}
+											{/* <td className="text-end">{row.billingTotal}</td> */}
 										</tr>
 									))}
 								</tbody>

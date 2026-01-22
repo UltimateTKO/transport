@@ -2,7 +2,7 @@
 
 import { CSSProperties, Fragment } from "react";
 import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
-import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark } from "@/components/CommonComponent";
+import { CommonGroupLabel, CommonComboBox, CommonDateRangeBox, RequiredMark } from "@/components/CommonComponent";
 
 type ListItem = { key: string; value: string };
 
@@ -52,7 +52,7 @@ const toPastYearMonths = (monthValue: string): MonthInfo[] => {
 		return [];
 	}
 
-	return Array.from({ length: 12 }, (_, index) => {
+	return Array.from({ length: 5 }, (_, index) => {
 		const date = new Date(year, month - 1 - index, 1);
 		return {
 			label: `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}`,
@@ -60,6 +60,18 @@ const toPastYearMonths = (monthValue: string): MonthInfo[] => {
 			month: date.getMonth() + 1,
 		};
 	});
+};
+
+const toPreviousMonth = (monthValue: string): string => {
+	const [yearText, monthText] = monthValue.split("-");
+	const year = Number(yearText);
+	const month = Number(monthText);
+	if (!year || !month) {
+		return "";
+	}
+
+	const date = new Date(year, month - 5, 1);
+	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 };
 
 const formatAmount = (value: number) => value.toLocaleString("ja-JP");
@@ -85,19 +97,17 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 		},
 		{
 			billingCustomer: "九州倉庫",
-			fare: [
-				2000000, 1800000, 1900000, 2000000, 2500000, 2000000, 1900000, 1900000, 2000000, 2000000, 1800000, 2000000,
-			],
+			fare: [2000000, 1800000, 1900000, 2000000, 2500000, 2000000, 1900000, 1900000, 2000000, 2000000, 1800000, 2000000],
 			advance: [200000, 180000, 190000, 200000, 250000, 200000, 190000, 190000, 200000, 200000, 180000, 200000],
 		},
 		{
 			billingCustomer: "古賀倉庫",
-			fare: [
-				1500000, 1100000, 1300000, 1500000, 2000000, 1500000, 1300000, 1300000, 1500000, 2000000, 1100000, 1500000,
-			],
+			fare: [1500000, 1100000, 1300000, 1500000, 2000000, 1500000, 1300000, 1300000, 1500000, 2000000, 1100000, 1500000],
 			advance: [200000, 150000, 170000, 200000, 250000, 200000, 170000, 170000, 200000, 250000, 150000, 200000],
 		},
 	];
+
+	const monthlyTotals = months.map((_, index) => rows.reduce((sum, row) => sum + (row.fare[index] ?? 0), 0));
 
 	return (
 		<Container fluid>
@@ -109,9 +119,14 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 
 				<Form>
 					<Row className="gx-1 gy-2 mb-4">
-						<Col md={12} lg={4} xxl={3}>
+						<Col md={12} lg={6} xxl={5}>
 							<CommonGroupLabel required={true} label="請求年月">
-								<CommonInputBox id="invoiceMonth" type="month" defaultValue={localMonth} />
+								<CommonDateRangeBox
+									id="invoiceMonth"
+									defaultFromValue={toPreviousMonth(localMonth)}
+									defaultToValue={localMonth}
+									type="month"
+								/>
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
@@ -133,22 +148,12 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 						<thead>
 							<tr className="table-primary">
 								<th
-									rowSpan={2}
 									style={{
 										minWidth: rem(billingCustomerColWidthRem),
-										...makeStickyStyle(stickyOffsets.first, "var(--bs-table-bg)", 6),
+										...makeStickyStyle(stickyOffsets.first, "var(--bs-table-bg)", 5),
 									}}
 								>
 									<span className="table-header-text">請求先</span>
-								</th>
-								<th
-									rowSpan={2}
-									style={{
-										minWidth: rem(typeColWidthRem),
-										...makeStickyStyle(stickyOffsets.second, "var(--bs-table-bg)", 6),
-									}}
-								>
-									<span className="table-header-text">運賃/立替金</span>
 								</th>
 								{months.map((month) => (
 									<th key={`${month.year}-${month.month}`} className="text-center" style={{ minWidth: "6.5rem" }}>
@@ -158,6 +163,22 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 							</tr>
 						</thead>
 						<tbody>
+							<tr className="table-secondary">
+								<td
+									className="align-middle fw-bold"
+									style={{
+										minWidth: rem(billingCustomerColWidthRem),
+										...makeStickyStyle(stickyOffsets.first, "#e9ecef", 5),
+									}}
+								>
+									合計
+								</td>
+								{months.map((month, index) => (
+									<td key={`total-${month.year}-${month.month}`} className="text-end fw-semibold">
+										{renderAmount(monthlyTotals[index] ?? null)}
+									</td>
+								))}
+							</tr>
 							{rows.map((row) => {
 								const fareTotal = row.fare.reduce((sum, value) => sum + value, 0);
 								const advanceTotal = row.advance.reduce((sum, value) => sum + value, 0);
@@ -167,7 +188,6 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 									<Fragment key={row.billingCustomer}>
 										<tr>
 											<td
-												rowSpan={3}
 												className="align-middle fw-semibold bg-white"
 												style={{
 													minWidth: rem(billingCustomerColWidthRem),
@@ -176,59 +196,11 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 											>
 												{row.billingCustomer}
 											</td>
-											<td
-												className="bg-white"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
-												}}
-											>
-												運賃
-											</td>
 											{months.map((month, index) => (
 												<td key={`fare-${row.billingCustomer}-${month.label}`} className="text-end">
 													{renderAmount(row.fare[index] ?? null)}
 												</td>
 											))}
-										</tr>
-										<tr>
-											<td
-												className="bg-white"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
-												}}
-											>
-												立替金
-											</td>
-											{months.map((month, index) => (
-												<td key={`advance-${row.billingCustomer}-${month.label}`} className="text-end">
-													{renderAmount(row.advance[index] ?? null)}
-												</td>
-											))}
-										</tr>
-										<tr className="table-secondary">
-											<td
-												className="fw-semibold"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#e9ecef", 4),
-												}}
-											>
-												合計
-											</td>
-											{months.map((month, index) => {
-												const fareValue = row.fare[index] ?? null;
-												const advanceValue = row.advance[index] ?? null;
-												const monthlyTotal =
-													fareValue === null && advanceValue === null ? null : (fareValue ?? 0) + (advanceValue ?? 0);
-
-												return (
-													<td key={`total-${row.billingCustomer}-${month.label}`} className="text-end fw-semibold">
-														{renderAmount(monthlyTotal)}
-													</td>
-												);
-											})}
 										</tr>
 									</Fragment>
 								);
