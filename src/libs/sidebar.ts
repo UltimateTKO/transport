@@ -106,10 +106,10 @@ export function GetSidebarData() {
 					id: "sales005",
 					label: "■売上照会",
 				},
-				{
-					id: "sales010",
-					label: "■売上明細",
-				},
+				// {
+				// 	id: "sales010",
+				// 	label: "■売上明細",
+				// },
 				{
 					id: "sales020",
 					label: "■売上推移表",

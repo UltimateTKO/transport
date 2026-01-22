@@ -70,6 +70,8 @@ const formatAmount = (value: number) => value.toLocaleString("ja-JP");
 const renderAmount = (value: number | null) => (value === null ? "" : formatAmount(value));
 
 export default function Sales020Client({ localMonth }: Sales020ClientProps) {
+	const endDay = 28;
+
 	const deptList: ListItem[] = [
 		{ key: "FOKFKC", value: "福岡かすやINC" },
 		{ key: "FOKK2C", value: "福岡かすや第2センター" },
@@ -83,35 +85,32 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const baseRows: SalesTrendRow[] = [
 		{
 			requestor: "福岡倉庫",
-			fare: [
-				99000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500,
-				9500, 0, 0, 0, 0,
-			],
+			fare: [0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
 			requestor: "九州倉庫",
-			fare: [
-				189000, 0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0,
-				0, 0, 0, 21000, 21000, 0,
-			],
-			advance: [
-				10800, 0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0,
-				1200, 1200, 0,
-			],
+			fare: [0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0],
+			advance: [0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0],
 		},
 		{
 			requestor: "古賀倉庫",
-			fare: [
-				117000, 0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0,
-				0, 0, 0, 0, 12000, 12000,
-			],
-			advance: [
-				15000, 0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0,
-				0, 1500, 1500,
-			],
+			fare: [0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000],
+			advance: [0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500],
 		},
 	];
+
+	// fareとadvanceの合計
+	const rowsSums = baseRows.map((row) => ({
+		fare: row.fare.slice(0, endDay).reduce((sum, val) => sum + val, 0),
+		advance: row.advance.slice(0, endDay).reduce((sum, val) => sum + val, 0),
+	}));
+
+	for (let i = 0; i < baseRows.length; i++) {
+		// fareとadvanceの先頭に挿入
+		baseRows[i].fare.unshift(rowsSums[i].fare);
+		baseRows[i].advance.unshift(rowsSums[i].advance);
+	}
 
 	const altRows: SalesTrendRow[] = baseRows.map((row) => ({
 		requestor: `${row.requestor}`,
@@ -135,10 +134,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			{isLoading ? (
-				<div
-					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
-					style={{ zIndex: 1050 }}
-				>
+				<div className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2" style={{ zIndex: 1050 }}>
 					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
 					<span className="text-muted small">再計算中...</span>
 				</div>
@@ -191,7 +187,6 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						<thead>
 							<tr className="table-primary">
 								<th
-									rowSpan={2}
 									style={{
 										minWidth: rem(requestorColWidthRem),
 										...makeStickyStyle(stickyOffsets.first, "var(--bs-table-bg)", 6),
@@ -199,23 +194,14 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 								>
 									<span className="table-header-text">依頼元</span>
 								</th>
+
 								<th
-									rowSpan={2}
 									style={{
-										minWidth: rem(typeColWidthRem),
+										minWidth: rem(totalColWidthRem),
 										...makeStickyStyle(stickyOffsets.second, "var(--bs-table-bg)", 6),
 									}}
 								>
-									<span className="table-header-text">運賃/立替金</span>
-								</th>
-								<th
-									rowSpan={2}
-									style={{
-										minWidth: rem(totalColWidthRem),
-										...makeStickyStyle(stickyOffsets.third, "var(--bs-table-bg)", 6),
-									}}
-								>
-									<span className="table-header-text">合計額</span>
+									<span className="table-header-text">運賃合計額</span>
 								</th>
 								{days.map((day) => (
 									<th key={day.day} className="text-center" style={{ minWidth: "3.5rem" }}>
@@ -227,20 +213,16 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const visibleFare = days.map((day, index) => (day.day >= 20 ? null : (row.fare[index + 1] ?? null)));
-								const visibleAdvance = days.map((day, index) =>
-									day.day >= 20 ? null : (row.advance[index + 1] ?? null),
-								);
+								const visibleFare = days.map((day, index) => (day.day >= endDay ? null : (row.fare[index + 1] ?? null)));
+								const visibleAdvance = days.map((day, index) => (day.day >= endDay ? null : (row.advance[index + 1] ?? null)));
 								const fareFirst = row.fare[0] ?? null;
 								const advanceFirst = row.advance[0] ?? null;
-								const combinedFirst =
-									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
+								const combinedFirst = fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
 										<tr>
 											<td
-												rowSpan={3}
 												className="align-middle fw-semibold bg-white"
 												style={{
 													minWidth: rem(requestorColWidthRem),
@@ -250,19 +232,10 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 												{row.requestor}
 											</td>
 											<td
-												className="bg-white"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
-												}}
-											>
-												運賃
-											</td>
-											<td
 												className="text-end fw-semibold bg-white"
 												style={{
 													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
+													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
 												}}
 											>
 												{renderAmount(fareFirst)}
@@ -270,56 +243,6 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 											{visibleFare.map((value, index) => (
 												<td key={`fare-${row.requestor}-${index}`} className="text-end">
 													{renderAmount(value)}
-												</td>
-											))}
-										</tr>
-										<tr>
-											<td
-												className="bg-white"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
-												}}
-											>
-												立替金
-											</td>
-											<td
-												className="text-end fw-semibold bg-white"
-												style={{
-													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#fff", 4),
-												}}
-											>
-												{renderAmount(advanceFirst)}
-											</td>
-											{visibleAdvance.map((value, index) => (
-												<td key={`advance-${row.requestor}-${index}`} className="text-end">
-													{renderAmount(value)}
-												</td>
-											))}
-										</tr>
-										<tr className="table-secondary">
-											<td
-												className="fw-semibold"
-												style={{
-													minWidth: rem(typeColWidthRem),
-													...makeStickyStyle(stickyOffsets.second, "#e9ecef", 4),
-												}}
-											>
-												合計
-											</td>
-											<td
-												className="text-end fw-semibold"
-												style={{
-													minWidth: rem(totalColWidthRem),
-													...makeStickyStyle(stickyOffsets.third, "#e9ecef", 4),
-												}}
-											>
-												{renderAmount(combinedFirst)}
-											</td>
-											{visibleFare.map((value, index) => (
-												<td key={`total-${row.requestor}-${index}`} className="text-end fw-semibold">
-													{renderAmount(value === null ? null : value + (visibleAdvance[index] ?? 0))}
 												</td>
 											))}
 										</tr>
