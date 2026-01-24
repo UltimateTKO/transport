@@ -2,7 +2,13 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
-import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
+import {
+	CommonGroupLabel,
+	CommonComboBox,
+	CommonInputBox,
+	RequiredMark,
+	CommonDateRangeBox,
+} from "@/components/CommonComponent";
 
 type DeliveryInstructionDetail = {
 	id: string;
@@ -70,8 +76,9 @@ type DeliveryInstructionTableProps = {
 export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
-		{ key: "T2", value: "クール" },
+		{ key: "T2", value: "冷蔵" },
 		{ key: "T3", value: "冷凍" },
+		{ key: "T4", value: "超低温" },
 	];
 	const statusList: ListItem[] = [
 		{ key: "created", value: "データ作成" },
@@ -82,23 +89,27 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	];
 	// 地点マスタ
 	const locationList: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
-		{ key: "KGSKUE", value: "川内営業所" },
-		{ key: "KGSKKE", value: "加治木営業所" },
-		{ key: "KGSHOE", value: "日置営業所" },
-		{ key: "MYZMJE", value: "都城営業所" },
-		{ key: "MYZMJF", value: "都城フローズンセンター" },
-		{ key: "OITITK", value: "大分委託先" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
 	const orderSourceList: ListItem[] = [
-		{ key: "OS01", value: "福岡倉庫" },
-		{ key: "OS02", value: "九州倉庫" },
-		{ key: "OS03", value: "古賀倉庫" },
+		{ key: "OS01", value: "沖縄第一倉庫" },
+		{ key: "OS02", value: "琉球物流" },
+		{ key: "OS03", value: "友睦物流" },
 	];
 
 	const [showSignatureModal, setShowSignatureModal] = useState(false);
@@ -119,29 +130,29 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const rows: DeliveryInstructionHeader[] = [
 		{
 			id: 1,
-			instructionNo: "TR-2026-0001",
-			runDate: "2026/01/20",
-			loadingDate: "2026/01/19",
-			departureDate: "2026/01/20",
+			instructionNo: "2026010001",
+			runDate: "2026/01/28",
+			loadingDate: "2026/01/28",
+			departureDate: "2026/01/28",
 			unloadingPlanDate: "",
-			temperatureBand: "冷凍",
-			orderSource: "福岡倉庫",
-			officeCode: "福岡かすやINC",
-			inquirySlipNo: "20260001",
-			shipperCode: "福岡かすやINC",
-			consigneeCode: "CNS-110",
-			consigneeName: "業務スーパー 谷山店",
-			consigneePostalCode: "891-0141",
-			consigneeAddress: "鹿児島県鹿児島市谷山中央５丁目２９−29番6",
-			consigneePhone: "099-1234-5678",
-			consigneeFax: "099-1234-5679",
-			consigneeAddressCode: "TK-101",
-			consigneePrefectureCode: "46",
-			consigneeAreaCode: "46201",
-			consigneePrefecture: "鹿児島県",
-			consigneeCity: "鹿児島市",
-			consigneeTown: "谷山中央５丁目",
-			requestedArrivalTime: "-",
+			temperatureBand: "常温",
+			orderSource: "沖縄第一倉庫",
+			officeCode: "あんしん総合流通センター",
+			inquirySlipNo: "2026010001",
+			shipperCode: "キンザー営業所",
+			consigneeCode: "CNS-001",
+			consigneeName: "宗像堂",
+			consigneePostalCode: "901-0000",
+			consigneeAddress: "沖縄県宜野湾市嘉数0-0-0",
+			consigneePhone: "098-000-0000",
+			consigneeFax: "098-000-0001",
+			consigneeAddressCode: "ON-001",
+			consigneePrefectureCode: "47",
+			consigneeAreaCode: "47206",
+			consigneePrefecture: "沖縄県",
+			consigneeCity: "宜野湾市",
+			consigneeTown: "嘉数",
+			requestedArrivalTime: "",
 			quantityTotal: "10",
 			volume: "0.12",
 			weight: "20",
@@ -151,130 +162,130 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			details: [
 				{
 					id: "1-1",
-					instructionNo: "TR-2026-0001",
+					instructionNo: "2026010001",
 					detailNo: "001",
 					productCode: "PRD-001",
-					productName: "冷凍スープ",
-					manufactureDate: "2025/12/20",
-					bestBeforeDate: "2027/12/01",
-					lotNo: "AA100021",
+					productName: "加工食品",
+					manufactureDate: "2026/01/10",
+					bestBeforeDate: "2026/07/10",
+					lotNo: "20260110",
 					quantity: "3",
 					volume: "0.036",
 					weight: "6",
 					dimensionTotal: "210",
-					length: "40",
-					width: "30",
-					height: "20",
+					length: "",
+					width: "",
+					height: "",
 				},
 				{
 					id: "1-2",
-					instructionNo: "TR-2026-0001",
+					instructionNo: "2026010001",
 					detailNo: "002",
-					productCode: "PRD-014",
-					productName: "加工肉セット",
-					manufactureDate: "2025/12/20",
-					bestBeforeDate: "2027/12/01",
-					lotNo: "AA200022",
+					productCode: "PRD-002",
+					productName: "出汁スープ",
+					manufactureDate: "2026/01/15",
+					bestBeforeDate: "2026/07/15",
+					lotNo: "20260115",
 					quantity: "7",
 					volume: "0.084",
 					weight: "14",
 					dimensionTotal: "490",
-					length: "45",
-					width: "35",
-					height: "25",
+					length: "",
+					width: "",
+					height: "",
 				},
 			],
 		},
 		{
 			id: 2,
-			instructionNo: "TR-2026-0002",
-			runDate: "2026/01/20",
-			loadingDate: "2026/01/20",
-			departureDate: "2026/01/20",
+			instructionNo: "2026010002",
+			runDate: "2026/01/28",
+			loadingDate: "2026/01/28",
+			departureDate: "2026/01/28",
 			unloadingPlanDate: "",
-			orderSource: "九州倉庫",
+			orderSource: "沖縄第一倉庫",
 			temperatureBand: "常温",
-			officeCode: "福岡かすやINC",
-			inquirySlipNo: "20260002",
-			shipperCode: "九州倉庫",
-			consigneeCode: "CNS-220",
-			consigneeName: "福岡商店",
-			consigneePostalCode: "891-0150",
-			consigneeAddress: "福岡市早良区早良2丁目1番1号",
-			consigneePhone: "099-1111-2222",
-			consigneeFax: "099-1111-2223",
-			consigneeAddressCode: "OS-220",
-			consigneePrefectureCode: "40",
-			consigneeAreaCode: "40201",
-			consigneePrefecture: "福岡県",
-			consigneeCity: "福岡市",
-			consigneeTown: "早良２丁目",
-			requestedArrivalTime: "-",
+			officeCode: "あんしん総合流通センター",
+			inquirySlipNo: "2026010002",
+			shipperCode: "キンザー営業所",
+			consigneeCode: "CNS-002",
+			consigneeName: "たぬき弁当",
+			consigneePostalCode: "901-0001",
+			consigneeAddress: "沖縄県浦添市城間0-0-0",
+			consigneePhone: "098-000-0002",
+			consigneeFax: "098-000-0003",
+			consigneeAddressCode: "ON-002",
+			consigneePrefectureCode: "47",
+			consigneeAreaCode: "47207",
+			consigneePrefecture: "沖縄県",
+			consigneeCity: "浦添市",
+			consigneeTown: "城間",
+			requestedArrivalTime: "",
 			quantityTotal: "20",
 			volume: "0.24",
 			weight: "40",
 			dimensionTotal: "1400",
-			status: "配送完了",
-			receiver: "秋葉 光慶",
-			details: [],
-		},
-		{
-			id: 3,
-			instructionNo: "TR-2026-0003",
-			runDate: "2026/01/20",
-			loadingDate: "2026/01/20",
-			departureDate: "2026/01/20",
-			unloadingPlanDate: "2026/01/20",
-			orderSource: "古賀倉庫",
-			temperatureBand: "常温",
-			officeCode: "福岡かすやINC",
-			inquirySlipNo: "20260003",
-			shipperCode: "古賀倉庫",
-			consigneeCode: "CNS-220",
-			consigneeName: "平川マリーナマルシェ",
-			consigneePostalCode: "891-0150",
-			consigneeAddress: "鹿児島県鹿児島市平川町２８８４",
-			consigneePhone: "099-1111-2222",
-			consigneeFax: "099-1111-2223",
-			consigneeAddressCode: "OS-220",
-			consigneePrefectureCode: "46",
-			consigneeAreaCode: "46201",
-			consigneePrefecture: "鹿児島県",
-			consigneeCity: "鹿児島市",
-			consigneeTown: "谷山中央５丁目",
-			requestedArrivalTime: "14:00-16:00",
-			quantityTotal: "30",
-			volume: "0.36",
-			weight: "50",
-			dimensionTotal: "2100",
 			status: "運行中",
 			receiver: "",
 			details: [],
 		},
 		{
-			id: 4,
-			instructionNo: "TR-2026-0004",
-			runDate: "2026/01/20",
-			loadingDate: "2026/01/20",
-			departureDate: "2026/01/20",
-			unloadingPlanDate: "2026/01/20",
-			orderSource: "古賀倉庫",
+			id: 3,
+			instructionNo: "2026010003",
+			runDate: "2026/01/28",
+			loadingDate: "2026/01/28",
+			departureDate: "2026/01/28",
+			unloadingPlanDate: "2026/01/28",
+			orderSource: "琉球物流",
 			temperatureBand: "常温",
-			officeCode: "福岡かすやINC",
-			inquirySlipNo: "20260004",
-			shipperCode: "古賀倉庫",
-			consigneeCode: "CNS-220",
-			consigneeName: "平川マリーナマルシェ",
-			consigneePostalCode: "891-0150",
-			consigneeAddress: "鹿児島県鹿児島市平川町２８８４",
-			consigneePhone: "099-1111-2222",
-			consigneeFax: "099-1111-2223",
-			consigneeAddressCode: "OS-220",
-			consigneePrefectureCode: "46",
-			consigneeAreaCode: "46201",
-			consigneePrefecture: "鹿児島県",
-			consigneeCity: "鹿児島市",
-			consigneeTown: "谷山中央５丁目",
+			officeCode: "あんしん総合流通センター",
+			inquirySlipNo: "2026010003",
+			shipperCode: "キンザー営業所",
+			consigneeCode: "CNS-003",
+			consigneeName: "牛吉 牧港店",
+			consigneePostalCode: "901-0002",
+			consigneeAddress: "沖縄県宜野湾市嘉数0-0-1",
+			consigneePhone: "098-000-0004",
+			consigneeFax: "098-000-0005",
+			consigneeAddressCode: "ON-003",
+			consigneePrefectureCode: "47",
+			consigneeAreaCode: "47206",
+			consigneePrefecture: "沖縄県",
+			consigneeCity: "宜野湾市",
+			consigneeTown: "嘉数",
+			requestedArrivalTime: "8:00-12:00",
+			quantityTotal: "30",
+			volume: "0.36",
+			weight: "50",
+			dimensionTotal: "2100",
+			status: "配送完了",
+			receiver: "秋葉　光慶",
+			details: [],
+		},
+		{
+			id: 4,
+			instructionNo: "2026010004",
+			runDate: "2026/01/28",
+			loadingDate: "2026/01/28",
+			departureDate: "2026/01/28",
+			unloadingPlanDate: "2026/01/28",
+			orderSource: "友睦物流",
+			temperatureBand: "冷凍",
+			officeCode: "あんしん総合流通センター",
+			inquirySlipNo: "2026010004",
+			shipperCode: "キンザー営業所",
+			consigneeCode: "CNS-004",
+			consigneeName: "イタリアン料理 mou",
+			consigneePostalCode: "901-0003",
+			consigneeAddress: "沖縄県宜野湾市志真志0-0-0",
+			consigneePhone: "098-000-0006",
+			consigneeFax: "098-000-0007",
+			consigneeAddressCode: "ON-004",
+			consigneePrefectureCode: "47",
+			consigneeAreaCode: "47206",
+			consigneePrefecture: "沖縄県",
+			consigneeCity: "宜野湾市",
+			consigneeTown: "志真志",
 			requestedArrivalTime: "14:00-16:00",
 			quantityTotal: "5",
 			volume: "0.06",
@@ -298,7 +309,12 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 					<Row className="gx-1 gy-2 mb-4">
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={true} label="受注営業所">
-								<CommonComboBox id="officeCode" list={locationList} showKey={true} defaultValue="FOKFKC" />
+								<CommonComboBox
+									id="officeCode"
+									list={locationList.filter((location) => location.key.startsWith("O"))}
+									showKey={true}
+									defaultValue="O001"
+								/>
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -313,7 +329,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="発注元">
-								<CommonComboBox id="orderSource" list={orderSourceList} showKey={true} />
+								<CommonComboBox id="orderSource" list={orderSourceList} showKey={true} defaultValue="OS01" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -387,7 +403,9 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 }
 
 function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstructionTableProps) {
-	const [expandedRows, setExpandedRows] = useState<number[]>([]);
+	const [expandedRows, setExpandedRows] = useState<number[]>(() =>
+		rows.filter((row) => row.details.length > 0).map((row) => row.id),
+	);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
 	};
@@ -406,12 +424,6 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 						</th>
 						<th>
 							<span className="table-header-text">受注日</span>
-						</th>
-						<th>
-							<span className="table-header-text">ステータス</span>
-						</th>
-						<th>
-							<span className="table-header-text">受領者</span>
 						</th>
 						<th>
 							<span className="table-header-text">納品指定日</span>
@@ -447,7 +459,16 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 							<span className="table-header-text">実重量/容積重</span>
 						</th>
 						<th>
-							<span className="table-header-text">寸法(cm)</span>
+							<span className="table-header-text">寸法</span>
+						</th>
+						<th>
+							<span className="table-header-text">受領者</span>
+						</th>
+						<th>
+							<span className="table-header-text">サイン</span>
+						</th>
+						<th>
+							<span className="table-header-text">ステータス</span>
 						</th>
 					</tr>
 				</thead>
@@ -471,12 +492,6 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 								</td>
 								<td>{row.inquirySlipNo}</td>
 								<td>{row.runDate}</td>
-								<td>{row.status}</td>
-								<td>
-									<Button variant="link" type="button" className="p-0 text-decoration-none" onClick={() => onShowSignature(row)}>
-										{row.receiver}
-									</Button>
-								</td>
 								<td>{row.unloadingPlanDate}</td>
 								<td>{row.temperatureBand}</td>
 								<td>{row.orderSource}</td>
@@ -486,16 +501,32 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 								<td>{row.consigneeAddress}</td>
 								<td>{row.requestedArrivalTime}</td>
 								<td className="text-end">{row.quantityTotal}</td>
-								<td>{row.volume}</td>
+								<td className="text-end">{row.volume}</td>
 								<td className="text-end">{row.weight}</td>
 								<td className="text-end">{row.dimensionTotal}</td>
+								<td>{row.receiver}</td>
+								<td>
+									{row.receiver ? (
+										<Button
+											variant="link"
+											type="button"
+											className="p-0 text-decoration-none"
+											onClick={() => onShowSignature(row)}
+										>
+											受領ボタン
+										</Button>
+									) : (
+										""
+									)}
+								</td>
+								<td>{row.status}</td>
 							</tr>
 
 							{expandedRows.includes(row.id) && (
 								<tr className="bg-light">
 									<td></td>
-									<td colSpan={16} className="p-0">
-										<div className="table-responsive border rounded w-50">
+									<td colSpan={18} className="p-0">
+										<div className="table-responsive border rounded w-75">
 											<Table className="mb-0 table-bordered table-sm table-striped align-middle">
 												<thead>
 													<tr className="table-secondary">
