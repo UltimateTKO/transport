@@ -62,7 +62,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "operation020",
-					label: "■車番/ドライバー照会",
+					label: "■車番確定",
 				},
 			],
 		},
