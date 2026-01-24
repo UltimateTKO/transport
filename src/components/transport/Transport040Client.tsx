@@ -36,45 +36,69 @@ type Transport040ClientProps = {
 	localDate: string;
 };
 
+const formatNumber = (value: number) => value.toFixed(2).replace(/\.0+$/, "").replace(/\.$/, "");
+
+const computeTotals = (stops: Array<RouteStop | null>) => {
+	let weight = 0;
+	let volume = 0;
+	let slips = 0;
+
+	stops.forEach((stop) => {
+		if (!stop) return;
+		const weightNum = parseFloat(stop.weight) || 0;
+		const volumeNum = parseFloat(stop.volume) || 0;
+		const slipsNum = parseInt(stop.slips, 10) || 0;
+		weight += weightNum;
+		volume += volumeNum;
+		slips += slipsNum;
+	});
+
+	return {
+		weight: `${formatNumber(weight)}Kg`,
+		volume: `${formatNumber(volume)}m3`,
+		slips: `${slips}伝票`,
+	};
+};
+
 const initialRoutes: RoutePanel[] = [
 	{
 		id: "route-1",
-		label: "南九州物流センター",
-		carNo: "1001",
+		label: "キンザー営業所",
+		carNo: "2232",
 		carKind: "3トン平ボディ",
 		maxLoad: "3,000Kg",
-		maxVolume: "13㎥",
+		maxVolume: "13m3",
 		isFinal: true,
 		totals: {
-			weight: "30Kg",
-			volume: "15㎥",
+			weight: "110Kg",
+			volume: "0.72m3",
 			slips: "3伝票",
 		},
 		stops: [
 			{
 				id: "r1-1",
 				tag: "CM",
-				name: "ホームプラザナフコ 谷山店",
-				weight: "10Kg",
-				volume: "5㎥",
+				name: "宗像堂",
+				weight: "20Kg",
+				volume: "0.12m3",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
 			{
 				id: "r1-2",
 				tag: "CM",
-				name: "コメダ珈琲店 鹿児島七ツ島店",
-				weight: "10Kg",
-				volume: "3㎥",
+				name: "たぬき弁当",
+				weight: "40Kg",
+				volume: "0.24m3",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
 			{
 				id: "r1-3",
 				tag: "CM",
-				name: "喫茶店ひまわり・占い",
-				weight: "10Kg",
-				volume: "2㎥",
+				name: "牛吉 牧港店",
+				weight: "50Kg",
+				volume: "0.36m3",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
@@ -83,24 +107,24 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-2",
-		label: "南九州物流センター",
-		carNo: "1002",
+		label: "キンザー営業所",
+		carNo: "2233",
 		carKind: "2トン箱車",
 		maxLoad: "2,000Kg",
-		maxVolume: "10㎥",
+		maxVolume: "10m3",
 		isFinal: false,
 		totals: {
 			weight: "40Kg",
-			volume: "5㎥",
+			volume: "1m3",
 			slips: "1伝票",
 		},
 		stops: [
 			{
 				id: "r2-1",
 				tag: "CM",
-				name: "平川マリーナマルシェ",
+				name: "オーズカンパニー",
 				weight: "40Kg",
-				volume: "4㎥",
+				volume: "1m3",
 				slips: "1伝票",
 				tempClass: "ambient",
 			},
@@ -111,24 +135,24 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-3",
-		label: "南九州物流センター",
-		carNo: "1003",
+		label: "キンザー営業所",
+		carNo: "2234",
 		carKind: "2トン冷蔵車",
 		maxLoad: "1,500Kg",
-		maxVolume: "9㎥",
+		maxVolume: "9m3",
 		isFinal: false,
 		totals: {
 			weight: "15Kg",
-			volume: "5㎥",
+			volume: "1m3",
 			slips: "1伝票",
 		},
 		stops: [
 			{
 				id: "r3-1",
 				tag: "CM",
-				name: "サンキュー和田店",
+				name: "caféポンチェ",
 				weight: "15Kg",
-				volume: "4㎥",
+				volume: "1m3",
 				slips: "1伝票",
 				tempClass: "cool",
 			},
@@ -139,24 +163,24 @@ const initialRoutes: RoutePanel[] = [
 	},
 	{
 		id: "route-4",
-		label: "鹿児島総合",
-		carNo: "2004",
+		label: "沖縄急送",
+		carNo: "5222",
 		carKind: "5トン冷凍車",
 		maxLoad: "",
 		maxVolume: "",
 		isFinal: false,
 		totals: {
-			weight: "1Kg",
-			volume: "5㎥",
+			weight: "15Kg",
+			volume: "2m3",
 			slips: "1伝票",
 		},
 		stops: [
 			{
 				id: "r4-1",
-				tag: "CN",
-				name: "業務スーパー谷山店",
-				weight: "1Kg",
-				volume: "5㎥",
+				tag: "CM",
+				name: "イタリアン料理 mou",
+				weight: "15Kg",
+				volume: "2m3",
 				slips: "1伝票",
 				tempClass: "frozen",
 			},
@@ -180,25 +204,27 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 	// 営業所一覧
 	const offices: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
-		{ key: "KGSKUE", value: "川内営業所" },
-		{ key: "KGSKKE", value: "加治木営業所" },
-		{ key: "KGSHOE", value: "日置営業所" },
-		{ key: "MYZMJE", value: "都城営業所" },
-		{ key: "MYZMJF", value: "都城フローズンセンター" },
-		{ key: "OITITK", value: "大分委託先" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
 	const carriers: ListItem[] = [
-		{ key: "Y0000", value: "園田陸運 株式会社" },
-		{ key: "Y1000", value: "南九州トランスポート" },
-		{ key: "Y1001", value: "九州第一運輸" },
-		{ key: "Y1002", value: "福岡貨物運送株式会社" },
-		{ key: "Y1003", value: "鹿児島総合運送" },
+		{ key: "Y0000", value: "沖縄物流" },
+		{ key: "Y1000", value: "沖縄急送" },
+		{ key: "Y1001", value: "パルス物流" },
 	];
 	const vehicleNumbers: ListItem[] = [
 		{ key: "1001", value: "1001" },
@@ -209,74 +235,64 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 	// ルートコースリスト
 	const routeCourses: ListItem[] = [
-		{ key: "MTKSY001", value: "かすや-二又瀬" },
-		{ key: "MTKSY002", value: "かすや-鳥栖" },
-		{ key: "MTKSY003", value: "かすや-南九州" },
-		{ key: "MTKSY004", value: "かすや-都城" },
-		{ key: "MTKSY005", value: "かすや-都城F" },
-		{ key: "MTKSY006", value: "かすや-かすや第2" },
-		{ key: "MTKSY007", value: "かすや-大分" },
+		{ key: "OUADCOUGBO", value: "総合流通-ギンザー" },
+		{ key: "OUADCONHBO", value: "総合流通-那覇営業所" },
+		{ key: "OUADCONABO", value: "総合流通-あんしん館" },
+		{ key: "OUADCONNBO", value: "総合流通-西原営業所" },
+		{ key: "OUADCDNHDO", value: "総合流通-那覇港" },
+		{ key: "OUADCCC001", value: "総合流通-コース1" },
+		{ key: "OUADCCC002", value: "総合流通-コース2" },
+		{ key: "OUADCCC003", value: "総合流通-コース3" },
 
-		{ key: "CSKSY001", value: "かすやコース1" },
-		{ key: "CSKSY002", value: "かすやコース2" },
-		{ key: "CSKSY003", value: "かすやコース3" },
+		{ key: "OUGBOOUADC", value: "ギンザー-総合流通" },
+		{ key: "OUGBOOUMDC", value: "ギンザー-港町物流センター" },
+		{ key: "OUGBOCC001", value: "ギンザー-コース1" },
+		{ key: "OUGBOCC002", value: "ギンザー-コース2" },
+		{ key: "OUGBOCC003", value: "ギンザー-コース3" },
 
-		{ key: "CSKSYSECOND001", value: "かすや第2コース1" },
-		{ key: "CSKSYSECOND002", value: "かすや第2コース2" },
-		{ key: "CSKSYSECOND003", value: "かすや第2コース3" },
+		{ key: "OUMDCOUGBO", value: "港町物流センター-ギンザー" },
+		{ key: "OUMDCONFDC", value: "港町物流センター-西原FDC" },
+		{ key: "OUMDCDNHDO", value: "港町物流センター-那覇港" },
+		{ key: "OUMDCCC001", value: "港町物流センター-コース1" },
+		{ key: "OUMDCCC002", value: "港町物流センター-コース2" },
+		{ key: "OUMDCCC003", value: "港町物流センター-コース3" },
 
-		{ key: "CSFMS001", value: "二又瀬コース1" },
-		{ key: "CSFMS002", value: "二又瀬コース1" },
-		{ key: "CSFMS003", value: "二又瀬コース1" },
+		{ key: "ONHBOOUADC", value: "那覇営業所-総合流通" },
+		{ key: "ONHBOCC001", value: "那覇営業所-コース1" },
+		{ key: "ONHBOCC002", value: "那覇営業所-コース2" },
+		{ key: "ONHBOCC003", value: "那覇営業所-コース3" },
 
-		{ key: "CSTOS001", value: "鳥栖コース1" },
-		{ key: "CSTOS002", value: "鳥栖コース2" },
-		{ key: "CSTOS003", value: "鳥栖コース3" },
+		{ key: "ONFDCOUMDC", value: "西原FDC-港町物流センター" },
+		{ key: "ONFDCCC001", value: "西原FDC-コース1" },
+		{ key: "ONFDCCC002", value: "西原FDC-コース2" },
+		{ key: "ONFDCCC003", value: "西原FDC-コース3" },
 
-		{ key: "MTMKS001", value: "南九州-鹿児島南" },
-		{ key: "MTMKS002", value: "南九州-川内" },
-		{ key: "MTMKS003", value: "南九州-加治木" },
-		{ key: "MTMKS004", value: "南九州-日置" },
+		{ key: "ONABOOUADC", value: "あんしん館-総合流通" },
+		{ key: "ONABOCC001", value: "あんしん館-コース1" },
+		{ key: "ONABOCC002", value: "あんしん館-コース2" },
+		{ key: "ONABOCC003", value: "あんしん館-コース3" },
 
-		{ key: "CSMKS001", value: "南九州コース1" },
-		{ key: "CSMKS002", value: "南九州コース2" },
-		{ key: "CSMKS003", value: "南九州コース3" },
+		{ key: "ONNBOOUADC", value: "西原営業所-総合流通" },
+		{ key: "ONNBOCC001", value: "西原営業所-コース1" },
+		{ key: "ONNBOCC002", value: "西原営業所-コース2" },
+		{ key: "ONNBOCC003", value: "西原営業所-コース3" },
 
-		{ key: "CSKGS001", value: "鹿児島南コース1" },
-		{ key: "CSKGS002", value: "鹿児島南コース2" },
-		{ key: "CSKGS003", value: "鹿児島南コース3" },
+		{ key: "DNHDOOUADC", value: "那覇港-総合流通" },
+		{ key: "DNHDOOUMDC", value: "那覇港-港町物流センター" },
+		{ key: "DNHDODOMDO", value: "那覇港-宮古港" },
+		{ key: "DNHDODHTDO", value: "那覇港-博多港" },
+		{ key: "DNHDODOODO", value: "那覇港-大阪港" },
+		{ key: "DNHDODYHDO", value: "那覇港-横浜港" },
 
-		{ key: "CSKCH001", value: "川内コース1" },
-		{ key: "CSKCH002", value: "川内コース2" },
-		{ key: "CSKCH003", value: "川内コース3" },
+		{ key: "DOMDODNHDO", value: "宮古港-那覇港" },
+		{ key: "DHTDODNHDO", value: "博多港-那覇港" },
+		{ key: "DOODODNHDO", value: "大阪港-那覇港" },
+		{ key: "DYHDODNHDO", value: "横浜港-那覇港" },
 
-		{ key: "CSKKJK001", value: "加治木コース1" },
-		{ key: "CSKKJK002", value: "加治木コース2" },
-		{ key: "CSKKJK003", value: "加治木コース3" },
-
-		{ key: "KGSHOEC001", value: "日置コース1" },
-		{ key: "KGSHOEC002", value: "日置コース2" },
-
-		{ key: "CSMNJ001", value: "都城コース1" },
-		{ key: "CSMNJ002", value: "都城コース2" },
-		{ key: "CSMNJ003", value: "都城コース3" },
-
-		{ key: "CSMNJF001", value: "都城Fコース1" },
-		{ key: "CSMNJF002", value: "都城Fコース2" },
-		{ key: "CSMNJF003", value: "都城Fコース3" },
-
-		// { key: "FOKFMCK001", value: "二又瀬-かすや" },
-		// { key: "SAGTKAS001", value: "鳥栖-かすや" },
-		// { key: "KGSMKCK005", value: "南九州-かすや" },
-		// { key: "MYZMJEK001", value: "都城-かすや" },
-		// { key: "MYZMJFK001", value: "都城F-かすや" },
-		// { key: "FOKK2CK001", value: "かすや第2-かすや" },
-		// { key: "OITITKK001", value: "大分-かすや" },
-
-		// { key: "KGSKMCK001", value: "鹿児島南-南九州" },
-		// { key: "KGSKUEK001", value: "川内-南九州" },
-		// { key: "KGSKKEK001", value: "加治木-南九州" },
-		// { key: "KGSHOEK001", value: "日置-南九州" },
+		{ key: "DOMDOZZZZZ", value: "宮古港-納品先" },
+		{ key: "DHTDOZZZZZ", value: "博多港-納品先" },
+		{ key: "DOODOZZZZZ", value: "大阪港-納品先" },
+		{ key: "DYHDOZZZZZ", value: "横浜港-納品先" },
 	];
 
 	const handleStopDragStart = (routeId: string, stopIndex: number) => (event: React.DragEvent<HTMLDivElement>) => {
@@ -364,8 +380,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		setRoutes((prev) => prev.map((route) => ({ ...route, isFinal: true })));
 	};
 
-	const mapUrl =
-		"https://www.google.com/maps/d/u/0/edit?mid=1z3uHVCAoh7JqeNNRr2HovTmQD1SU-6Y&hl=ja&ll=31.490663202239276%2C130.53182827145432&z=13";
+	const mapUrl = "https://www.google.com/maps/d/u/0/edit?mid=1uMBDI2E7k8kuaokqu60lCJdpEOujFck&usp=sharing";
 
 	const handleMapClick = () => {
 		const popup = window.open(mapUrl, "transport040-map", "popup=yes,width=1200,height=800,noopener,noreferrer");
@@ -375,6 +390,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	};
 
 	const maxStops = Math.max(...routes.map((route) => route.stops.length));
+	const routesWithTotals = routes.map((route) => ({ ...route, totals: computeTotals(route.stops) }));
 
 	useEffect(() => {
 		if (!contextMenu) return;
@@ -411,14 +427,20 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						</Col>
 						<Col md={12} xl={4}>
 							<CommonGroupLabel required={true} label="営業所">
-								<CommonComboBox id="office" list={offices} showKey={true} defaultValue="KGSMKC" readOnly />
+								<CommonComboBox
+									id="office"
+									list={offices.filter((office) => office.key.startsWith("O"))}
+									showKey={true}
+									defaultValue="OUGBO"
+									readOnly
+								/>
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} xl={4}>
 							<CommonGroupLabel required={true} label="ルートコース">
 								<CommonComboBox
 									id="routeCourse"
-									list={routeCourses.filter((course) => course.key.includes("CS") && course.key.includes("MKS"))}
+									list={routeCourses.filter((course) => course.key.includes("OUGBOCC"))}
 									defaultValue="CSMKS001"
 									showKey={true}
 								/>
@@ -474,7 +496,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						<div className="transport040-cell transport040-sticky bg-primary-subtle text-primary fw-semibold">
 							配送ルート
 						</div>
-						{routes.map((route) => (
+						{routesWithTotals.map((route) => (
 							<div key={route.id} className="transport040-cell transport040-route-head bg-primary-subtle">
 								<Row className="d-flex align-items-start">
 									<Col xs="9" className="text-primary">
@@ -500,7 +522,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						<div className="transport040-cell transport040-sticky bg-body-secondary text-secondary fw-semibold">
 							出荷指示合計
 						</div>
-						{routes.map((route) => (
+						{routesWithTotals.map((route) => (
 							<div key={`${route.id}-totals`} className="transport040-cell bg-body-secondary">
 								<div className="small text-muted text-end">{route.totals.weight}</div>
 								<div className="small text-muted text-end">{route.totals.volume}</div>
@@ -513,7 +535,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 								<div className="transport040-cell transport040-sticky text-center fw-semibold bg-light">
 									{rowIndex + 1}
 								</div>
-								{routes.map((route) => {
+								{routesWithTotals.map((route) => {
 									const stop = route.stops[rowIndex];
 									const isDragOver = dragOverCell?.routeId === route.id && dragOverCell.stopIndex === rowIndex;
 									return (
