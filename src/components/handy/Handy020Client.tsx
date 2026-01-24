@@ -25,13 +25,64 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 	];
 
 	const routecourses: ListItem[] = [
-		{ key: "FOKFKCK001", value: "かすや-二又瀬" },
-		{ key: "FOKFKCK002", value: "かすや-鳥栖" },
-		{ key: "FOKFKCK003", value: "かすや-南九州" },
-		{ key: "FOKFKCK004", value: "かすや-都城" },
-		{ key: "FOKFKCK005", value: "かすや-都城F" },
-		{ key: "FOKFKCK006", value: "かすや-かすや第2" },
-		{ key: "FOKFKCK007", value: "かすや-大分" },
+		{ key: "OUADCOUGBO", value: "総合流通-ギンザー" },
+		{ key: "OUADCONHBO", value: "総合流通-那覇営業所" },
+		{ key: "OUADCONABO", value: "総合流通-あんしん館" },
+		{ key: "OUADCONNBO", value: "総合流通-西原営業所" },
+		{ key: "OUADCDNHDO", value: "総合流通-那覇港" },
+		{ key: "OUADCCC001", value: "総合流通-コース1" },
+		{ key: "OUADCCC002", value: "総合流通-コース2" },
+		{ key: "OUADCCC003", value: "総合流通-コース3" },
+
+		{ key: "OUGBOOUADC", value: "ギンザー-総合流通" },
+		{ key: "OUGBOOUMDC", value: "ギンザー-港町物流センター" },
+		{ key: "OUGBOCC001", value: "ギンザー-コース1" },
+		{ key: "OUGBOCC002", value: "ギンザー-コース2" },
+		{ key: "OUGBOCC003", value: "ギンザー-コース3" },
+
+		{ key: "OUMDCOUGBO", value: "港町物流センター-ギンザー" },
+		{ key: "OUMDCONFDC", value: "港町物流センター-西原FDC" },
+		{ key: "OUMDCDNHDO", value: "港町物流センター-那覇港" },
+		{ key: "OUMDCCC001", value: "港町物流センター-コース1" },
+		{ key: "OUMDCCC002", value: "港町物流センター-コース2" },
+		{ key: "OUMDCCC003", value: "港町物流センター-コース3" },
+
+		{ key: "ONHBOOUADC", value: "那覇営業所-総合流通" },
+		{ key: "ONHBOCC001", value: "那覇営業所-コース1" },
+		{ key: "ONHBOCC002", value: "那覇営業所-コース2" },
+		{ key: "ONHBOCC003", value: "那覇営業所-コース3" },
+
+		{ key: "ONFDCOUMDC", value: "西原FDC-港町物流センター" },
+		{ key: "ONFDCCC001", value: "西原FDC-コース1" },
+		{ key: "ONFDCCC002", value: "西原FDC-コース2" },
+		{ key: "ONFDCCC003", value: "西原FDC-コース3" },
+
+		{ key: "ONABOOUADC", value: "あんしん館-総合流通" },
+		{ key: "ONABOCC001", value: "あんしん館-コース1" },
+		{ key: "ONABOCC002", value: "あんしん館-コース2" },
+		{ key: "ONABOCC003", value: "あんしん館-コース3" },
+
+		{ key: "ONNBOOUADC", value: "西原営業所-総合流通" },
+		{ key: "ONNBOCC001", value: "西原営業所-コース1" },
+		{ key: "ONNBOCC002", value: "西原営業所-コース2" },
+		{ key: "ONNBOCC003", value: "西原営業所-コース3" },
+
+		{ key: "DNHDOOUADC", value: "那覇港-総合流通" },
+		{ key: "DNHDOOUMDC", value: "那覇港-港町物流センター" },
+		{ key: "DNHDODOMDO", value: "那覇港-宮古港" },
+		{ key: "DNHDODHTDO", value: "那覇港-博多港" },
+		{ key: "DNHDODOODO", value: "那覇港-大阪港" },
+		{ key: "DNHDODYHDO", value: "那覇港-横浜港" },
+
+		{ key: "DOMDODNHDO", value: "宮古港-那覇港" },
+		{ key: "DHTDODNHDO", value: "博多港-那覇港" },
+		{ key: "DOODODNHDO", value: "大阪港-那覇港" },
+		{ key: "DYHDODNHDO", value: "横浜港-那覇港" },
+
+		{ key: "DOMDOZZZZZ", value: "宮古港-納品先" },
+		{ key: "DHTDOZZZZZ", value: "博多港-納品先" },
+		{ key: "DOODOZZZZZ", value: "大阪港-納品先" },
+		{ key: "DYHDOZZZZZ", value: "横浜港-納品先" },
 	];
 
 	// 1画面目 -> 車番選択（route）
@@ -124,7 +175,7 @@ export default function Handy020Client({ localDate }: Handy020ClientProps) {
 												>
 													<CommonComboBox
 														id="operationRoute"
-														list={routecourses}
+														list={routecourses.filter((route) => route.key.startsWith("OUG"))}
 														showKey={true}
 														value={selectedRoute}
 														onChange={(e) => setSelectedRoute(e.target.value)}
