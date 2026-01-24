@@ -16,20 +16,13 @@ type Tablet010ClientProps = {
 type ScreenMode = "form" | "signature";
 
 export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientProps) {
-	const destinationList = useMemo(
-		() => [
-			{ key: "D001", value: "ホームプラザナフコ 谷山店" },
-			{ key: "D002", value: "コメダ珈琲店 鹿児島七ツ島店" },
-			{ key: "D003", value: "喫茶店ひまわり・占い" },
-		],
-		[],
-	);
+	const destinationList = useMemo(() => [{ key: "D001", value: "オーズカンパニー" }], []);
 
 	const receiverList = useMemo(
 		() => [
-			{ key: "A1001", value: "高田　悟" },
-			{ key: "A1002", value: "野田　浩二" },
-			{ key: "A1003", value: "谷本　徹" },
+			{ key: "A1001", value: "宮里　元" },
+			{ key: "A1002", value: "仲村渠　裕也" },
+			{ key: "A1003", value: "阿波根　耕哉" },
 		],
 		[],
 	);
@@ -41,7 +34,7 @@ export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientPro
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const contextRef = useRef<CanvasRenderingContext2D | null>(null);
 
-	const vehicleNo = "1234";
+	const vehicleNo = "2233";
 
 	const handleReceive = () => {
 		if (!destination || !receiver) {
