@@ -38,90 +38,76 @@ type TrackingFormState = TrackingInput[];
 const TRACKING_DATA: TrackingResult[] = [
 	{
 		id: 1,
-		trackingNo: "202601200001",
-		departDate: "2026/1/19",
-		shipper: "福岡かすやINC",
-		consignee: "平川マリーナマルシェ",
-		status: "輸送中",
-		deliveryDate: "",
-		details: [
-			{
-				id: "1",
-				departAt: "",
-				arriveAt: "2026/1/19  09:00:00",
-				fromLocation: "福岡倉庫",
-				toLocation: "福岡かすやINC",
-			},
-			{
-				id: "2",
-				departAt: "2026/1/19  13:00:00",
-				arriveAt: "2026/1/19  18:00:00",
-				fromLocation: "福岡かすやINC",
-				toLocation: "南九州物流センター",
-			},
-			{
-				id: "3",
-				departAt: "2026/1/20  08:00:00",
-				arriveAt: "",
-				fromLocation: "南九州物流センター",
-				toLocation: "平川マリーナマルシェ",
-			},
-		],
-	},
-	{
-		id: 2,
-		trackingNo: "202601200002",
-		departDate: "2026/1/19",
-		shipper: "福岡倉庫",
-		consignee: "福岡商店",
-		deliveryDate: "",
-		status: "受付",
-		details: [
-			{
-				id: "1",
-				departAt: "",
-				arriveAt: "2026/1/19  09:00:00",
-				fromLocation: "福岡倉庫",
-				toLocation: "福岡かすやINC",
-			},
-		],
-	},
-	{
-		id: 3,
-		trackingNo: "202601200003",
-		departDate: "2026/1/18",
-		shipper: "鳥栖倉庫",
-		consignee: "業務スーパー 谷山店",
-		deliveryDate: "2026/1/19",
+		trackingNo: "2026012800001",
+		departDate: "2026/01/20",
+		shipper: "沖縄第一倉庫",
+		consignee: "オーズカンパニー",
+		deliveryDate: "2026/01/21",
 		status: "納品済",
 		details: [
 			{
 				id: "1",
 				departAt: "",
-				arriveAt: "2026/1/18  12:00:00",
-				fromLocation: "鳥栖倉庫",
-				toLocation: "鳥栖営業所",
+				arriveAt: "2026/01/20 15:00",
+				fromLocation: "沖縄第一倉庫",
+				toLocation: "キンザー営業所",
 			},
 			{
 				id: "2",
-				departAt: "2026/1/18  14:00:00",
-				arriveAt: "2026/1/18  18:00:00",
-				fromLocation: "鳥栖営業所",
-				toLocation: "福岡かすやINC",
+				departAt: "2026/01/21 08:00",
+				arriveAt: "2026/01/21 10:00",
+				fromLocation: "キンザー営業所",
+				toLocation: "あんしん総合流通センター",
 			},
 			{
 				id: "3",
-				departAt: "2026/1/19  08:00:00",
-				arriveAt: "2026/1/19  12:00:00",
-				fromLocation: "福岡かすやINC",
-				toLocation: "南九州物流センター",
+				departAt: "2026/01/21 15:00",
+				arriveAt: "2026/01/21 18:00",
+				fromLocation: "あんしん総合流通センター",
+				toLocation: "オーズカンパニー",
+			},
+		],
+	},
+	{
+		id: 2,
+		trackingNo: "2026012800002",
+		departDate: "2026/01/28",
+		shipper: "港町物流センター",
+		consignee: "caféポンチェ",
+		deliveryDate: "2026/01/28",
+		status: "輸送中",
+		details: [
+			{
+				id: "1",
+				departAt: "2026/01/28 08:00",
+				arriveAt: "2026/01/28 10:00",
+				fromLocation: "港町物流センター",
+				toLocation: "キンザー営業所",
 			},
 			{
-				id: "4",
-				departAt: "2026/1/19  15:00:00",
-				arriveAt: "2026/1/19  17:00:00",
-				fromLocation: "南九州物流センター",
-				toLocation: "業務スーパー 谷山店",
+				id: "2",
+				departAt: "2026/01/28 13:00",
+				arriveAt: "",
+				fromLocation: "キンザー営業所",
+				toLocation: "caféポンチェ",
+			},
+		],
+	},
+	{
+		id: 3,
+		trackingNo: "2026012800003",
+		departDate: "2026/01/28",
+		shipper: "沖縄第一倉庫",
+		consignee: "イタリアン料理 mou",
+		deliveryDate: "2026/01/29",
+		status: "受付",
+		details: [
+			{
+				id: "1",
+				departAt: "",
+				arriveAt: "2026/01/28 09:00",
+				fromLocation: "友睦物流",
+				toLocation: "キンザー営業所",
 			},
 		],
 	},
@@ -149,9 +135,9 @@ const filterRows = (state: TrackingFormState): TrackingResult[] => {
 };
 
 const INITIAL_FORM_STATE: TrackingFormState = applyStatuses([
-	{ value: "202601200001", status: "" },
-	{ value: "202601200002", status: "" },
-	{ value: "202601200003", status: "" },
+	{ value: "2026012800001", status: "" },
+	{ value: "2026012800002", status: "" },
+	{ value: "2026012800003", status: "" },
 ]);
 
 export default function Transport050Client() {
@@ -163,7 +149,9 @@ export default function Transport050Client() {
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) => prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)));
+		setFormState((prev) =>
+			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
+		);
 	};
 
 	const handleAddInput = () => {
@@ -197,13 +185,13 @@ export default function Transport050Client() {
 							<Col md={12} lg={4} xxl={4}>
 								<CommonGroupLabel
 									required={index === 0}
-									label="伝票No/問い合わせNo"
+									label="問合せNo/伝票No"
 									style={{ gridTemplateColumns: "10rem minmax(0, 1fr)" }}
 								>
 									<CommonInputBox
 										id={`trackingNo-${index}`}
 										value={input.value}
-										placeholder="伝票No/問い合わせNoを入力"
+										placeholder="問合せNo/伝票Noを入力"
 										onChange={handleTrackingChange(index)}
 									/>
 								</CommonGroupLabel>
@@ -290,7 +278,7 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 					<tr className="table-primary">
 						<th style={{ width: "2.5rem" }}></th>
 						<th>
-							<span className="table-header-text">伝票No/問い合わせNo</span>
+							<span className="table-header-text">問合せNo/伝票No</span>
 						</th>
 						<th>
 							<span className="table-header-text">出発日</span>
