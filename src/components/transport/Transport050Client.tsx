@@ -26,7 +26,6 @@ type TrackingResult = {
 
 type TrackingResultTableProps = {
 	rows: TrackingResult[];
-	onShowSignature: (row: TrackingResult) => void;
 };
 
 type TrackingInput = {
@@ -164,9 +163,7 @@ export default function Transport050Client() {
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) =>
-			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
-		);
+		setFormState((prev) => prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)));
 	};
 
 	const handleAddInput = () => {
@@ -179,11 +176,6 @@ export default function Transport050Client() {
 			setTableRows(filterRows(next));
 			return next;
 		});
-	};
-
-	const handleShowSignature = (row: TrackingResult) => {
-		setSelectedTrackingNo(row.trackingNo);
-		setShowSignatureModal(true);
 	};
 
 	const handleCloseSignature = () => {
@@ -236,7 +228,7 @@ export default function Transport050Client() {
 			</section>
 
 			<section className="panel-block">
-				<TrackingResultTable rows={tableRows} onShowSignature={handleShowSignature} />
+				<TrackingResultTable rows={tableRows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 					<div className="d-flex align-items-center gap-2">
@@ -269,7 +261,7 @@ export default function Transport050Client() {
 					<Modal.Title>受領確認{selectedTrackingNo ? ` - ${selectedTrackingNo}` : ""}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="text-center">
-					<img src="/サイン.png" alt="受領サイン" className="img-fluid" />
+					<img src="/サイン秋葉.png" alt="受領サイン" className="img-fluid" />
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleCloseSignature}>
@@ -281,7 +273,7 @@ export default function Transport050Client() {
 	);
 }
 
-function TrackingResultTable({ rows, onShowSignature }: TrackingResultTableProps) {
+function TrackingResultTable({ rows }: TrackingResultTableProps) {
 	const [expandedRows, setExpandedRows] = useState<number[]>([]);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
@@ -313,9 +305,6 @@ function TrackingResultTable({ rows, onShowSignature }: TrackingResultTableProps
 							<span className="table-header-text">納品先</span>
 						</th>
 						<th>
-							<span className="table-header-text">受領確認</span>
-						</th>
-						<th>
 							<span className="table-header-text">ステータス</span>
 						</th>
 					</tr>
@@ -340,11 +329,6 @@ function TrackingResultTable({ rows, onShowSignature }: TrackingResultTableProps
 								<td>{row.deliveryDate}</td>
 								<td>{row.shipper}</td>
 								<td>{row.consignee}</td>
-								<td>
-									<Button className="btn btn-gradient px-3" type="button" onClick={() => onShowSignature(row)}>
-										受領確認
-									</Button>
-								</td>
 								<td>{row.status}</td>
 							</tr>
 

@@ -1,14 +1,8 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
-import {
-	CommonGroupLabel,
-	CommonComboBox,
-	CommonInputBox,
-	RequiredMark,
-	CommonDateRangeBox,
-} from "@/components/CommonComponent";
+import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
+import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
 
 type DeliveryInstructionDetail = {
 	id: string;
@@ -57,6 +51,7 @@ type DeliveryInstructionHeader = {
 	volume: string;
 	weight: string;
 	dimensionTotal: string;
+	receiver: string;
 	status: string;
 	details: DeliveryInstructionDetail[];
 };
@@ -69,6 +64,7 @@ type Orders040ClientProps = {
 
 type DeliveryInstructionTableProps = {
 	rows: DeliveryInstructionHeader[];
+	onShowSignature: (row: DeliveryInstructionHeader) => void;
 };
 
 export default function Orders040Client({ localDate }: Orders040ClientProps) {
@@ -104,6 +100,22 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 		{ key: "OS02", value: "九州倉庫" },
 		{ key: "OS03", value: "古賀倉庫" },
 	];
+
+	const [showSignatureModal, setShowSignatureModal] = useState(false);
+	const [selectedInstructionNo, setSelectedInstructionNo] = useState<string | null>(null);
+	const [selectedReceiver, setSelectedReceiver] = useState<string | null>(null);
+
+	const handleShowSignature = (row: DeliveryInstructionHeader) => {
+		setSelectedInstructionNo(row.instructionNo);
+		setSelectedReceiver(row.receiver);
+		setShowSignatureModal(true);
+	};
+
+	const handleCloseSignature = () => {
+		setShowSignatureModal(false);
+		setSelectedInstructionNo(null);
+		setSelectedReceiver(null);
+	};
 	const rows: DeliveryInstructionHeader[] = [
 		{
 			id: 1,
@@ -135,6 +147,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			weight: "20",
 			dimensionTotal: "700",
 			status: "運行中",
+			receiver: "",
 			details: [
 				{
 					id: "1-1",
@@ -202,6 +215,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			weight: "40",
 			dimensionTotal: "1400",
 			status: "配送完了",
+			receiver: "秋葉 光慶",
 			details: [],
 		},
 		{
@@ -234,6 +248,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			weight: "50",
 			dimensionTotal: "2100",
 			status: "運行中",
+			receiver: "",
 			details: [],
 		},
 		{
@@ -266,6 +281,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			weight: "15",
 			dimensionTotal: "350",
 			status: "データ作成",
+			receiver: "",
 			details: [],
 		},
 	];
@@ -324,7 +340,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 						キャンセル
 					</Button>
 				</div>
-				<DeliveryInstructionTable rows={rows} />
+				<DeliveryInstructionTable rows={rows} onShowSignature={handleShowSignature} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 					<div className="d-flex align-items-center gap-2">
@@ -350,12 +366,27 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 
 					<div className="small text-muted">全 0 アイテム中 0 から 0 を表示中</div>
 				</footer>
+
+				<Modal show={showSignatureModal} onHide={handleCloseSignature} centered size="lg">
+					<Modal.Header closeButton>
+						<Modal.Title>受領確認{selectedInstructionNo ? ` - ${selectedInstructionNo}` : ""}</Modal.Title>
+					</Modal.Header>
+					<Modal.Body className="text-center">
+						{selectedReceiver && <div className="mb-3 fw-semibold">{selectedReceiver}</div>}
+						<img src="/サイン秋葉.png" alt="受領サイン" className="img-fluid" />
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="secondary" onClick={handleCloseSignature}>
+							閉じる
+						</Button>
+					</Modal.Footer>
+				</Modal>
 			</section>
 		</Container>
 	);
 }
 
-function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
+function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstructionTableProps) {
 	const [expandedRows, setExpandedRows] = useState<number[]>([]);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
@@ -375,6 +406,12 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 						</th>
 						<th>
 							<span className="table-header-text">受注日</span>
+						</th>
+						<th>
+							<span className="table-header-text">ステータス</span>
+						</th>
+						<th>
+							<span className="table-header-text">受領者</span>
 						</th>
 						<th>
 							<span className="table-header-text">納品指定日</span>
@@ -412,9 +449,6 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 						<th>
 							<span className="table-header-text">寸法(cm)</span>
 						</th>
-						<th>
-							<span className="table-header-text">ステータス</span>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -427,9 +461,7 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 										size="sm"
 										className="px-2 py-0"
 										onClick={() => toggleRow(row.id)}
-										aria-label={`${row.instructionNo}の配送指示明細を${
-											expandedRows.includes(row.id) ? "閉じる" : "開く"
-										}`}
+										aria-label={`${row.instructionNo}の配送指示明細を${expandedRows.includes(row.id) ? "閉じる" : "開く"}`}
 									>
 										{expandedRows.includes(row.id) ? "-" : "+"}
 									</Button>
@@ -439,6 +471,12 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 								</td>
 								<td>{row.inquirySlipNo}</td>
 								<td>{row.runDate}</td>
+								<td>{row.status}</td>
+								<td>
+									<Button variant="link" type="button" className="p-0 text-decoration-none" onClick={() => onShowSignature(row)}>
+										{row.receiver}
+									</Button>
+								</td>
 								<td>{row.unloadingPlanDate}</td>
 								<td>{row.temperatureBand}</td>
 								<td>{row.orderSource}</td>
@@ -451,7 +489,6 @@ function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 								<td>{row.volume}</td>
 								<td className="text-end">{row.weight}</td>
 								<td className="text-end">{row.dimensionTotal}</td>
-								<td>{row.status}</td>
 							</tr>
 
 							{expandedRows.includes(row.id) && (

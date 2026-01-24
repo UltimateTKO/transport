@@ -34,7 +34,7 @@ export function GetSidebarData() {
 				},
 				{
 					id: "orders040",
-					label: "■配送依頼照会",
+					label: "■配送照会",
 				},
 			],
 		},
