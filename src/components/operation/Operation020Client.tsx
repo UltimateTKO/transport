@@ -20,7 +20,6 @@ type VehicleNumber = {
 	unloadingDate: string;
 	dispatchDeptCode: string;
 	temperatureBand: string;
-	transportType: string;
 	ownCharterClass: string;
 	transportDeptCode: string;
 };
@@ -31,6 +30,7 @@ type OperationPlanRow = {
 	fromLocation: string;
 	toLocation: string;
 	vehicles: VehicleNumber[];
+	transportType: string;
 };
 
 type ContextMenuState = {
@@ -53,163 +53,246 @@ type OperationTableProps = {
 export default function Operation020Client({ localDate }: Operation020ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
-		{ key: "T2", value: "クール" },
+		{ key: "T2", value: "冷蔵" },
 		{ key: "T3", value: "冷凍" },
+		{ key: "T4", value: "超低温" },
 	];
 	const transportList: ListItem[] = [
 		{ key: "01", value: "集荷" },
-		{ key: "02", value: "地域外幹線" },
+		{ key: "02", value: "ドレージ" },
 		{ key: "03", value: "地域内幹線" },
 		{ key: "04", value: "配送" },
+		{ key: "05", value: "委託" },
+		{ key: "06", value: "海運" },
 	];
 	// 運送業者マスタ
 	const carriers: ListItem[] = [
-		{ key: "Y1000", value: "南九州トランスポート" },
-		{ key: "Y1001", value: "九州第一運輸" },
-		{ key: "Y1002", value: "福岡貨物運送株式会社" },
-		{ key: "Y1003", value: "鹿児島総合運送" },
+		{ key: "C1001", value: "沖縄物流" },
+		{ key: "C1002", value: "沖縄急送" },
+		{ key: "C1003", value: "琉球海運" },
 	];
 	// 地点マスタ
 	const locationList: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
-		{ key: "KGSKUE", value: "川内営業所" },
-		{ key: "KGSKKE", value: "加治木営業所" },
-		{ key: "KGSHOE", value: "日置営業所" },
-		{ key: "MYZMJE", value: "都城営業所" },
-		{ key: "MYZMJF", value: "都城フローズンセンター" },
-		{ key: "OITITK", value: "大分委託先" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
+
 	const operationPlans: OperationPlanRow[] = [
 		{
 			id: 1,
-			routeCourse: "かすや-南九州",
-			fromLocation: "福岡かすやINC",
-			toLocation: "南九州物流センター",
+			routeCourse: "あんしん→キンザー",
+			fromLocation: "あんしん総合流通センター",
+			toLocation: "キンザー営業所",
+			transportType: "地域内幹線",
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "1201",
-					provisionalVehicleNo: "9000",
-					driverName: "石谷 一郎",
+					vehicleNo: "1233",
+					provisionalVehicleNo: "1001",
+					driverName: "比嘉　一郎",
 					assistant: "",
-					driverPhone: "090-000-0000",
-					status: "運行中",
-					operationDate: "2026/01/20",
-					loadingDate: "2026/01/19",
-					departureDate: "2026/01/20",
-					unloadingDate: "2026/01/20",
-					dispatchDeptCode: "福岡かすやINC",
+					driverPhone: "090-0000-0000",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "あんしん総合流通センター",
 					temperatureBand: "常温",
-					transportType: "地域外幹線",
-					ownCharterClass: "自車",
+					ownCharterClass: "自",
 					transportDeptCode: "",
 				},
 				{
 					id: 2,
-					vehicleNo: "1202",
-					provisionalVehicleNo: "9001",
-					driverName: "浜田 次郎",
+					vehicleNo: "1234",
+					provisionalVehicleNo: "1002",
+					driverName: "山城　次郎",
 					assistant: "",
-					driverPhone: "090-111-1111",
-					status: "運行中",
-					operationDate: "2026/01/20",
-					loadingDate: "2026/01/19",
-					departureDate: "2026/01/20",
-					unloadingDate: "2026/01/20",
-					dispatchDeptCode: "福岡かすやINC",
+					driverPhone: "090-1111-1111",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "あんしん総合流通センター",
 					temperatureBand: "常温",
-					transportType: "地域外幹線",
-					ownCharterClass: "自車",
+					ownCharterClass: "自",
 					transportDeptCode: "",
 				},
 			],
 		},
 		{
 			id: 2,
-			routeCourse: "かすや-都城F",
-			fromLocation: "福岡かすやINC",
-			toLocation: "都城フローズンセンター",
+			routeCourse: "あんしん→那覇港",
+			fromLocation: "あんしん総合流通センター",
+			toLocation: "那覇港",
+			transportType: "ドレージ",
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "3001",
-					provisionalVehicleNo: "2001",
-					driverName: "加藤 三郎",
-					assistant: "ー",
-					driverPhone: "090-000-0000",
+					vehicleNo: "4231",
+					provisionalVehicleNo: "9999",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
 					status: "データ作成",
-					operationDate: "2026/01/20",
-					loadingDate: "2026/01/20",
-					departureDate: "2026/01/20",
-					unloadingDate: "2026/01/20",
-					dispatchDeptCode: "福岡かすやINC",
-					temperatureBand: "冷凍",
-					transportType: "地域外幹線",
-					ownCharterClass: "自車",
-					transportDeptCode: "",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "沖縄物流",
+					temperatureBand: "常温",
+					ownCharterClass: "庸",
+					transportDeptCode: "沖縄物流",
 				},
 			],
 		},
 		{
 			id: 3,
-			routeCourse: "かすや-大分",
-			fromLocation: "福岡かすやINC",
-			toLocation: "大分委託先",
+			routeCourse: "キンザー",
+			fromLocation: "キンザー営業所",
+			toLocation: "",
+			transportType: "配送",
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "1210",
-					provisionalVehicleNo: "4001",
-					driverName: "上田 仁",
-					assistant: "ー",
-					driverPhone: "090-000-0000",
-					status: "配送完了",
-					operationDate: "2026/01/20",
-					loadingDate: "2026/01/19",
-					departureDate: "2026/01/20",
-					unloadingDate: "2026/01/20",
-					dispatchDeptCode: "福岡かすやINC",
+					vehicleNo: "2232",
+					provisionalVehicleNo: "2001",
+					driverName: "金城　三郎",
+					assistant: "",
+					driverPhone: "090-2222-2222",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "キンザー営業所",
 					temperatureBand: "常温",
-					transportType: "地域外幹線",
-					ownCharterClass: "自車",
+					ownCharterClass: "自",
 					transportDeptCode: "",
+				},
+				{
+					id: 2,
+					vehicleNo: "2233",
+					provisionalVehicleNo: "2002",
+					driverName: "上田　仁",
+					assistant: "",
+					driverPhone: "090-3333-3333",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "キンザー営業所",
+					temperatureBand: "常温",
+					ownCharterClass: "自",
+					transportDeptCode: "",
+				},
+				{
+					id: 3,
+					vehicleNo: "2234",
+					provisionalVehicleNo: "2003",
+					driverName: "玉城　徹",
+					assistant: "",
+					driverPhone: "090-4444-44444",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "キンザー営業所",
+					temperatureBand: "冷蔵",
+					ownCharterClass: "自",
+					transportDeptCode: "",
+				},
+				{
+					id: 4,
+					vehicleNo: "5222",
+					provisionalVehicleNo: "9999",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "沖縄急送",
+					temperatureBand: "冷凍",
+					ownCharterClass: "庸",
+					transportDeptCode: "沖縄急送",
 				},
 			],
 		},
 		{
 			id: 4,
-			routeCourse: "二又瀬-かすや",
-			fromLocation: "二又瀬物流センター",
-			toLocation: "福岡かすやINC",
+			routeCourse: "那覇港→あんしん",
+			fromLocation: "那覇港",
+			toLocation: "あんしん総合流通センター",
+			transportType: "ドレージ",
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "1210",
-					provisionalVehicleNo: "4001",
-					driverName: "上田 仁",
-					assistant: "ー",
-					driverPhone: "090-000-0000",
-					status: "配送完了",
-					operationDate: "2026/01/20",
-					loadingDate: "2026/01/19",
-					departureDate: "2026/01/20",
-					unloadingDate: "2026/01/20",
-					dispatchDeptCode: "二又瀬物流センター",
+					vehicleNo: "4231",
+					provisionalVehicleNo: "9999",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "沖縄物流",
 					temperatureBand: "常温",
-					transportType: "地域外幹線",
-					ownCharterClass: "自車",
-					transportDeptCode: "",
+					ownCharterClass: "庸",
+					transportDeptCode: "沖縄物流",
+				},
+			],
+		},
+		{
+			id: 5,
+			routeCourse: "那覇港→博多港",
+			fromLocation: "那覇港",
+			toLocation: "博多港",
+			transportType: "海運",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "",
+					provisionalVehicleNo: "WK",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/30",
+					dispatchDeptCode: "琉球海運",
+					temperatureBand: "常温",
+					ownCharterClass: "庸",
+					transportDeptCode: "琉球海運",
 				},
 			],
 		},
 	];
 	const [filteredRows, setFilteredRows] = useState<OperationPlanRow[]>(operationPlans);
-	const [officeCode, setOfficeCode] = useState("");
+	const [officeCode, setOfficeCode] = useState("OUADC");
 
 	const handleSearch = (event?: FormEvent<HTMLFormElement>) => {
 		event?.preventDefault();
@@ -280,7 +363,12 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 
 function OperationPlanPanels({ rows }: OperationTableProps) {
 	const EMPTY_TO_LABEL = "To未設定";
-	const toLabel = (route: OperationPlanRow) => (route.toLocation?.trim() ? route.toLocation : EMPTY_TO_LABEL);
+	const toLabel = (route: OperationPlanRow) => {
+		const destination = route.toLocation?.trim();
+		if (destination) return destination;
+		const typeLabel = route.transportType?.trim();
+		return typeLabel || EMPTY_TO_LABEL;
+	};
 
 	const fromOptions = useMemo(
 		() => Array.from(new Set(rows.map((route) => route.fromLocation).filter(Boolean))),
@@ -400,9 +488,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 							<div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
 								<div className="d-flex flex-column">
 									<span className="fw-bold">{selectedRoute.routeCourse || "ルート名未設定"}</span>
-									<span className="text-muted small">
-										From {selectedRoute.fromLocation} → {toLabel(selectedRoute)}
-									</span>
+									<div className="small text-muted">運送区分: {selectedRoute.transportType || "-"} </div>
 								</div>
 								<Badge bg="info" text="dark">
 									{vehicles.length} 台
