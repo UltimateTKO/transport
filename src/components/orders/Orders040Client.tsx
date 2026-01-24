@@ -313,7 +313,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 									id="officeCode"
 									list={locationList.filter((location) => location.key.startsWith("O"))}
 									showKey={true}
-									defaultValue="O001"
+									defaultValue="OUADC"
 								/>
 							</CommonGroupLabel>
 						</Col>
