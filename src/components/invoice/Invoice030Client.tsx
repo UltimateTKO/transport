@@ -52,7 +52,7 @@ const toPastYearMonths = (monthValue: string): MonthInfo[] => {
 		return [];
 	}
 
-	return Array.from({ length: 5 }, (_, index) => {
+	return Array.from({ length: 12 }, (_, index) => {
 		const date = new Date(year, month - 1 - index, 1);
 		return {
 			label: `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}`,
@@ -70,7 +70,7 @@ const toPreviousMonth = (monthValue: string): string => {
 		return "";
 	}
 
-	const date = new Date(year, month - 5, 1);
+	const date = new Date(year, month - 11, 1);
 	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 };
 
@@ -79,31 +79,41 @@ const renderAmount = (value: number | null) => (value === null ? "" : formatAmou
 
 export default function Invoice030Client({ localMonth }: Invoice030ClientProps) {
 	const deptList: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
 
 	const months = toPastYearMonths(localMonth);
 
 	const rows: BillingTrendRow[] = [
 		{
-			billingCustomer: "福岡倉庫",
-			fare: [1000000, 900000, 950000, 1000000, 1500000, 1000000, 950000, 950000, 1000000, 1500000, 900000, 1000000],
-			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			billingCustomer: "沖縄第一倉庫",
+			fare: [127500, 100500, 100500, 117500, 127500, 127500, 117500, 117500, 117500, 117500, 117500, 127500],
+			advance: Array(12).fill(0),
 		},
 		{
-			billingCustomer: "九州倉庫",
-			fare: [2000000, 1800000, 1900000, 2000000, 2500000, 2000000, 1900000, 1900000, 2000000, 2000000, 1800000, 2000000],
-			advance: [200000, 180000, 190000, 200000, 250000, 200000, 190000, 190000, 200000, 200000, 180000, 200000],
+			billingCustomer: "琉球物流",
+			fare: [160000, 140000, 140000, 150000, 150000, 150000, 140000, 140000, 140000, 140000, 140000, 160000],
+			advance: Array(12).fill(0),
 		},
 		{
-			billingCustomer: "古賀倉庫",
-			fare: [1500000, 1100000, 1300000, 1500000, 2000000, 1500000, 1300000, 1300000, 1500000, 2000000, 1100000, 1500000],
-			advance: [200000, 150000, 170000, 200000, 250000, 200000, 170000, 170000, 200000, 250000, 150000, 200000],
+			billingCustomer: "友睦物流　",
+			fare: [120000, 100000, 120000, 100000, 120000, 120000, 120000, 100000, 100000, 100000, 100000, 120000],
+			advance: Array(12).fill(0),
 		},
 	];
 
@@ -131,7 +141,7 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門">
-								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="FOKFKC" />
+								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="OUADC" />
 							</CommonGroupLabel>
 						</Col>
 
