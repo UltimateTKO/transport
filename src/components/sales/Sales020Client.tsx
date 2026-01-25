@@ -73,30 +73,55 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const endDay = 28;
 
 	const deptList: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
 
 	const days = toMonthDays(localMonth);
 	const baseRows: SalesTrendRow[] = [
 		{
-			requestor: "福岡倉庫",
-			fare: [0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0],
+			requestor: "沖縄第一倉庫",
+			fare: [
+				0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500,
+				0, 0, 0, 0,
+			],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			requestor: "九州倉庫",
-			fare: [0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0],
-			advance: [0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0],
+			requestor: "琉球物流",
+			fare: [
+				0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0,
+			],
+			advance: [
+				0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200,
+				1200, 0,
+			],
 		},
 		{
-			requestor: "古賀倉庫",
-			fare: [0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000, 0, 0, 0, 0, 0, 12000, 12000],
-			advance: [0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500],
+			requestor: "友睦物流",
+			fare: [
+				0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 0,
+				0, 0, 0, 0,
+			],
+			advance: [
+				0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0,
+				1500, 1500,
+			],
 		},
 	];
 
@@ -134,7 +159,10 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			{isLoading ? (
-				<div className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2" style={{ zIndex: 1050 }}>
+				<div
+					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
+					style={{ zIndex: 1050 }}
+				>
 					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
 					<span className="text-muted small">再計算中...</span>
 				</div>
@@ -213,11 +241,16 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const visibleFare = days.map((day, index) => (day.day >= endDay ? null : (row.fare[index + 1] ?? null)));
-								const visibleAdvance = days.map((day, index) => (day.day >= endDay ? null : (row.advance[index + 1] ?? null)));
+								const visibleFare = days.map((day, index) =>
+									day.day >= endDay ? null : (row.fare[index + 1] ?? null),
+								);
+								const visibleAdvance = days.map((day, index) =>
+									day.day >= endDay ? null : (row.advance[index + 1] ?? null),
+								);
 								const fareFirst = row.fare[0] ?? null;
 								const advanceFirst = row.advance[0] ?? null;
-								const combinedFirst = fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
+								const combinedFirst =
+									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
