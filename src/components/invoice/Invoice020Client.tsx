@@ -44,9 +44,9 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{ key: "1", value: "請求済み" },
 	];
 	const billingCustomerList: ListItem[] = [
-		{ key: "C010", value: "福岡倉庫" },
-		{ key: "C020", value: "九州倉庫" },
-		{ key: "C030", value: "古賀倉庫" },
+		{ key: "C010", value: "沖縄第一倉庫" },
+		{ key: "C020", value: "琉球物流" },
+		{ key: "C030", value: "友睦物流" },
 	];
 	const [showDetailModal, setShowDetailModal] = useState(false);
 
@@ -55,30 +55,30 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 			id: 1,
 			invoiceNo: "20251210001",
 			invoiceMonth: "2025/12",
-			billingCustomerCode: "福岡倉庫",
-			billingFare: "420,000",
+			billingCustomerCode: "沖縄第一倉庫",
+			billingFare: "127,500",
 			billingAdvance: "20,000",
-			billingTotal: "440,000",
+			billingTotal: "147,500",
 			status: "請求済み",
 		},
 		{
 			id: 2,
 			invoiceNo: "20251210002",
 			invoiceMonth: "2025/12",
-			billingCustomerCode: "九州倉庫",
-			billingFare: "200,000",
+			billingCustomerCode: "琉球物流",
+			billingFare: "160,000",
 			billingAdvance: "10,000",
-			billingTotal: "210,000",
+			billingTotal: "170,000",
 			status: "請求済み",
 		},
 		{
 			id: 3,
 			invoiceNo: "20251210003",
 			invoiceMonth: "2025/12",
-			billingCustomerCode: "古賀倉庫",
-			billingFare: "150,000",
+			billingCustomerCode: "友睦物流",
+			billingFare: "120,000",
 			billingAdvance: "7,500",
-			billingTotal: "157,500",
+			billingTotal: "127,500",
 			status: "請求済み",
 		},
 	];
@@ -87,57 +87,145 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 1,
 			invoiceDetailNo: "1",
-			operationDate: "2025/12/02",
-			unloadingDate: "2025/12/03",
-			slipOrInquiryNo: "20251202000001",
-			deliveryDestination: "平川マリーナマルシェ",
-			billingFare: "120,000",
-			billingAdvance: "5,500",
-			billingTotal: "125,500",
+			operationDate: "2025/12/04",
+			unloadingDate: "2024/12/01",
+			slipOrInquiryNo: "20251201100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "20,000",
+			billingAdvance: "0",
+			billingTotal: "20,000",
 		},
 		{
 			id: 2,
 			invoiceDetailNo: "2",
-			operationDate: "2025/12/04",
-			unloadingDate: "2025/12/05",
-			slipOrInquiryNo: "20251204000002",
-			deliveryDestination: "福岡商店",
-			billingFare: "50,000",
-			billingAdvance: "1,000",
-			billingTotal: "51,000",
+			operationDate: "2024/12/05",
+			unloadingDate: "2024/12/01",
+			slipOrInquiryNo: "20251201100002",
+			deliveryDestination: "たぬき弁当",
+			billingFare: "1,000",
+			billingAdvance: "0",
+			billingTotal: "1,000",
 		},
 		{
 			id: 3,
 			invoiceDetailNo: "3",
-			operationDate: "2025/12/10",
-			unloadingDate: "2025/12/11",
-			slipOrInquiryNo: "20251210000003",
-			deliveryDestination: "鹿児島商会",
-			billingFare: "75,000",
-			billingAdvance: "4,000",
-			billingTotal: "79,000",
+			operationDate: "2024/12/05",
+			unloadingDate: "2024/12/02",
+			slipOrInquiryNo: "20251202100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "20,000",
+			billingAdvance: "0",
+			billingTotal: "20,000",
 		},
 		{
 			id: 4,
 			invoiceDetailNo: "4",
-			operationDate: "2025/12/19",
-			unloadingDate: "2025/12/22",
-			slipOrInquiryNo: "20251219000004",
-			deliveryDestination: "平川マリーナマルシェ",
-			billingFare: "100,000",
-			billingAdvance: "5,500",
-			billingTotal: "105,500",
+			operationDate: "2024/12/06",
+			unloadingDate: "2024/12/02",
+			slipOrInquiryNo: "20251202100002",
+			deliveryDestination: "たぬき弁当",
+			billingFare: "1,000",
+			billingAdvance: "0",
+			billingTotal: "1,000",
 		},
 		{
 			id: 5,
 			invoiceDetailNo: "5",
-			operationDate: "2025/12/24",
-			unloadingDate: "2025/12/25",
-			slipOrInquiryNo: "20251224000005",
-			deliveryDestination: "鹿児島商会",
-			billingFare: "75,000",
-			billingAdvance: "4,000",
-			billingTotal: "79,000",
+			operationDate: "2024/12/12",
+			unloadingDate: "2024/12/08",
+			slipOrInquiryNo: "20251212100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 6,
+			invoiceDetailNo: "6",
+			operationDate: "2024/12/13",
+			unloadingDate: "2024/12/09",
+			slipOrInquiryNo: "20251213100001",
+			deliveryDestination: "たぬき弁当",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 7,
+			invoiceDetailNo: "7",
+			operationDate: "2024/12/14",
+			unloadingDate: "2024/12/10",
+			slipOrInquiryNo: "20251214100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 8,
+			invoiceDetailNo: "8",
+			operationDate: "2024/12/19",
+			unloadingDate: "2024/12/15",
+			slipOrInquiryNo: "20251219100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 9,
+			invoiceDetailNo: "9",
+			operationDate: "2024/12/20",
+			unloadingDate: "2024/12/16",
+			slipOrInquiryNo: "20251220100001",
+			deliveryDestination: "たぬき弁当",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 10,
+			invoiceDetailNo: "10",
+			operationDate: "2024/12/21",
+			unloadingDate: "2024/12/17",
+			slipOrInquiryNo: "20251221100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 11,
+			invoiceDetailNo: "8",
+			operationDate: "2024/12/19",
+			unloadingDate: "2024/12/22",
+			slipOrInquiryNo: "20251219100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 12,
+			invoiceDetailNo: "9",
+			operationDate: "2024/12/20",
+			unloadingDate: "2024/12/23",
+			slipOrInquiryNo: "20251220100001",
+			deliveryDestination: "たぬき弁当",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
+		},
+		{
+			id: 13,
+			invoiceDetailNo: "10",
+			operationDate: "2024/12/21",
+			unloadingDate: "2024/12/24",
+			slipOrInquiryNo: "20251221100001",
+			deliveryDestination: "オーズカンパニー",
+			billingFare: "9,500",
+			billingAdvance: "0",
+			billingTotal: "9,500",
 		},
 	];
 
@@ -211,11 +299,17 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 						<Button className="btn btn-gradient btn-sm px-2 py-1">{">>"}</Button>
 					</div>
 
-					<div className="small text-muted">全 5 アイテム中 1 から 5 を表示中</div>
+					<div className="small text-muted">全 13 アイテム中 1 から 13 を表示中</div>
 				</footer>
 			</section>
 
-			<Modal show={showDetailModal} onHide={closeDetailModal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
+			<Modal
+				show={showDetailModal}
+				onHide={closeDetailModal}
+				dialogClassName="modal-xxl"
+				fullscreen="lg-down"
+				scrollable
+			>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>請求明細</Modal.Title>
 				</Modal.Header>
@@ -304,12 +398,6 @@ function InvoiceTable({ rows, resolveCustomerLabel }: InvoiceTableProps) {
 							<span className="table-header-text">請求運賃</span>
 						</th>
 						<th>
-							<span className="table-header-text">請求立替金</span>
-						</th>
-						<th>
-							<span className="table-header-text">請求合計金額</span>
-						</th>
-						<th>
 							<span className="table-header-text">ステータス</span>
 						</th>
 					</tr>
@@ -324,8 +412,6 @@ function InvoiceTable({ rows, resolveCustomerLabel }: InvoiceTableProps) {
 							<td>{row.invoiceMonth}</td>
 							<td>{resolveCustomerLabel(row.billingCustomerCode)}</td>
 							<td className="text-end">{row.billingFare}</td>
-							<td className="text-end">{row.billingAdvance}</td>
-							<td className="text-end">{row.billingTotal}</td>
 							<td>{row.status}</td>
 						</tr>
 					))}
