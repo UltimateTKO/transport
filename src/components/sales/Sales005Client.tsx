@@ -28,69 +28,193 @@ type SalesTableProps = {
 
 export default function Sales005Client({ localDate }: Sales005ClientProps) {
 	const locationList: ListItem[] = [
-		{ key: "FOKFKC", value: "福岡かすやINC" },
-		{ key: "FOKK2C", value: "福岡かすや第2センター" },
-		{ key: "FOKFMC", value: "二又瀬物流センター" },
-		{ key: "SAGTSE", value: "鳥栖営業所" },
-		{ key: "KGSMKC", value: "南九州物流センター" },
-		{ key: "KGSKMC", value: "鹿児島南センター" },
-		{ key: "KGSKUE", value: "川内営業所" },
-		{ key: "KGSKKE", value: "加治木営業所" },
-		{ key: "KGSHOE", value: "日置営業所" },
-		{ key: "MYZMJE", value: "都城営業所" },
-		{ key: "MYZMJF", value: "都城フローズンセンター" },
-		{ key: "OITITK", value: "大分委託先" },
+		{ key: "OUADC", value: "あんしん総合流通センター" },
+		{ key: "OUGBO", value: "キンザー営業所" },
+		{ key: "OUMDC", value: "港町物流センター" },
+		{ key: "ONHBO", value: "那覇営業所" },
+		{ key: "ONFDC", value: "西原FDC" },
+		{ key: "ONABO", value: "あんしん館" },
+		{ key: "ONNBO", value: "西原営業所" },
+		{ key: "DNHDO", value: "那覇港" },
+		{ key: "ROMPL", value: "宮古委託先" },
+		{ key: "RHTPL", value: "博多委託先" },
+		{ key: "ROOPL", value: "大阪委託先" },
+		{ key: "RYHPL", value: "横浜委託先" },
+		{ key: "DOMDO", value: "平良港" },
+		{ key: "DHTDO", value: "博多港" },
+		{ key: "DOODO", value: "大阪港" },
+		{ key: "DYHDO", value: "横浜港" },
 	];
 	const [showSales010Modal, setShowSales010Modal] = useState(false);
 	const rows: SalesHeader[] = [
 		{
 			salesNo: "1",
-			salesDate: "2025/12/21",
-			fare: "20,000",
+			salesDate: "2026/01/05",
+			fare: "63,000",
 			advance: "0",
-			payoutFareTotal: "0",
+			payoutFareTotal: "32,000",
 			payoutAdvanceTotal: "0",
-			internalTransferFareTotal: "0",
+			internalTransferFareTotal: "11,000",
 			internalTransferAdvanceTotal: "0",
 		},
 		{
 			salesNo: "2",
-			salesDate: "2025/12/25",
-			fare: "20,000",
+			salesDate: "2026/01/06",
+			fare: "21,000",
 			advance: "0",
-			payoutFareTotal: "0",
+			payoutFareTotal: "10,000",
 			payoutAdvanceTotal: "0",
-			internalTransferFareTotal: "0",
+			internalTransferFareTotal: "7,000",
 			internalTransferAdvanceTotal: "0",
 		},
 		{
 			salesNo: "3",
-			salesDate: "2026/01/10",
-			fare: "40,000",
-			advance: "1,000",
-			payoutFareTotal: "20,000",
-			payoutAdvanceTotal: "1,000",
-			internalTransferFareTotal: "1,000",
-			internalTransferAdvanceTotal: "500",
+			salesDate: "2026/01/08",
+			fare: "21,000",
+			advance: "0",
+			payoutFareTotal: "10,000",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "7,000",
+			internalTransferAdvanceTotal: "0",
 		},
 		{
 			salesNo: "4",
-			salesDate: "2026/01/15",
-			fare: "20,000",
+			salesDate: "2026/01/09",
+			fare: "33,000",
 			advance: "0",
-			payoutFareTotal: "0",
+			payoutFareTotal: "",
 			payoutAdvanceTotal: "0",
-			internalTransferFareTotal: "0",
+			internalTransferFareTotal: "7,000",
 			internalTransferAdvanceTotal: "0",
 		},
 		{
 			salesNo: "5",
-			salesDate: "2026/01/19",
-			fare: "20,000",
+			salesDate: "2026/01/10",
+			fare: "12,000",
 			advance: "0",
-			payoutFareTotal: "0",
+			payoutFareTotal: "",
 			payoutAdvanceTotal: "0",
-			internalTransferFareTotal: "0",
+			internalTransferFareTotal: "7,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "6",
+			salesDate: "2026/01/12",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "7",
+			salesDate: "2026/01/13",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "8",
+			salesDate: "2026/01/14",
+			fare: "42,500",
+			advance: "0",
+			payoutFareTotal: "22,000",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "11,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "9",
+			salesDate: "2026/01/15",
+			fare: "21,000",
+			advance: "0",
+			payoutFareTotal: "10,000",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "7,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "10",
+			salesDate: "2026/01/16",
+			fare: "12,000",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "7,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "11",
+			salesDate: "2026/01/19",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "12",
+			salesDate: "2026/01/20",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "13",
+			salesDate: "2026/01/21",
+			fare: "42,500",
+			advance: "0",
+			payoutFareTotal: "22,000",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "11,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "14",
+			salesDate: "2026/01/22",
+			fare: "21,000",
+			advance: "0",
+			payoutFareTotal: "10,000",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "7,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "15",
+			salesDate: "2026/01/23",
+			fare: "12,000",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "5,000",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "16",
+			salesDate: "2026/01/26",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
+			internalTransferAdvanceTotal: "0",
+		},
+		{
+			salesNo: "17",
+			salesDate: "2026/01/27",
+			fare: "9,500",
+			advance: "0",
+			payoutFareTotal: "",
+			payoutAdvanceTotal: "0",
+			internalTransferFareTotal: "",
 			internalTransferAdvanceTotal: "0",
 		},
 	];
@@ -115,7 +239,12 @@ export default function Sales005Client({ localDate }: Sales005ClientProps) {
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門CD">
-								<CommonComboBox id="locationList" list={locationList} showKey={true} defaultValue="FOKFKC" />
+								<CommonComboBox
+									id="locationList"
+									list={locationList.filter((item) => item.key.startsWith("O"))}
+									showKey={true}
+									defaultValue="OUADC"
+								/>
 							</CommonGroupLabel>
 						</Col>
 
@@ -156,7 +285,9 @@ export default function Sales005Client({ localDate }: Sales005ClientProps) {
 						<Button className="btn btn-gradient btn-sm px-2 py-1">{">>"}</Button>
 					</div>
 
-					<div className="small text-muted">全 3 アイテム中 1 から 3 を表示中</div>
+					<div className="small text-muted">
+						全 {rows.length} アイテム中 1 から {rows.length} を表示中
+					</div>
 				</footer>
 			</section>
 
@@ -203,21 +334,21 @@ function SalesTable({ rows }: SalesTableProps) {
 						<th>
 							<span className="table-header-text">運賃合計</span>
 						</th>
-						<th>
+						{/* <th>
 							<span className="table-header-text">立替金合計</span>
-						</th>
+						</th> */}
 						<th>
 							<span className="table-header-text">下払運賃合計</span>
 						</th>
-						<th>
+						{/* <th>
 							<span className="table-header-text">下払立替金合計</span>
-						</th>
+						</th> */}
 						<th>
 							<span className="table-header-text">内部振替運賃合計</span>
 						</th>
-						<th>
+						{/* <th>
 							<span className="table-header-text">内部振替立替金合計</span>
-						</th>
+						</th> */}
 					</tr>
 				</thead>
 				<tbody>
@@ -229,11 +360,11 @@ function SalesTable({ rows }: SalesTableProps) {
 								</td>
 								<td>{row.salesDate}</td>
 								<td className="text-end">{row.fare}</td>
-								<td className="text-end">{row.advance}</td>
+								{/* <td className="text-end">{row.advance}</td> */}
 								<td className="text-end">{row.payoutFareTotal}</td>
-								<td className="text-end">{row.payoutAdvanceTotal}</td>
+								{/* <td className="text-end">{row.payoutAdvanceTotal}</td> */}
 								<td className="text-end">{row.internalTransferFareTotal}</td>
-								<td className="text-end">{row.internalTransferAdvanceTotal}</td>
+								{/* <td className="text-end">{row.internalTransferAdvanceTotal}</td> */}
 							</tr>
 						</Fragment>
 					))}
