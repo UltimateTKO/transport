@@ -70,6 +70,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{ key: "C1001", value: "沖縄物流" },
 		{ key: "C1002", value: "沖縄急送" },
 		{ key: "C1003", value: "琉球海運" },
+		{ key: "Y1001", value: "パルス物流" },
 	];
 	// 地点マスタ
 	const locationList: ListItem[] = [
@@ -370,10 +371,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 		return typeLabel || EMPTY_TO_LABEL;
 	};
 
-	const fromOptions = useMemo(
-		() => Array.from(new Set(rows.map((route) => route.fromLocation).filter(Boolean))),
-		[rows],
-	);
+	const fromOptions = useMemo(() => Array.from(new Set(rows.map((route) => route.fromLocation).filter(Boolean))), [rows]);
 	const [selectedFrom, setSelectedFrom] = useState(fromOptions[0] ?? "");
 
 	useEffect(() => {
@@ -411,9 +409,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 		}
 	}, [selectedFrom, selectedTo, toOptions]);
 
-	const selectedRoute = rows.find(
-		(route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL),
-	);
+	const selectedRoute = rows.find((route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL));
 	const vehicles = selectedRoute?.vehicles ?? [];
 
 	const fromSummaries = useMemo(() => {

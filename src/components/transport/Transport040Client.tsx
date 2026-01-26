@@ -483,6 +483,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							<span className="small transport040-ambient">常温：黒字</span>
 							<span className="small transport040-cool">クール：青字</span>
 							<span className="small transport040-frozen">冷凍：橙字</span>
+							<span className="small transport040-ultrafrozen">超低温：紫字</span>
 						</div>
 						<span className="small text-muted">ラベル右クリックで処理を選択</span>
 					</Col>
@@ -493,9 +494,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						className="transport040-grid border rounded-3 shadow-sm"
 						style={{ gridTemplateColumns: `180px repeat(${routes.length}, minmax(200px, 1fr))` }}
 					>
-						<div className="transport040-cell transport040-sticky bg-primary-subtle text-primary fw-semibold">
-							配送ルート
-						</div>
+						<div className="transport040-cell transport040-sticky bg-primary-subtle text-primary fw-semibold">配送ルート</div>
 						{routesWithTotals.map((route) => (
 							<div key={route.id} className="transport040-cell transport040-route-head bg-primary-subtle">
 								<Row className="d-flex align-items-start">
@@ -519,9 +518,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							</div>
 						))}
 
-						<div className="transport040-cell transport040-sticky bg-body-secondary text-secondary fw-semibold">
-							出荷指示合計
-						</div>
+						<div className="transport040-cell transport040-sticky bg-body-secondary text-secondary fw-semibold">出荷指示合計</div>
 						{routesWithTotals.map((route) => (
 							<div key={`${route.id}-totals`} className="transport040-cell bg-body-secondary">
 								<div className="small text-muted text-end">{route.totals.weight}</div>
@@ -532,9 +529,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 						{Array.from({ length: maxStops }).map((_, rowIndex) => (
 							<Fragment key={`stop-row-${rowIndex}`}>
-								<div className="transport040-cell transport040-sticky text-center fw-semibold bg-light">
-									{rowIndex + 1}
-								</div>
+								<div className="transport040-cell transport040-sticky text-center fw-semibold bg-light">{rowIndex + 1}</div>
 								{routesWithTotals.map((route) => {
 									const stop = route.stops[rowIndex];
 									const isDragOver = dragOverCell?.routeId === route.id && dragOverCell.stopIndex === rowIndex;
@@ -573,11 +568,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 				</div>
 			</section>
 			{contextMenu ? (
-				<div
-					className="transport040-context-layer"
-					onClick={() => setContextMenu(null)}
-					onContextMenu={(event) => event.preventDefault()}
-				>
+				<div className="transport040-context-layer" onClick={() => setContextMenu(null)} onContextMenu={(event) => event.preventDefault()}>
 					<div className="transport040-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }} role="menu">
 						<button
 							type="button"
@@ -670,6 +661,10 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 				.transport040-frozen {
 					color: #ffaa00;
+				}
+
+				.transport040-ultrafrozen {
+					color: #5500ff;
 				}
 
 				.transport040-context-layer {
