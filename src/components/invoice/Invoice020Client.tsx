@@ -87,7 +87,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 1,
 			invoiceDetailNo: "1",
-			operationDate: "2025/12/04",
+			operationDate: "2025/11/30",
 			unloadingDate: "2025/12/01",
 			slipOrInquiryNo: "20251201100001",
 			deliveryDestination: "オーズカンパニー",
@@ -98,7 +98,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 2,
 			invoiceDetailNo: "2",
-			operationDate: "2025/12/05",
+			operationDate: "2025/12/01",
 			unloadingDate: "2025/12/01",
 			slipOrInquiryNo: "20251201100002",
 			deliveryDestination: "たぬき弁当",
@@ -109,7 +109,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 3,
 			invoiceDetailNo: "3",
-			operationDate: "2025/12/05",
+			operationDate: "2025/12/01",
 			unloadingDate: "2025/12/02",
 			slipOrInquiryNo: "20251202100001",
 			deliveryDestination: "オーズカンパニー",
@@ -120,7 +120,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 4,
 			invoiceDetailNo: "4",
-			operationDate: "2025/12/06",
+			operationDate: "2025/12/02",
 			unloadingDate: "2025/12/02",
 			slipOrInquiryNo: "20251202100002",
 			deliveryDestination: "たぬき弁当",
@@ -131,8 +131,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 5,
 			invoiceDetailNo: "5",
-			operationDate: "2025/12/12",
-			unloadingDate: "2025/12/08",
+			operationDate: "2025/12/08",
+			unloadingDate: "2025/12/09",
 			slipOrInquiryNo: "20251212100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -142,7 +142,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 6,
 			invoiceDetailNo: "6",
-			operationDate: "2025/12/13",
+			operationDate: "2025/12/09",
 			unloadingDate: "2025/12/09",
 			slipOrInquiryNo: "20251213100001",
 			deliveryDestination: "たぬき弁当",
@@ -153,7 +153,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 7,
 			invoiceDetailNo: "7",
-			operationDate: "2025/12/14",
+			operationDate: "2025/12/09",
 			unloadingDate: "2025/12/10",
 			slipOrInquiryNo: "20251214100001",
 			deliveryDestination: "オーズカンパニー",
@@ -164,8 +164,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 8,
 			invoiceDetailNo: "8",
-			operationDate: "2025/12/19",
-			unloadingDate: "2025/12/15",
+			operationDate: "2025/12/15",
+			unloadingDate: "2025/12/16",
 			slipOrInquiryNo: "20251219100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -175,7 +175,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 9,
 			invoiceDetailNo: "9",
-			operationDate: "2025/12/20",
+			operationDate: "2025/12/16",
 			unloadingDate: "2025/12/16",
 			slipOrInquiryNo: "20251220100001",
 			deliveryDestination: "たぬき弁当",
@@ -186,7 +186,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 10,
 			invoiceDetailNo: "10",
-			operationDate: "2025/12/21",
+			operationDate: "2025/12/16",
 			unloadingDate: "2025/12/17",
 			slipOrInquiryNo: "20251221100001",
 			deliveryDestination: "オーズカンパニー",
@@ -197,8 +197,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 11,
 			invoiceDetailNo: "8",
-			operationDate: "2025/12/19",
-			unloadingDate: "2025/12/22",
+			operationDate: "2025/12/22",
+			unloadingDate: "2025/12/23",
 			slipOrInquiryNo: "20251219100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -208,7 +208,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 12,
 			invoiceDetailNo: "9",
-			operationDate: "2025/12/20",
+			operationDate: "2025/12/22",
 			unloadingDate: "2025/12/23",
 			slipOrInquiryNo: "20251220100001",
 			deliveryDestination: "たぬき弁当",
@@ -219,7 +219,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 13,
 			invoiceDetailNo: "10",
-			operationDate: "2025/12/21",
+			operationDate: "2025/12/23",
 			unloadingDate: "2025/12/24",
 			slipOrInquiryNo: "20251221100001",
 			deliveryDestination: "オーズカンパニー",
