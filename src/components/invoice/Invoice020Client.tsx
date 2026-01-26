@@ -88,7 +88,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 			id: 1,
 			invoiceDetailNo: "1",
 			operationDate: "2025/12/04",
-			unloadingDate: "2024/12/01",
+			unloadingDate: "2025/12/01",
 			slipOrInquiryNo: "20251201100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "20,000",
@@ -98,8 +98,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 2,
 			invoiceDetailNo: "2",
-			operationDate: "2024/12/05",
-			unloadingDate: "2024/12/01",
+			operationDate: "2025/12/05",
+			unloadingDate: "2025/12/01",
 			slipOrInquiryNo: "20251201100002",
 			deliveryDestination: "たぬき弁当",
 			billingFare: "1,000",
@@ -109,8 +109,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 3,
 			invoiceDetailNo: "3",
-			operationDate: "2024/12/05",
-			unloadingDate: "2024/12/02",
+			operationDate: "2025/12/05",
+			unloadingDate: "2025/12/02",
 			slipOrInquiryNo: "20251202100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "20,000",
@@ -120,8 +120,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 4,
 			invoiceDetailNo: "4",
-			operationDate: "2024/12/06",
-			unloadingDate: "2024/12/02",
+			operationDate: "2025/12/06",
+			unloadingDate: "2025/12/02",
 			slipOrInquiryNo: "20251202100002",
 			deliveryDestination: "たぬき弁当",
 			billingFare: "1,000",
@@ -131,8 +131,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 5,
 			invoiceDetailNo: "5",
-			operationDate: "2024/12/12",
-			unloadingDate: "2024/12/08",
+			operationDate: "2025/12/12",
+			unloadingDate: "2025/12/08",
 			slipOrInquiryNo: "20251212100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -142,8 +142,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 6,
 			invoiceDetailNo: "6",
-			operationDate: "2024/12/13",
-			unloadingDate: "2024/12/09",
+			operationDate: "2025/12/13",
+			unloadingDate: "2025/12/09",
 			slipOrInquiryNo: "20251213100001",
 			deliveryDestination: "たぬき弁当",
 			billingFare: "9,500",
@@ -153,8 +153,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 7,
 			invoiceDetailNo: "7",
-			operationDate: "2024/12/14",
-			unloadingDate: "2024/12/10",
+			operationDate: "2025/12/14",
+			unloadingDate: "2025/12/10",
 			slipOrInquiryNo: "20251214100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -164,8 +164,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 8,
 			invoiceDetailNo: "8",
-			operationDate: "2024/12/19",
-			unloadingDate: "2024/12/15",
+			operationDate: "2025/12/19",
+			unloadingDate: "2025/12/15",
 			slipOrInquiryNo: "20251219100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -175,8 +175,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 9,
 			invoiceDetailNo: "9",
-			operationDate: "2024/12/20",
-			unloadingDate: "2024/12/16",
+			operationDate: "2025/12/20",
+			unloadingDate: "2025/12/16",
 			slipOrInquiryNo: "20251220100001",
 			deliveryDestination: "たぬき弁当",
 			billingFare: "9,500",
@@ -186,8 +186,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 10,
 			invoiceDetailNo: "10",
-			operationDate: "2024/12/21",
-			unloadingDate: "2024/12/17",
+			operationDate: "2025/12/21",
+			unloadingDate: "2025/12/17",
 			slipOrInquiryNo: "20251221100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -197,8 +197,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 11,
 			invoiceDetailNo: "8",
-			operationDate: "2024/12/19",
-			unloadingDate: "2024/12/22",
+			operationDate: "2025/12/19",
+			unloadingDate: "2025/12/22",
 			slipOrInquiryNo: "20251219100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -208,8 +208,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 12,
 			invoiceDetailNo: "9",
-			operationDate: "2024/12/20",
-			unloadingDate: "2024/12/23",
+			operationDate: "2025/12/20",
+			unloadingDate: "2025/12/23",
 			slipOrInquiryNo: "20251220100001",
 			deliveryDestination: "たぬき弁当",
 			billingFare: "9,500",
@@ -219,8 +219,8 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{
 			id: 13,
 			invoiceDetailNo: "10",
-			operationDate: "2024/12/21",
-			unloadingDate: "2024/12/24",
+			operationDate: "2025/12/21",
+			unloadingDate: "2025/12/24",
 			slipOrInquiryNo: "20251221100001",
 			deliveryDestination: "オーズカンパニー",
 			billingFare: "9,500",
@@ -303,13 +303,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 				</footer>
 			</section>
 
-			<Modal
-				show={showDetailModal}
-				onHide={closeDetailModal}
-				dialogClassName="modal-xxl"
-				fullscreen="lg-down"
-				scrollable
-			>
+			<Modal show={showDetailModal} onHide={closeDetailModal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>請求明細</Modal.Title>
 				</Modal.Header>

@@ -52,7 +52,7 @@ const toPastYearMonths = (monthValue: string): MonthInfo[] => {
 		return [];
 	}
 
-	return Array.from({ length: 12 }, (_, index) => {
+	return Array.from({ length: 6 }, (_, index) => {
 		const date = new Date(year, month - 1 - index, 1);
 		return {
 			label: `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}`,
@@ -70,7 +70,7 @@ const toPreviousMonth = (monthValue: string): string => {
 		return "";
 	}
 
-	const date = new Date(year, month - 11, 1);
+	const date = new Date(year, month - 6, 1);
 	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 };
 
