@@ -40,7 +40,7 @@ const TRACKING_DATA: TrackingResult[] = [
 		id: 1,
 		trackingNo: "2026012800001",
 		departDate: "2026/01/20",
-		shipper: "沖縄第一倉庫",
+		shipper: "九州倉庫",
 		consignee: "オーズカンパニー",
 		deliveryDate: "2026/01/21",
 		status: "納品済",
@@ -48,19 +48,26 @@ const TRACKING_DATA: TrackingResult[] = [
 			{
 				id: "1",
 				departAt: "",
-				arriveAt: "2026/01/20 15:00",
-				fromLocation: "沖縄第一倉庫",
-				toLocation: "キンザー営業所",
+				arriveAt: "2026/01/18 15:00",
+				fromLocation: "九州倉庫",
+				toLocation: "博多港",
 			},
 			{
 				id: "2",
-				departAt: "2026/01/21 08:00",
-				arriveAt: "2026/01/21 10:00",
-				fromLocation: "キンザー営業所",
-				toLocation: "あんしん総合流通センター",
+				departAt: "2026/01/19 17:00",
+				arriveAt: "2026/01/21 07:00",
+				fromLocation: "博多港",
+				toLocation: "那覇港",
 			},
 			{
 				id: "3",
+				departAt: "2026/01/21 11:00",
+				arriveAt: "2026/01/21 12:00",
+				fromLocation: "那覇港",
+				toLocation: "あんしん総合流通センター",
+			},
+			{
+				id: "4",
 				departAt: "2026/01/21 15:00",
 				arriveAt: "2026/01/21 18:00",
 				fromLocation: "あんしん総合流通センター",
@@ -140,6 +147,7 @@ const INITIAL_FORM_STATE: TrackingFormState = applyStatuses([
 	{ value: "2026012800003", status: "" },
 ]);
 
+/// 貨物追跡画面
 export default function Transport050Client() {
 	const [formState, setFormState] = useState<TrackingFormState>(INITIAL_FORM_STATE);
 
@@ -149,9 +157,7 @@ export default function Transport050Client() {
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) =>
-			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
-		);
+		setFormState((prev) => prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)));
 	};
 
 	const handleAddInput = () => {

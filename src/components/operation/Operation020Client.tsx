@@ -50,7 +50,7 @@ type OperationTableProps = {
 	rows: OperationPlanRow[];
 };
 
-/// 配送照会
+/// 車番確定画面
 export default function Operation020Client({ localDate }: Operation020ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
