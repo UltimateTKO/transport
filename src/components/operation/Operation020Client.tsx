@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
 import { Container, Button, Form, Row, Col, Badge } from "react-bootstrap";
 import { CommonGroupLabel, CommonComboBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
-import { BsArrowRight } from "react-icons/bs";
+import { BsTruck } from "react-icons/bs";
 
 type VehicleNumber = {
 	id: number;
@@ -70,7 +70,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		{ key: "C1001", value: "沖縄物流" },
 		{ key: "C1002", value: "沖縄急送" },
 		{ key: "C1003", value: "琉球海運" },
-		{ key: "Y1001", value: "パルス物流" },
+		{ key: "Y1001", value: "沖縄海陸物流" },
 	];
 	// 地点マスタ
 	const locationList: ListItem[] = [
@@ -155,10 +155,10 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 					loadingDate: "2026/01/28",
 					departureDate: "2026/01/28",
 					unloadingDate: "2026/01/28",
-					dispatchDeptCode: "沖縄物流",
+					dispatchDeptCode: "あんしん総合流通センター",
 					temperatureBand: "常温",
 					ownCharterClass: "庸",
-					transportDeptCode: "沖縄物流",
+					transportDeptCode: "沖縄海陸物流",
 				},
 			],
 		},
@@ -232,7 +232,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 					loadingDate: "2026/01/28",
 					departureDate: "2026/01/28",
 					unloadingDate: "2026/01/28",
-					dispatchDeptCode: "沖縄急送",
+					dispatchDeptCode: "キンザー営業所",
 					temperatureBand: "冷凍",
 					ownCharterClass: "庸",
 					transportDeptCode: "沖縄急送",
@@ -267,6 +267,58 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 		},
 		{
 			id: 5,
+			routeCourse: "博多港→那覇港",
+			fromLocation: "博多港",
+			toLocation: "那覇港",
+			transportType: "海運",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "",
+					provisionalVehicleNo: "WK",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/30",
+					dispatchDeptCode: "あんしん総合流通センター",
+					temperatureBand: "常温",
+					ownCharterClass: "庸",
+					transportDeptCode: "琉球海運",
+				},
+			],
+		},
+		{
+			id: 6,
+			routeCourse: "那覇港→あんしん総合流通センター",
+			fromLocation: "那覇港",
+			toLocation: "あんしん総合流通センター",
+			transportType: "海運",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "4231",
+					provisionalVehicleNo: "9999",
+					driverName: "",
+					assistant: "",
+					driverPhone: "",
+					status: "データ作成",
+					operationDate: "2026/01/28",
+					loadingDate: "2026/01/28",
+					departureDate: "2026/01/28",
+					unloadingDate: "2026/01/28",
+					dispatchDeptCode: "あんしん総合流通センター",
+					temperatureBand: "常温",
+					ownCharterClass: "庸",
+					transportDeptCode: "沖縄海陸物流",
+				},
+			],
+		},
+		{
+			id: 7,
 			routeCourse: "那覇港→博多港",
 			fromLocation: "那覇港",
 			toLocation: "博多港",
@@ -284,7 +336,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 					loadingDate: "2026/01/28",
 					departureDate: "2026/01/28",
 					unloadingDate: "2026/01/30",
-					dispatchDeptCode: "琉球海運",
+					dispatchDeptCode: "あんしん総合流通センター",
 					temperatureBand: "常温",
 					ownCharterClass: "庸",
 					transportDeptCode: "琉球海運",
@@ -411,6 +463,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 
 	const selectedRoute = rows.find((route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL));
 	const vehicles = selectedRoute?.vehicles ?? [];
+	const isSeaTransport = selectedRoute?.transportType === "海運";
 
 	const fromSummaries = useMemo(() => {
 		const summary = new Map<string, { destinations: Set<string>; vehicleCount: number }>();
@@ -475,7 +528,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 			<Col lg={6} onClick={hideContextMenu} className="position-relative">
 				<div className="d-flex align-items-center justify-content-center gap-3 mb-3">
 					<span className="fw-semibold">{selectedFrom || "From未選択"}</span>
-					<BsArrowRight size={32} className="text-primary" />
+					<BsTruck size={32} className="text-primary" />
 					<span className="fw-semibold">{selectedTo || "To未選択"}</span>
 				</div>
 				<div className="border rounded p-3 bg-white shadow-sm h-100">
@@ -483,7 +536,6 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 						<div className="d-flex flex-column gap-3 h-100">
 							<div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
 								<div className="d-flex flex-column">
-									<span className="fw-bold">{selectedRoute.routeCourse || "ルート名未設定"}</span>
 									<div className="small text-muted">運送区分: {selectedRoute.transportType || "-"} </div>
 								</div>
 								<Badge bg="info" text="dark">
@@ -508,21 +560,29 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 											</div>
 											<div className="small d-flex flex-wrap gap-3">
 												<span>配車部門: {vehicle.dispatchDeptCode}</span>
-												<span>車番: {vehicle.vehicleNo}</span>
-												<span>仮車番: {vehicle.provisionalVehicleNo}</span>
+												<span>
+													{isSeaTransport ? "船番" : "車番"}: {vehicle.vehicleNo}
+												</span>
+												{!isSeaTransport && <span>仮車番: {vehicle.provisionalVehicleNo}</span>}
 											</div>
+											{!isSeaTransport && (
+												<div className="small d-flex flex-wrap gap-3">
+													<span>ドライバー: {vehicle.driverName}</span>
+													<span>助手: {vehicle.assistant || "ー"}</span>
+													<span>電話番号: {vehicle.driverPhone}</span>
+												</div>
+											)}
 											<div className="small d-flex flex-wrap gap-3">
-												<span>ドライバー: {vehicle.driverName}</span>
-												<span>助手: {vehicle.assistant || "ー"}</span>
-												<span>電話番号: {vehicle.driverPhone}</span>
-											</div>
-											<div className="small d-flex flex-wrap gap-3">
-												<span>運行日: {vehicle.operationDate}</span>
+												<span>
+													{isSeaTransport ? "出航日" : "運行日"}: {vehicle.operationDate}
+												</span>
 												<span>積込日: {vehicle.loadingDate}</span>
 											</div>
 											<div className="small d-flex flex-wrap gap-3">
-												<span>出発日: {vehicle.departureDate}</span>
-												<span>荷卸日: {vehicle.unloadingDate}</span>
+												{!isSeaTransport && <span>出発日: {vehicle.departureDate}</span>}
+												<span>
+													{isSeaTransport ? "着港日" : "荷卸日"}: {vehicle.unloadingDate}
+												</span>
 											</div>
 										</div>
 									))}
