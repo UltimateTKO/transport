@@ -224,7 +224,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 	const carriers: ListItem[] = [
 		{ key: "Y0000", value: "沖縄物流" },
 		{ key: "Y1000", value: "沖縄急送" },
-		{ key: "Y1001", value: "パルス物流" },
+		{ key: "Y1001", value: "沖縄海陸物流" },
 	];
 	const vehicleNumbers: ListItem[] = [
 		{ key: "1001", value: "1001" },
