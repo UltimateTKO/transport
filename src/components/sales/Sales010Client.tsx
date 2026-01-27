@@ -204,7 +204,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			salesDate: "2026/01/05",
 			operationDate: "2026/01/04",
 			deliveryDate: "2026/01/05",
-			requester: "友睦物流",
+			requester: "九州倉庫",
 			destination: "牛吉 牧港店",
 			quantity: "6",
 			fare: "6,000",
@@ -219,7 +219,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			salesDate: "2026/01/05",
 			operationDate: "2026/01/05",
 			deliveryDate: "2026/01/05",
-			requester: "友睦物流",
+			requester: "九州倉庫",
 			destination: "イタリアン料理 mou",
 			quantity: "15",
 			fare: "15,000",
@@ -303,13 +303,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 				</footer>
 			</section>
 
-			<Modal
-				show={showInquiryModal}
-				onHide={closeInquiryModal}
-				dialogClassName="modal-xxl"
-				fullscreen="lg-down"
-				scrollable
-			>
+			<Modal show={showInquiryModal} onHide={closeInquiryModal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
 				<Modal.Header closeButton className="border-0 bg-light">
 					<Modal.Title>下払/内振明細</Modal.Title>
 				</Modal.Header>

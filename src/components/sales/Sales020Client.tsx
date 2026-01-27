@@ -95,33 +95,18 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const baseRows: SalesTrendRow[] = [
 		{
 			requestor: "沖縄第一倉庫",
-			fare: [
-				0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500,
-				0, 0, 0, 0,
-			],
+			fare: [0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
 			requestor: "琉球物流",
-			fare: [
-				0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0,
-			],
-			advance: [
-				0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200,
-				1200, 0,
-			],
+			fare: [0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			advance: [0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0],
 		},
 		{
-			requestor: "友睦物流",
-			fare: [
-				0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 0,
-				0, 0, 0, 0,
-			],
-			advance: [
-				0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0,
-				1500, 1500,
-			],
+			requestor: "九州倉庫",
+			fare: [0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			advance: [0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500],
 		},
 	];
 
@@ -159,10 +144,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			{isLoading ? (
-				<div
-					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
-					style={{ zIndex: 1050 }}
-				>
+				<div className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2" style={{ zIndex: 1050 }}>
 					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
 					<span className="text-muted small">再計算中...</span>
 				</div>
@@ -183,7 +165,12 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上部門">
-								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="FOKFKC" />
+								<CommonComboBox
+									id="salesDept"
+									list={deptList.filter((dept) => dept.key.startsWith("O"))}
+									showKey={true}
+									defaultValue="OUADC"
+								/>
 							</CommonGroupLabel>
 						</Col>
 
@@ -241,16 +228,11 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const visibleFare = days.map((day, index) =>
-									day.day >= endDay ? null : (row.fare[index + 1] ?? null),
-								);
-								const visibleAdvance = days.map((day, index) =>
-									day.day >= endDay ? null : (row.advance[index + 1] ?? null),
-								);
+								const visibleFare = days.map((day, index) => (day.day >= endDay ? null : (row.fare[index + 1] ?? null)));
+								const visibleAdvance = days.map((day, index) => (day.day >= endDay ? null : (row.advance[index + 1] ?? null)));
 								const fareFirst = row.fare[0] ?? null;
 								const advanceFirst = row.advance[0] ?? null;
-								const combinedFirst =
-									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
+								const combinedFirst = fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
