@@ -2,13 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
-import {
-	CommonGroupLabel,
-	CommonComboBox,
-	CommonInputBox,
-	RequiredMark,
-	CommonDateRangeBox,
-} from "@/components/CommonComponent";
+import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
 
 type DeliveryInstructionDetail = {
 	id: string;
@@ -73,6 +67,7 @@ type DeliveryInstructionTableProps = {
 	onShowSignature: (row: DeliveryInstructionHeader) => void;
 };
 
+/// 受注 - 配送照会
 export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
@@ -403,9 +398,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 }
 
 function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstructionTableProps) {
-	const [expandedRows, setExpandedRows] = useState<number[]>(() =>
-		rows.filter((row) => row.details.length > 0).map((row) => row.id),
-	);
+	const [expandedRows, setExpandedRows] = useState<number[]>(() => rows.filter((row) => row.details.length > 0).map((row) => row.id));
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
 	};
