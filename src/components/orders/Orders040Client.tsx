@@ -104,7 +104,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const orderSourceList: ListItem[] = [
 		{ key: "OS01", value: "沖縄第一倉庫" },
 		{ key: "OS02", value: "琉球物流" },
-		{ key: "OS03", value: "友睦物流" },
+		{ key: "OS03", value: "九州倉庫" },
 	];
 
 	const [showSignatureModal, setShowSignatureModal] = useState(false);
@@ -138,15 +138,15 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			consigneeCode: "CNS-000",
 			consigneeName: "オーズカンパニー",
 			consigneePostalCode: "901-0000",
-			consigneeAddress: "沖縄県宜野湾市嘉数0-0-0",
+			consigneeAddress: "沖縄県浦添市伊祖0-0-0",
 			consigneePhone: "",
 			consigneeFax: "",
 			consigneeAddressCode: "",
 			consigneePrefectureCode: "47",
 			consigneeAreaCode: "",
 			consigneePrefecture: "沖縄県",
-			consigneeCity: "宜野湾市",
-			consigneeTown: "嘉数",
+			consigneeCity: "浦添市",
+			consigneeTown: "伊祖",
 			requestedArrivalTime: "",
 			quantityTotal: "10",
 			volume: "0.12",
@@ -466,7 +466,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 }
 
 function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstructionTableProps) {
-	const [expandedRows, setExpandedRows] = useState<number[]>(() => rows.filter((row) => row.details.length > 0).map((row) => row.id));
+	const [expandedRows, setExpandedRows] = useState<number[]>([]);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
 	};
