@@ -111,7 +111,7 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 			advance: Array(12).fill(0),
 		},
 		{
-			billingCustomer: "友睦物流　",
+			billingCustomer: "九州倉庫",
 			fare: [120000, 100000, 120000, 100000, 120000, 120000, 120000, 100000, 100000, 100000, 100000, 120000],
 			advance: Array(12).fill(0),
 		},
@@ -141,7 +141,12 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門">
-								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="OUADC" />
+								<CommonComboBox
+									id="salesDept"
+									list={deptList.filter((dept) => dept.key.startsWith("O"))}
+									showKey={true}
+									defaultValue="OUADC"
+								/>
 							</CommonGroupLabel>
 						</Col>
 

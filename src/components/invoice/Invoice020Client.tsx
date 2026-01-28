@@ -46,7 +46,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 	const billingCustomerList: ListItem[] = [
 		{ key: "C010", value: "沖縄第一倉庫" },
 		{ key: "C020", value: "琉球物流" },
-		{ key: "C030", value: "友睦物流" },
+		{ key: "C030", value: "九州倉庫" },
 	];
 	const [showDetailModal, setShowDetailModal] = useState(false);
 
@@ -75,7 +75,7 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 			id: 3,
 			invoiceNo: "20251210003",
 			invoiceMonth: "2025/12",
-			billingCustomerCode: "友睦物流",
+			billingCustomerCode: "九州倉庫",
 			billingFare: "120,000",
 			billingAdvance: "7,500",
 			billingTotal: "127,500",
