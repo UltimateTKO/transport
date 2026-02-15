@@ -12,7 +12,7 @@ export function Sales005Panel(props: Sales005PanelProps) {
 
 	const today = new Date();
 	// const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
-	const localDate = "2026-01-05";
+	const localDate = "2026-02-01";
 
 	return <Sales005Client localDate={localDate} />;
 }

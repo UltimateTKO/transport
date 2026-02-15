@@ -31,7 +31,7 @@ const weekdayLabels = ["日", "月", "火", "水", "木", "金", "土"];
 
 const requestorColWidthRem = 10;
 const typeColWidthRem = 6;
-const totalColWidthRem = 6;
+const totalColWidthRem = 7;
 
 const rem = (value: number) => `${value}rem`;
 
@@ -85,19 +85,22 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const days = toMonthDays(localMonth);
 	const baseRows: SalesTrendRow[] = [
 		{
-			requestor: "沖縄第一倉庫",
-			fare: [0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 9500, 0, 0, 0, 0, 9500, 9500, 0, 0, 0, 0],
-			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			requestor: "茨城倉庫",
+			fare: [
+				0, 22000, 21000, 21000, 0, 0, 0, 0, 9500, 9500, 0, 22000, 12000, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				0,
+			],
+			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			requestor: "琉球物流",
-			fare: [0, 0, 0, 0, 21000, 0, 0, 21000, 21000, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 21000, 21000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			advance: [0, 0, 0, 0, 1200, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0, 0, 0, 0, 0, 1200, 1200, 0],
+			requestor: "千代川倉庫",
+			fare: [0, 22000, 0, 0, 22000, 12000, 0, 0, 0, 0, 0, 12000, 9000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			requestor: "九州倉庫",
-			fare: [0, 0, 0, 0, 21000, 0, 0, 0, 12000, 12000, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 12000, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			advance: [0, 0, 0, 0, 3000, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500, 0, 0, 0, 0, 0, 1500, 1500],
+			requestor: "前山倉庫",
+			fare: [0, 15000, 0, 0, 11000, 0, 0, 0, 0, 0, 0, 8500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 	];
 
@@ -135,7 +138,10 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			{isLoading ? (
-				<div className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2" style={{ zIndex: 1050 }}>
+				<div
+					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
+					style={{ zIndex: 1050 }}
+				>
 					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
 					<span className="text-muted small">再計算中...</span>
 				</div>
@@ -194,6 +200,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 							<tr className="table-primary">
 								<th
 									style={{
+										width: rem(requestorColWidthRem),
 										minWidth: rem(requestorColWidthRem),
 										...makeStickyStyle(stickyOffsets.first, "var(--bs-table-bg)", 6),
 									}}
@@ -203,6 +210,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 
 								<th
 									style={{
+										width: rem(totalColWidthRem),
 										minWidth: rem(totalColWidthRem),
 										...makeStickyStyle(stickyOffsets.second, "var(--bs-table-bg)", 6),
 									}}
@@ -219,11 +227,20 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</thead>
 						<tbody>
 							{rows.map((row) => {
-								const visibleFare = days.map((day, index) => (day.day >= endDay ? null : (row.fare[index + 1] ?? null)));
-								const visibleAdvance = days.map((day, index) => (day.day >= endDay ? null : (row.advance[index + 1] ?? null)));
+								const visibleFare = days.map((day, index) => {
+									if (day.day >= endDay) return null;
+									const value = row.fare[index + 1] ?? null;
+									return value === 0 ? null : value;
+								});
+								const visibleAdvance = days.map((day, index) => {
+									if (day.day >= endDay) return null;
+									const value = row.advance[index + 1] ?? null;
+									return value === 0 ? null : value;
+								});
 								const fareFirst = row.fare[0] ?? null;
 								const advanceFirst = row.advance[0] ?? null;
-								const combinedFirst = fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
+								const combinedFirst =
+									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>
@@ -231,6 +248,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 											<td
 												className="align-middle fw-semibold bg-white"
 												style={{
+													width: rem(requestorColWidthRem),
 													minWidth: rem(requestorColWidthRem),
 													...makeStickyStyle(stickyOffsets.first, "#fff", 5),
 												}}
@@ -240,6 +258,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 											<td
 												className="text-end fw-semibold bg-white"
 												style={{
+													width: rem(totalColWidthRem),
 													minWidth: rem(totalColWidthRem),
 													...makeStickyStyle(stickyOffsets.second, "#fff", 4),
 												}}
