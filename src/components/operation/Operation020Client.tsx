@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent, MouseEvent } from "react";
 import { Container, Button, Form, Row, Col, Badge } from "react-bootstrap";
@@ -275,7 +276,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "",
+					vehicleNo: "あんしんLINE2",
 					provisionalVehicleNo: "WK",
 					driverName: "",
 					assistant: "",
@@ -327,7 +328,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			vehicles: [
 				{
 					id: 1,
-					vehicleNo: "",
+					vehicleNo: "あんしんLINE1",
 					provisionalVehicleNo: "WK",
 					driverName: "",
 					assistant: "",
@@ -465,6 +466,11 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 	const selectedRoute = rows.find((route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL));
 	const vehicles = selectedRoute?.vehicles ?? [];
 	const isSeaTransport = selectedRoute?.transportType === "海運";
+	const transportIcon = isSeaTransport ? (
+		<Image src="/shipicon.png" alt="船" width={32} height={32} priority />
+	) : (
+		<BsTruck size={32} className="text-primary" />
+	);
 
 	const fromSummaries = useMemo(() => {
 		const summary = new Map<string, { destinations: Set<string>; vehicleCount: number }>();
@@ -529,10 +535,10 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 			<Col lg={6} onClick={hideContextMenu} className="position-relative">
 				<div className="d-flex align-items-center justify-content-center gap-3 mb-3">
 					<span className="fw-semibold">{selectedFrom || "From未選択"}</span>
-					<BsTruck size={32} className="text-primary" />
+					{transportIcon}
 					<span className="fw-semibold">{selectedTo || "To未選択"}</span>
 				</div>
-				<div className="border rounded p-3 bg-white shadow-sm h-100">
+				<div className="border rounded p-3 bg-white shadow-sm h-80">
 					{selectedRoute ? (
 						<div className="d-flex flex-column gap-3 h-100">
 							<div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
@@ -562,7 +568,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 											<div className="small d-flex flex-wrap gap-3">
 												<span>配車部門: {vehicle.dispatchDeptCode}</span>
 												<span>
-													{isSeaTransport ? "船番" : "車番"}: {vehicle.vehicleNo}
+													{isSeaTransport ? "船名" : "車番"}: {vehicle.vehicleNo}
 												</span>
 												{!isSeaTransport && <span>仮車番: {vehicle.provisionalVehicleNo}</span>}
 											</div>
@@ -575,14 +581,14 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 											)}
 											<div className="small d-flex flex-wrap gap-3">
 												<span>
-													{isSeaTransport ? "出航日" : "運行日"}: {vehicle.operationDate}
+													{isSeaTransport ? "出港日" : "運行日"}: {vehicle.operationDate}
 												</span>
 												<span>積込日: {vehicle.loadingDate}</span>
 											</div>
 											<div className="small d-flex flex-wrap gap-3">
 												{!isSeaTransport && <span>出発日: {vehicle.departureDate}</span>}
 												<span>
-													{isSeaTransport ? "着港日" : "荷卸日"}: {vehicle.unloadingDate}
+													{isSeaTransport ? "入港日" : "荷卸日"}: {vehicle.unloadingDate}
 												</span>
 											</div>
 										</div>
