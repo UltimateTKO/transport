@@ -16,13 +16,13 @@ type Tablet010ClientProps = {
 type ScreenMode = "form" | "signature";
 
 export default function Tablet010Client({ deliveryDateTime }: Tablet010ClientProps) {
-	const destinationList = useMemo(() => [{ key: "D001", value: "オーズカンパニー" }], []);
+	const destinationList = useMemo(() => [{ key: "D001", value: "ボストンズカフェ 古河店" }], []);
 
 	const receiverList = useMemo(
 		() => [
-			{ key: "A1001", value: "宮里　元" },
-			{ key: "A1002", value: "仲村渠　裕也" },
-			{ key: "A1003", value: "阿波根　耕哉" },
+			{ key: "A1001", value: "石田　元" },
+			{ key: "A1002", value: "田中　裕也" },
+			{ key: "A1003", value: "木下　耕哉" },
 		],
 		[],
 	);
