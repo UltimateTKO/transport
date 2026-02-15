@@ -2,7 +2,13 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
-import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
+import {
+	CommonGroupLabel,
+	CommonComboBox,
+	CommonInputBox,
+	RequiredMark,
+	CommonDateRangeBox,
+} from "@/components/CommonComponent";
 
 type DeliveryInstructionDetail = {
 	id: string;
@@ -93,9 +99,9 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 		{ key: "OTKYBP", value: "東京神奈川委託先" },
 	];
 	const orderSourceList: ListItem[] = [
-		{ key: "OS01", value: "沖縄第一倉庫" },
-		{ key: "OS02", value: "琉球物流" },
-		{ key: "OS03", value: "九州倉庫" },
+		{ key: "OS01", value: "茨城倉庫" },
+		{ key: "OS02", value: "千代川倉庫" },
+		{ key: "OS03", value: "前山倉庫" },
 	];
 
 	const [showSignatureModal, setShowSignatureModal] = useState(false);
@@ -363,12 +369,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 					<Row className="gx-1 gy-2 mb-4">
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={true} label="受注営業所">
-								<CommonComboBox
-									id="officeCode"
-									list={locationList.filter((location) => location.key.startsWith("O"))}
-									showKey={true}
-									defaultValue="OUADC"
-								/>
+								<CommonComboBox id="officeCode" list={locationList} showKey={true} defaultValue="OUADC" />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
