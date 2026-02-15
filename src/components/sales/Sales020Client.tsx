@@ -73,22 +73,13 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const endDay = 28;
 
 	const deptList: ListItem[] = [
-		{ key: "OUADC", value: "あんしん総合流通センター" },
-		{ key: "OUGBO", value: "キンザー営業所" },
-		{ key: "OUMDC", value: "港町物流センター" },
-		{ key: "ONHBO", value: "那覇営業所" },
-		{ key: "ONFDC", value: "西原FDC" },
-		{ key: "ONABO", value: "あんしん館" },
-		{ key: "ONNBO", value: "西原営業所" },
-		{ key: "DNHDO", value: "那覇港" },
-		{ key: "ROMPL", value: "宮古委託先" },
-		{ key: "RHTPL", value: "博多委託先" },
-		{ key: "ROOPL", value: "大阪委託先" },
-		{ key: "RYHPL", value: "横浜委託先" },
-		{ key: "DOMDO", value: "平良港" },
-		{ key: "DHTDO", value: "博多港" },
-		{ key: "DOODO", value: "大阪港" },
-		{ key: "DYHDO", value: "横浜港" },
+		{ key: "MIBRDC", value: "茨城センター" },
+		{ key: "MFKSDC", value: "郡山センター" },
+		{ key: "MGNMDC", value: "高崎センター" },
+		{ key: "MTTGDC", value: "足利センター" },
+		{ key: "MSTMDC", value: "岩槻センター" },
+		{ key: "MTIBDC", value: "印西センター" },
+		{ key: "OTKYBP", value: "東京神奈川委託先" },
 	];
 
 	const days = toMonthDays(localMonth);
