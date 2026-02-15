@@ -13,7 +13,7 @@ export function Invoice020Panel(props: Invoice020PanelProps) {
 	const today = new Date();
 	const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
 	//   const localMonth = localDate.slice(0, 7);
-	const localMonth = "2025-12";
+	const localMonth = "2026-01";
 
 	return <Invoice020Client localMonth={localMonth} />;
 }
