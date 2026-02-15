@@ -38,83 +38,76 @@ type TrackingFormState = TrackingInput[];
 const TRACKING_DATA: TrackingResult[] = [
 	{
 		id: 1,
-		trackingNo: "2026012800001",
-		departDate: "2026/01/20",
-		shipper: "九州倉庫",
-		consignee: "オーズカンパニー",
-		deliveryDate: "2026/01/21",
+		trackingNo: "2026021000001",
+		departDate: "2026/02/12",
+		shipper: "千代川倉庫",
+		consignee: "本宮柏屋",
+		deliveryDate: "2026/02/14",
 		status: "納品済",
 		details: [
 			{
 				id: "1",
 				departAt: "",
-				arriveAt: "2026/01/18 15:00",
-				fromLocation: "九州倉庫",
-				toLocation: "博多港",
+				arriveAt: "2026/02/12 15:00",
+				fromLocation: "千代川倉庫",
+				toLocation: "茨城センター",
 			},
 			{
 				id: "2",
-				departAt: "2026/01/19 17:00",
-				arriveAt: "2026/01/21 07:00",
-				fromLocation: "博多港",
-				toLocation: "那覇港",
+				departAt: "2026/02/13 08:00",
+				arriveAt: "2026/02/13 15:00",
+				fromLocation: "茨城センター",
+				toLocation: "郡山センター",
 			},
 			{
 				id: "3",
-				departAt: "2026/01/21 11:00",
-				arriveAt: "2026/01/21 12:00",
-				fromLocation: "那覇港",
-				toLocation: "あんしん総合流通センター",
-			},
-			{
-				id: "4",
-				departAt: "2026/01/21 15:00",
-				arriveAt: "2026/01/21 18:00",
-				fromLocation: "あんしん総合流通センター",
-				toLocation: "オーズカンパニー",
+				departAt: "2026/02/14 08:00",
+				arriveAt: "2026/02/14 10:00",
+				fromLocation: "郡山センター",
+				toLocation: "本宮柏屋",
 			},
 		],
 	},
 	{
 		id: 2,
-		trackingNo: "2026012800002",
-		departDate: "2026/01/28",
-		shipper: "港町物流センター",
-		consignee: "caféポンチェ",
-		deliveryDate: "2026/01/28",
+		trackingNo: "2026021000002",
+		departDate: "2026/02/16",
+		shipper: "千代川倉庫",
+		consignee: "丸満餃子",
+		deliveryDate: "2026/02/17",
 		status: "輸送中",
 		details: [
 			{
 				id: "1",
-				departAt: "2026/01/28 08:00",
-				arriveAt: "2026/01/28 10:00",
-				fromLocation: "港町物流センター",
-				toLocation: "キンザー営業所",
+				departAt: "",
+				arriveAt: "2026/02/16 10:00",
+				fromLocation: "千代川倉庫",
+				toLocation: "茨城センター",
 			},
 			{
 				id: "2",
-				departAt: "2026/01/28 13:00",
+				departAt: "2026/02/17 13:00",
 				arriveAt: "",
-				fromLocation: "キンザー営業所",
-				toLocation: "caféポンチェ",
+				fromLocation: "茨城センター",
+				toLocation: "丸満餃子",
 			},
 		],
 	},
 	{
 		id: 3,
-		trackingNo: "2026012800003",
-		departDate: "2026/01/28",
-		shipper: "沖縄第一倉庫",
-		consignee: "イタリアン料理 mou",
-		deliveryDate: "2026/01/29",
+		trackingNo: "2026021000003",
+		departDate: "2026/02/17",
+		shipper: "茨城センター",
+		consignee: "ボストンズカフェ 古河店",
+		deliveryDate: "2026/02/17",
 		status: "受付",
 		details: [
 			{
 				id: "1",
-				departAt: "",
-				arriveAt: "2026/01/28 09:00",
-				fromLocation: "友睦物流",
-				toLocation: "キンザー営業所",
+				departAt: "2026/02/17 13:00",
+				arriveAt: "",
+				fromLocation: "茨城センター",
+				toLocation: "ボストンズカフェ 古河店",
 			},
 		],
 	},
@@ -142,9 +135,9 @@ const filterRows = (state: TrackingFormState): TrackingResult[] => {
 };
 
 const INITIAL_FORM_STATE: TrackingFormState = applyStatuses([
-	{ value: "2026012800001", status: "" },
-	{ value: "2026012800002", status: "" },
-	{ value: "2026012800003", status: "" },
+	{ value: "2026021000001", status: "" },
+	{ value: "2026021000002", status: "" },
+	{ value: "2026021000003", status: "" },
 ]);
 
 /// 貨物追跡画面
@@ -157,7 +150,9 @@ export default function Transport050Client() {
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) => prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)));
+		setFormState((prev) =>
+			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
+		);
 	};
 
 	const handleAddInput = () => {
