@@ -131,29 +131,29 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 	const rows: SalesHeader[] = [
 		{
 			salesNo: "1",
-			inquiryNo: "20260105100001",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/04",
-			deliveryDate: "2026/01/05",
-			requester: "沖縄第一倉庫",
-			destination: "オーズカンパニー",
+			inquiryNo: "20260130100010",
+			salesDate: "2026/02/02",
+			operationDate: "2026/01/30",
+			deliveryDate: "2026/02/02",
+			requester: "千代川倉庫",
+			destination: "本宮柏屋",
 			quantity: "20",
-			fare: "20,000",
-			payoutFare: "12,000",
-			internalTransferFare: "5,000",
+			fare: "15,000",
+			payoutFare: "",
+			internalTransferFare: "6,000",
 			billingMonth: "",
 			status: "データ作成",
 		},
 		{
 			salesNo: "2",
-			inquiryNo: "20260105100002",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/05",
-			deliveryDate: "2026/01/05",
-			requester: "沖縄第一倉庫",
-			destination: "たぬき弁当",
-			quantity: "1",
-			fare: "1,000",
+			inquiryNo: "20260202100001",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "前山倉庫",
+			destination: "ボストンズカフェ 古河店",
+			quantity: "30",
+			fare: "10,000",
 			payoutFare: "",
 			internalTransferFare: "",
 			billingMonth: "",
@@ -161,12 +161,42 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 		},
 		{
 			salesNo: "3",
-			inquiryNo: "20260105100003",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/05",
-			deliveryDate: "2026/01/05",
-			requester: "琉球物流",
-			destination: "caféポンチェ",
+			inquiryNo: "20260202100002",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "前山倉庫",
+			destination: "七の庫",
+			quantity: "10",
+			fare: "5,000",
+			payoutFare: "",
+			internalTransferFare: "",
+			billingMonth: "",
+			status: "データ作成",
+		},
+		{
+			salesNo: "4",
+			inquiryNo: "20260202100003",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "千代川倉庫",
+			destination: "丸満餃子",
+			quantity: "5",
+			fare: "7,000",
+			payoutFare: "",
+			internalTransferFare: "",
+			billingMonth: "",
+			status: "データ作成",
+		},
+		{
+			salesNo: "5",
+			inquiryNo: "20260202100004",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "茨城倉庫",
+			destination: "ばんどう太郎 古河店",
 			quantity: "10",
 			fare: "10,000",
 			payoutFare: "8,000",
@@ -175,29 +205,14 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			status: "データ作成",
 		},
 		{
-			salesNo: "4",
-			inquiryNo: "20260105100004",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/05",
-			deliveryDate: "2026/01/05",
-			requester: "琉球物流",
-			destination: "宗像堂",
-			quantity: "11",
-			fare: "11,000",
-			payoutFare: "",
-			internalTransferFare: "6,000",
-			billingMonth: "",
-			status: "データ作成",
-		},
-		{
-			salesNo: "5",
-			inquiryNo: "20260105100005",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/04",
-			deliveryDate: "2026/01/05",
-			requester: "九州倉庫",
-			destination: "牛吉 牧港店",
-			quantity: "6",
+			salesNo: "6",
+			inquiryNo: "20260202100005",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "茨城倉庫",
+			destination: "ジョティー 古河店",
+			quantity: "15",
 			fare: "6,000",
 			payoutFare: "",
 			internalTransferFare: "",
@@ -205,16 +220,16 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 			status: "データ作成",
 		},
 		{
-			salesNo: "6",
-			inquiryNo: "20260105100006",
-			salesDate: "2026/01/05",
-			operationDate: "2026/01/05",
-			deliveryDate: "2026/01/05",
-			requester: "九州倉庫",
-			destination: "イタリアン料理 mou",
+			salesNo: "7",
+			inquiryNo: "20260202100006",
+			salesDate: "2026/02/02",
+			operationDate: "2026/02/02",
+			deliveryDate: "2026/02/02",
+			requester: "茨城倉庫",
+			destination: "はのは",
 			quantity: "15",
-			fare: "15,000",
-			payoutFare: "12,000",
+			fare: "6,000",
+			payoutFare: "",
 			internalTransferFare: "",
 			billingMonth: "",
 			status: "データ作成",
@@ -242,7 +257,7 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 						</Col> */}
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門CD">
-								<CommonComboBox id="locationList" list={locationList} showKey={true} defaultValue="OUADC" readOnly />
+								<CommonComboBox id="locationList" list={locationList} showKey={true} defaultValue="MIBRDC" readOnly />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -294,7 +309,13 @@ export default function Sales010Client({ localDate }: Sales010ClientProps) {
 				</footer>
 			</section>
 
-			<Modal show={showInquiryModal} onHide={closeInquiryModal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
+			<Modal
+				show={showInquiryModal}
+				onHide={closeInquiryModal}
+				dialogClassName="modal-xxl"
+				fullscreen="lg-down"
+				scrollable
+			>
 				<Modal.Header closeButton className="border-0 bg-light">
 					<Modal.Title>下払/内振明細</Modal.Title>
 				</Modal.Header>
