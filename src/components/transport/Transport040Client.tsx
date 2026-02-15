@@ -213,9 +213,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		{ key: "OTKYBP", value: "東京神奈川委託先" },
 	];
 	const carriers: ListItem[] = [
-		{ key: "Y0000", value: "沖縄物流" },
-		{ key: "Y1000", value: "沖縄急送" },
-		{ key: "Y1001", value: "沖縄海陸物流" },
+		{ key: "Y0000", value: "関東運輸" },
+		{ key: "Y1000", value: "茨城運送" },
+		{ key: "Y1001", value: "谷原商運" },
 	];
 	const vehicleNumbers: ListItem[] = [
 		{ key: "1001", value: "1001" },
@@ -343,7 +343,8 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 		setRoutes((prev) => prev.map((route) => ({ ...route, isFinal: true })));
 	};
 
-	const mapUrl = "https://www.google.com/maps/d/u/0/edit?mid=1uMBDI2E7k8kuaokqu60lCJdpEOujFck&usp=sharing";
+	const mapUrl =
+		"https://www.google.com/maps/d/u/0/edit?hl=ja&mid=1KnslBXgeIdizdEWo6khCbAQOubMrNCc&ll=36.19108139248848%2C139.72453475&z=15";
 
 	const handleMapClick = () => {
 		const popup = window.open(mapUrl, "transport040-map", "popup=yes,width=1200,height=800,noopener,noreferrer");
@@ -392,10 +393,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							<CommonGroupLabel required={true} label="営業所">
 								<CommonComboBox
 									id="office"
-									list={offices.filter((office) => office.key.startsWith("O"))}
+									list={offices.filter((office) => office.key.startsWith("M"))}
 									showKey={true}
-									defaultValue="OUGBO"
-									readOnly
+									defaultValue="MIBRDC"
 								/>
 							</CommonGroupLabel>
 						</Col>
@@ -403,7 +403,7 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							<CommonGroupLabel required={true} label="ルートコース">
 								<CommonComboBox
 									id="routeCourse"
-									list={routeCourses.filter((course) => course.key.startsWith("RIBR"))}
+									list={routeCourses.filter((course) => course.key.startsWith("RIBR0"))}
 									defaultValue="RIBR001"
 									showKey={true}
 								/>
@@ -457,7 +457,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 						className="transport040-grid border rounded-3 shadow-sm"
 						style={{ gridTemplateColumns: `180px repeat(${routes.length}, minmax(200px, 1fr))` }}
 					>
-						<div className="transport040-cell transport040-sticky bg-primary-subtle text-primary fw-semibold">配送ルート</div>
+						<div className="transport040-cell transport040-sticky bg-primary-subtle text-primary fw-semibold">
+							配送ルート
+						</div>
 						{routesWithTotals.map((route) => (
 							<div key={route.id} className="transport040-cell transport040-route-head bg-primary-subtle">
 								<Row className="d-flex align-items-start">
@@ -481,7 +483,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 							</div>
 						))}
 
-						<div className="transport040-cell transport040-sticky bg-body-secondary text-secondary fw-semibold">出荷指示合計</div>
+						<div className="transport040-cell transport040-sticky bg-body-secondary text-secondary fw-semibold">
+							出荷指示合計
+						</div>
 						{routesWithTotals.map((route) => (
 							<div key={`${route.id}-totals`} className="transport040-cell bg-body-secondary">
 								<div className="small text-muted text-end">{route.totals.weight}</div>
@@ -492,7 +496,9 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 
 						{Array.from({ length: maxStops }).map((_, rowIndex) => (
 							<Fragment key={`stop-row-${rowIndex}`}>
-								<div className="transport040-cell transport040-sticky text-center fw-semibold bg-light">{rowIndex + 1}</div>
+								<div className="transport040-cell transport040-sticky text-center fw-semibold bg-light">
+									{rowIndex + 1}
+								</div>
 								{routesWithTotals.map((route) => {
 									const stop = route.stops[rowIndex];
 									const isDragOver = dragOverCell?.routeId === route.id && dragOverCell.stopIndex === rowIndex;
@@ -531,7 +537,11 @@ export default function Transport040Client({ localDate }: Transport040ClientProp
 				</div>
 			</section>
 			{contextMenu ? (
-				<div className="transport040-context-layer" onClick={() => setContextMenu(null)} onContextMenu={(event) => event.preventDefault()}>
+				<div
+					className="transport040-context-layer"
+					onClick={() => setContextMenu(null)}
+					onContextMenu={(event) => event.preventDefault()}
+				>
 					<div className="transport040-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }} role="menu">
 						<button
 							type="button"
