@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
+import { Container, Button, Form, Table, Row, Col } from "react-bootstrap";
 import {
 	CommonGroupLabel,
 	CommonComboBox,
@@ -57,7 +57,6 @@ type DeliveryInstructionHeader = {
 	volume: string;
 	weight: string;
 	dimensionTotal: string;
-	receiver: string;
 	status: string;
 	details: DeliveryInstructionDetail[];
 };
@@ -70,23 +69,18 @@ type Orders040ClientProps = {
 
 type DeliveryInstructionTableProps = {
 	rows: DeliveryInstructionHeader[];
-	onShowSignature: (row: DeliveryInstructionHeader) => void;
 };
 
 /// 受注 - 配送照会
 export default function Orders040Client({ localDate }: Orders040ClientProps) {
 	const temperatureBandList: ListItem[] = [
 		{ key: "T1", value: "常温" },
-		{ key: "T2", value: "冷蔵" },
+		{ key: "T2", value: "クール" },
 		{ key: "T3", value: "冷凍" },
-		{ key: "T4", value: "超低温" },
 	];
 	const statusList: ListItem[] = [
-		{ key: "created", value: "データ作成" },
+		{ key: "accepted", value: "受付" },
 		{ key: "in_transit", value: "運行中" },
-		{ key: "delivered", value: "配送完了" },
-		{ key: "billed", value: "請求済" },
-		{ key: "deleted", value: "削除" },
 	];
 	// 地点マスタ
 	const locationList: ListItem[] = [
@@ -104,131 +98,47 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 		{ key: "OS03", value: "前山倉庫" },
 	];
 
-	const [showSignatureModal, setShowSignatureModal] = useState(false);
-	const [selectedInstructionNo, setSelectedInstructionNo] = useState<string | null>(null);
-	const [selectedReceiver, setSelectedReceiver] = useState<string | null>(null);
-
-	const handleShowSignature = (row: DeliveryInstructionHeader) => {
-		setSelectedInstructionNo(row.instructionNo);
-		setSelectedReceiver(row.receiver);
-		setShowSignatureModal(true);
-	};
-
-	const handleCloseSignature = () => {
-		setShowSignatureModal(false);
-		setSelectedInstructionNo(null);
-		setSelectedReceiver(null);
-	};
 	const rows: DeliveryInstructionHeader[] = [
 		{
-			id: 5,
-			instructionNo: "2026010000",
-			runDate: "2026/01/28",
-			loadingDate: "2026/01/28",
-			departureDate: "2026/01/28",
-			unloadingPlanDate: "",
-			temperatureBand: "常温",
-			orderSource: "九州倉庫",
-			officeCode: "あんしん総合流通センター",
-			inquirySlipNo: "2026010000",
-			shipperCode: "九州倉庫",
+			id: 1,
+			instructionNo: "20260001",
+			runDate: "2026/02/17",
+			loadingDate: "2026/02/17",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			temperatureBand: "冷凍",
+			orderSource: "茨城倉庫",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260001",
+			shipperCode: "茨城センター",
 			consigneeCode: "CNS-000",
-			consigneeName: "オーズカンパニー",
-			consigneePostalCode: "901-0000",
-			consigneeAddress: "沖縄県浦添市伊祖0-0-0",
+			consigneeName: "ばんどう太郎 古河店",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市牧野地0-0",
 			consigneePhone: "",
 			consigneeFax: "",
 			consigneeAddressCode: "",
-			consigneePrefectureCode: "47",
+			consigneePrefectureCode: "",
 			consigneeAreaCode: "",
-			consigneePrefecture: "沖縄県",
-			consigneeCity: "浦添市",
-			consigneeTown: "伊祖",
-			requestedArrivalTime: "",
-			quantityTotal: "10",
-			volume: "0.12",
-			weight: "20",
-			dimensionTotal: "700",
-			receiver: "",
-			status: "運行中",
-			details: [
-				{
-					id: "5-1",
-					instructionNo: "2026010000",
-					detailNo: "001",
-					productCode: "PRD-001",
-					productName: "加工食品",
-					manufactureDate: "2025/12/10",
-					bestBeforeDate: "2026/06/10",
-					lotNo: "20251210",
-					quantity: "3",
-					volume: "0.036",
-					weight: "6",
-					dimensionTotal: "210",
-					length: "",
-					width: "",
-					height: "",
-				},
-				{
-					id: "5-2",
-					instructionNo: "2026010000",
-					detailNo: "002",
-					productCode: "PRD-002",
-					productName: "出汁スープ",
-					manufactureDate: "2025/12/15",
-					bestBeforeDate: "2026/06/15",
-					lotNo: "20251215",
-					quantity: "7",
-					volume: "0.084",
-					weight: "14",
-					dimensionTotal: "490",
-					length: "",
-					width: "",
-					height: "",
-				},
-			],
-		},
-		{
-			id: 1,
-			instructionNo: "2026010001",
-			runDate: "2026/01/28",
-			loadingDate: "2026/01/28",
-			departureDate: "2026/01/28",
-			unloadingPlanDate: "",
-			temperatureBand: "常温",
-			orderSource: "沖縄第一倉庫",
-			officeCode: "あんしん総合流通センター",
-			inquirySlipNo: "2026010001",
-			shipperCode: "キンザー営業所",
-			consigneeCode: "CNS-001",
-			consigneeName: "宗像堂",
-			consigneePostalCode: "901-0000",
-			consigneeAddress: "沖縄県宜野湾市嘉数0-0-0",
-			consigneePhone: "098-000-0000",
-			consigneeFax: "098-000-0001",
-			consigneeAddressCode: "ON-001",
-			consigneePrefectureCode: "47",
-			consigneeAreaCode: "47206",
-			consigneePrefecture: "沖縄県",
-			consigneeCity: "宜野湾市",
-			consigneeTown: "嘉数",
-			requestedArrivalTime: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "牧野地",
+			requestedArrivalTime: "15:00",
 			quantityTotal: "10",
 			volume: "0.12",
 			weight: "20",
 			dimensionTotal: "700",
 			status: "運行中",
-			receiver: "",
 			details: [
 				{
 					id: "1-1",
-					instructionNo: "2026010001",
+					instructionNo: "20260001",
 					detailNo: "001",
-					productCode: "PRD-001",
-					productName: "加工食品",
-					manufactureDate: "2026/01/10",
-					bestBeforeDate: "2026/07/10",
-					lotNo: "20260110",
+					productCode: "PRD-100",
+					productName: "冷凍スープ",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2028/02/01",
+					lotNo: "AA100021",
 					quantity: "3",
 					volume: "0.036",
 					weight: "6",
@@ -239,13 +149,13 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 				},
 				{
 					id: "1-2",
-					instructionNo: "2026010001",
+					instructionNo: "20260001",
 					detailNo: "002",
-					productCode: "PRD-002",
-					productName: "出汁スープ",
-					manufactureDate: "2026/01/15",
-					bestBeforeDate: "2026/07/15",
-					lotNo: "20260115",
+					productCode: "PRD-200",
+					productName: "加工肉セット",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2028/02/01",
+					lotNo: "AA200021",
 					quantity: "7",
 					volume: "0.084",
 					weight: "14",
@@ -258,101 +168,194 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 		},
 		{
 			id: 2,
-			instructionNo: "2026010002",
-			runDate: "2026/01/28",
-			loadingDate: "2026/01/28",
-			departureDate: "2026/01/28",
-			unloadingPlanDate: "",
-			orderSource: "沖縄第一倉庫",
+			instructionNo: "20260002",
+			runDate: "2026/02/17",
+			loadingDate: "2026/02/17",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/19",
 			temperatureBand: "常温",
-			officeCode: "あんしん総合流通センター",
-			inquirySlipNo: "2026010002",
-			shipperCode: "キンザー営業所",
-			consigneeCode: "CNS-002",
-			consigneeName: "たぬき弁当",
-			consigneePostalCode: "901-0001",
-			consigneeAddress: "沖縄県浦添市城間0-0-0",
-			consigneePhone: "098-000-0002",
-			consigneeFax: "098-000-0003",
-			consigneeAddressCode: "ON-002",
-			consigneePrefectureCode: "47",
-			consigneeAreaCode: "47207",
-			consigneePrefecture: "沖縄県",
-			consigneeCity: "浦添市",
-			consigneeTown: "城間",
-			requestedArrivalTime: "",
+			orderSource: "千代川倉庫",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260002",
+			shipperCode: "千代川倉庫",
+			consigneeCode: "CNS-001",
+			consigneeName: "本宮柏屋",
+			consigneePostalCode: "",
+			consigneeAddress: "",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "",
+			consigneeCity: "",
+			consigneeTown: "",
+			requestedArrivalTime: "ー",
 			quantityTotal: "20",
 			volume: "0.24",
 			weight: "40",
 			dimensionTotal: "1400",
 			status: "運行中",
-			receiver: "",
 			details: [],
 		},
 		{
 			id: 3,
-			instructionNo: "2026010003",
-			runDate: "2026/01/28",
-			loadingDate: "2026/01/28",
-			departureDate: "2026/01/28",
-			unloadingPlanDate: "2026/01/28",
-			orderSource: "琉球物流",
+			instructionNo: "20260003",
+			runDate: "2026/02/17",
+			loadingDate: "2026/02/17",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			orderSource: "前山倉庫",
 			temperatureBand: "常温",
-			officeCode: "あんしん総合流通センター",
-			inquirySlipNo: "2026010003",
-			shipperCode: "キンザー営業所",
-			consigneeCode: "CNS-003",
-			consigneeName: "牛吉 牧港店",
-			consigneePostalCode: "901-0002",
-			consigneeAddress: "沖縄県宜野湾市嘉数0-0-1",
-			consigneePhone: "098-000-0004",
-			consigneeFax: "098-000-0005",
-			consigneeAddressCode: "ON-003",
-			consigneePrefectureCode: "47",
-			consigneeAreaCode: "47206",
-			consigneePrefecture: "沖縄県",
-			consigneeCity: "宜野湾市",
-			consigneeTown: "嘉数",
-			requestedArrivalTime: "8:00-12:00",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260003",
+			shipperCode: "茨城センター",
+			consigneeCode: "CNS-002",
+			consigneeName: "ボストンズカフェ 古河店",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市下大野0-0",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "下大野",
+			requestedArrivalTime: "15:00",
 			quantityTotal: "30",
 			volume: "0.36",
 			weight: "50",
 			dimensionTotal: "2100",
-			status: "配送完了",
-			receiver: "秋葉　光慶",
+			status: "運行中",
 			details: [],
 		},
 		{
 			id: 4,
-			instructionNo: "2026010004",
-			runDate: "2026/01/28",
-			loadingDate: "2026/01/28",
-			departureDate: "2026/01/28",
-			unloadingPlanDate: "2026/01/28",
-			orderSource: "友睦物流",
-			temperatureBand: "冷凍",
-			officeCode: "あんしん総合流通センター",
-			inquirySlipNo: "2026010004",
-			shipperCode: "キンザー営業所",
-			consigneeCode: "CNS-004",
-			consigneeName: "イタリアン料理 mou",
-			consigneePostalCode: "901-0003",
-			consigneeAddress: "沖縄県宜野湾市志真志0-0-0",
-			consigneePhone: "098-000-0006",
-			consigneeFax: "098-000-0007",
-			consigneeAddressCode: "ON-004",
-			consigneePrefectureCode: "47",
-			consigneeAreaCode: "47206",
-			consigneePrefecture: "沖縄県",
-			consigneeCity: "宜野湾市",
-			consigneeTown: "志真志",
-			requestedArrivalTime: "14:00-16:00",
+			instructionNo: "20260004",
+			runDate: "2026/02/17",
+			loadingDate: "2026/02/17",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			orderSource: "千代川倉庫",
+			temperatureBand: "クール",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260004",
+			shipperCode: "茨城センター",
+			consigneeCode: "CNS-003",
+			consigneeName: "丸満餃子",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市本町0-0-0",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "本町",
+			requestedArrivalTime: "15:00",
 			quantityTotal: "5",
 			volume: "0.06",
 			weight: "15",
 			dimensionTotal: "350",
-			status: "データ作成",
-			receiver: "",
+			status: "受付",
+			details: [],
+		},
+		{
+			id: 5,
+			instructionNo: "20260005",
+			runDate: "2026/02/17",
+			loadingDate: "2026/01/16",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			orderSource: "前山倉庫",
+			temperatureBand: "常温",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260005",
+			shipperCode: "茨城センター",
+			consigneeCode: "CNS-004",
+			consigneeName: "七の庫",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市下辺見0-0",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "下辺見",
+			requestedArrivalTime: "ー",
+			quantityTotal: "10",
+			volume: "0.12",
+			weight: "20",
+			dimensionTotal: "700",
+			status: "受付",
+			details: [],
+		},
+		{
+			id: 6,
+			instructionNo: "20260006",
+			runDate: "2026/02/17",
+			loadingDate: "2026/01/16",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			orderSource: "茨城倉庫",
+			temperatureBand: "常温",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260006",
+			shipperCode: "茨城センター",
+			consigneeCode: "CNS-005",
+			consigneeName: "ジョティー 古河店",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市東0-0-0",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "東",
+			requestedArrivalTime: "ー",
+			quantityTotal: "15",
+			volume: "0.18",
+			weight: "25",
+			dimensionTotal: "1050",
+			status: "受付",
+			details: [],
+		},
+		{
+			id: 7,
+			instructionNo: "20260007",
+			runDate: "2026/02/17",
+			loadingDate: "2026/01/16",
+			departureDate: "2026/02/17",
+			unloadingPlanDate: "2026/02/17",
+			orderSource: "茨城倉庫",
+			temperatureBand: "常温",
+			officeCode: "茨城センター",
+			inquirySlipNo: "20260007",
+			shipperCode: "茨城センター",
+			consigneeCode: "CNS-006",
+			consigneeName: "はのは",
+			consigneePostalCode: "",
+			consigneeAddress: "茨城県古河市上辺見0",
+			consigneePhone: "",
+			consigneeFax: "",
+			consigneeAddressCode: "",
+			consigneePrefectureCode: "",
+			consigneeAreaCode: "",
+			consigneePrefecture: "茨城県",
+			consigneeCity: "古河市",
+			consigneeTown: "上辺見",
+			requestedArrivalTime: "ー",
+			quantityTotal: "15",
+			volume: "0.18",
+			weight: "25",
+			dimensionTotal: "1050",
+			status: "受付",
 			details: [],
 		},
 	];
@@ -411,7 +414,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 						キャンセル
 					</Button>
 				</div>
-				<DeliveryInstructionTable rows={rows} onShowSignature={handleShowSignature} />
+				<DeliveryInstructionTable rows={rows} />
 
 				<footer className="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 					<div className="d-flex align-items-center gap-2">
@@ -438,26 +441,12 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 					<div className="small text-muted">全 0 アイテム中 0 から 0 を表示中</div>
 				</footer>
 
-				<Modal show={showSignatureModal} onHide={handleCloseSignature} centered size="lg">
-					<Modal.Header closeButton>
-						<Modal.Title>受領確認{selectedInstructionNo ? ` - ${selectedInstructionNo}` : ""}</Modal.Title>
-					</Modal.Header>
-					<Modal.Body className="text-center">
-						{selectedReceiver && <div className="mb-3 fw-semibold">{selectedReceiver}</div>}
-						<img src="/サイン秋葉.png" alt="受領サイン" className="img-fluid" />
-					</Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={handleCloseSignature}>
-							閉じる
-						</Button>
-					</Modal.Footer>
-				</Modal>
 			</section>
 		</Container>
 	);
 }
 
-function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstructionTableProps) {
+function DeliveryInstructionTable({ rows }: DeliveryInstructionTableProps) {
 	const [expandedRows, setExpandedRows] = useState<number[]>([]);
 	const toggleRow = (id: number) => {
 		setExpandedRows((prev) => (prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]));
@@ -476,10 +465,16 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 							<span className="table-header-text">問合せNo/伝票No</span>
 						</th>
 						<th>
-							<span className="table-header-text">受注日</span>
+							<span className="table-header-text">運行日</span>
 						</th>
 						<th>
-							<span className="table-header-text">納品指定日</span>
+							<span className="table-header-text">積込日</span>
+						</th>
+						<th>
+							<span className="table-header-text">出発日</span>
+						</th>
+						<th>
+							<span className="table-header-text">荷下予定日</span>
 						</th>
 						<th>
 							<span className="table-header-text">温度帯</span>
@@ -515,12 +510,6 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 							<span className="table-header-text">寸法</span>
 						</th>
 						<th>
-							<span className="table-header-text">受領者</span>
-						</th>
-						<th>
-							<span className="table-header-text">サイン</span>
-						</th>
-						<th>
 							<span className="table-header-text">ステータス</span>
 						</th>
 					</tr>
@@ -530,21 +519,25 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 						<Fragment key={row.id}>
 							<tr className="align-middle">
 								<td className="text-center">
-									<Button
-										variant="outline-primary"
-										size="sm"
-										className="px-2 py-0"
-										onClick={() => toggleRow(row.id)}
-										aria-label={`${row.instructionNo}の配送指示明細を${expandedRows.includes(row.id) ? "閉じる" : "開く"}`}
-									>
-										{expandedRows.includes(row.id) ? "-" : "+"}
-									</Button>
+									{row.details.length > 0 ? (
+										<Button
+											variant="outline-primary"
+											size="sm"
+											className="px-2 py-0"
+											onClick={() => toggleRow(row.id)}
+											aria-label={`${row.instructionNo}の配送指示明細を${expandedRows.includes(row.id) ? "閉じる" : "開く"}`}
+										>
+											{expandedRows.includes(row.id) ? "-" : "+"}
+										</Button>
+									) : null}
 								</td>
 								<td>
 									<Form.Check type="checkbox" />
 								</td>
 								<td>{row.inquirySlipNo}</td>
 								<td>{row.runDate}</td>
+								<td>{row.loadingDate}</td>
+								<td>{row.departureDate}</td>
 								<td>{row.unloadingPlanDate}</td>
 								<td>{row.temperatureBand}</td>
 								<td>{row.orderSource}</td>
@@ -557,25 +550,10 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 								<td className="text-end">{row.volume}</td>
 								<td className="text-end">{row.weight}</td>
 								<td className="text-end">{row.dimensionTotal}</td>
-								<td>{row.receiver}</td>
-								<td>
-									{row.receiver ? (
-										<Button
-											variant="link"
-											type="button"
-											className="p-0 text-decoration-none"
-											onClick={() => onShowSignature(row)}
-										>
-											受領ボタン
-										</Button>
-									) : (
-										""
-									)}
-								</td>
 								<td>{row.status}</td>
 							</tr>
 
-							{expandedRows.includes(row.id) && (
+							{expandedRows.includes(row.id) && row.details.length > 0 && (
 								<tr className="bg-light">
 									<td></td>
 									<td colSpan={18} className="p-0">
@@ -607,6 +585,9 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 														<th>
 															<span className="table-header-text">寸法</span>
 														</th>
+														<th>
+															<span className="table-header-text">寸法</span>
+														</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -620,6 +601,7 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 															<td className="text-end">{detail.volume}</td>
 															<td className="text-end">{detail.weight}</td>
 															<td className="text-end">{detail.dimensionTotal}</td>
+															<td>{detail.length}</td>
 														</tr>
 													))}
 												</tbody>
