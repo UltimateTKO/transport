@@ -91,7 +91,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			routeCourse: "茨城センター→郡山センター",
 			fromLocation: "茨城センター",
 			toLocation: "郡山センター",
-			transportType: "地域外幹線",
+			transportType: "地域内幹線",
 			vehicles: [
 				{
 					id: 1,
@@ -123,7 +123,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 					departureDate: "2026/02/17",
 					unloadingDate: "2026/02/17",
 					dispatchDeptCode: "茨城センター",
-					temperatureBand: "常温",
+					temperatureBand: "冷蔵",
 					ownCharterClass: "自",
 					transportDeptCode: "",
 				},
@@ -134,7 +134,7 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 			routeCourse: "茨城センター→印西センター",
 			fromLocation: "茨城センター",
 			toLocation: "印西センター",
-			transportType: "地域外幹線",
+			transportType: "地域内幹線",
 			vehicles: [
 				{
 					id: 1,
@@ -233,6 +233,32 @@ export default function Operation020Client({ localDate }: Operation020ClientProp
 				},
 			],
 		},
+		{
+			id: 6,
+			routeCourse: "茨城センター→茨城センター",
+			fromLocation: "茨城センター",
+			toLocation: "茨城センター",
+			transportType: "集荷",
+			vehicles: [
+				{
+					id: 1,
+					vehicleNo: "1232",
+					provisionalVehicleNo: "1000",
+					driverName: "山田　元",
+					assistant: "",
+					driverPhone: "090-8888-8888",
+					status: "データ作成",
+					operationDate: "2026/02/17",
+					loadingDate: "2026/02/17",
+					departureDate: "2026/02/17",
+					unloadingDate: "2026/02/17",
+					dispatchDeptCode: "茨城センター",
+					temperatureBand: "常温",
+					ownCharterClass: "自",
+					transportDeptCode: "",
+				},
+			],
+		},
 	];
 	const [filteredRows, setFilteredRows] = useState<OperationPlanRow[]>(operationPlans);
 	const [officeCode, setOfficeCode] = useState("MIBRDC");
@@ -313,10 +339,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 		return typeLabel || EMPTY_TO_LABEL;
 	};
 
-	const fromOptions = useMemo(
-		() => Array.from(new Set(rows.map((route) => route.fromLocation).filter(Boolean))),
-		[rows],
-	);
+	const fromOptions = useMemo(() => Array.from(new Set(rows.map((route) => route.fromLocation).filter(Boolean))), [rows]);
 	const [selectedFrom, setSelectedFrom] = useState(fromOptions[0] ?? "");
 
 	useEffect(() => {
@@ -354,9 +377,7 @@ function OperationPlanPanels({ rows }: OperationTableProps) {
 		}
 	}, [selectedFrom, selectedTo, toOptions]);
 
-	const selectedRoute = rows.find(
-		(route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL),
-	);
+	const selectedRoute = rows.find((route) => route.fromLocation === selectedFrom && toLabel(route) === (selectedTo || EMPTY_TO_LABEL));
 	const vehicles = selectedRoute?.vehicles ?? [];
 	const isSeaTransport = selectedRoute?.transportType === "海運";
 	const transportIcon = isSeaTransport ? (
