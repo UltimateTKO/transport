@@ -625,19 +625,25 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 					</tr>
 				</thead>
 				<tbody>
-					{rows.map((row) => (
-						<Fragment key={row.id}>
+					{rows.map((row) => {
+						const hasDetails = row.details.length > 0;
+						const isExpanded = expandedRows.includes(row.id);
+
+						return (
+							<Fragment key={row.id}>
 							<tr className="align-middle">
 								<td className="text-center">
-									<Button
-										variant="outline-primary"
-										size="sm"
-										className="px-2 py-0"
-										onClick={() => toggleRow(row.id)}
-										aria-label={`${row.instructionNo}の配送指示明細を${expandedRows.includes(row.id) ? "閉じる" : "開く"}`}
-									>
-										{expandedRows.includes(row.id) ? "-" : "+"}
-									</Button>
+									{hasDetails ? (
+										<Button
+											variant="outline-primary"
+											size="sm"
+											className="px-2 py-0"
+											onClick={() => toggleRow(row.id)}
+											aria-label={`${row.instructionNo}の配送指示明細を${isExpanded ? "閉じる" : "開く"}`}
+										>
+											{isExpanded ? "-" : "+"}
+										</Button>
+									) : null}
 								</td>
 								<td>
 									<Form.Check type="checkbox" />
@@ -674,7 +680,7 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 								<td>{row.status}</td>
 							</tr>
 
-							{expandedRows.includes(row.id) && (
+							{hasDetails && isExpanded && (
 								<tr className="bg-light">
 									<td></td>
 									<td colSpan={18} className="p-0">
@@ -727,8 +733,9 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 									</td>
 								</tr>
 							)}
-						</Fragment>
-					))}
+							</Fragment>
+						);
+					})}
 				</tbody>
 			</Table>
 		</div>
