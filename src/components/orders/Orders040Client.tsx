@@ -2,13 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { Container, Button, Form, Table, Row, Col, Modal } from "react-bootstrap";
-import {
-	CommonGroupLabel,
-	CommonComboBox,
-	CommonInputBox,
-	RequiredMark,
-	CommonDateRangeBox,
-} from "@/components/CommonComponent";
+import { CommonGroupLabel, CommonComboBox, CommonInputBox, RequiredMark, CommonDateRangeBox } from "@/components/CommonComponent";
 
 type DeliveryInstructionDetail = {
 	id: string;
@@ -244,7 +238,25 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			dimensionTotal: "2100",
 			status: "運行中",
 			receiver: "",
-			details: [],
+			details: [
+				{
+					id: "3-1",
+					instructionNo: "20260003",
+					detailNo: "001",
+					productCode: "",
+					productName: "乾燥スバゲティ",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2028/02/01",
+					lotNo: "AA100111",
+					quantity: "30",
+					volume: "0.36",
+					weight: "50",
+					dimensionTotal: "2100",
+					length: "",
+					width: "",
+					height: "",
+				},
+			],
 		},
 		{
 			id: 4,
@@ -275,7 +287,25 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			dimensionTotal: "350",
 			status: "受付",
 			receiver: "",
-			details: [],
+			details: [
+				{
+					id: "4-1",
+					instructionNo: "20260004",
+					detailNo: "001",
+					productCode: "",
+					productName: "合挽ミンチ",
+					manufactureDate: "2026/02/16",
+					bestBeforeDate: "2026/02/23",
+					lotNo: "20260216",
+					quantity: "5",
+					volume: "0.06",
+					weight: "15",
+					dimensionTotal: "350",
+					length: "",
+					width: "",
+					height: "",
+				},
+			],
 		},
 		{
 			id: 5,
@@ -306,7 +336,25 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			dimensionTotal: "700",
 			receiver: "秋葉　光慶",
 			status: "受付",
-			details: [],
+			details: [
+				{
+					id: "5-1",
+					instructionNo: "20260005",
+					detailNo: "001",
+					productCode: "",
+					productName: "乾燥メンマ",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2026/08/01",
+					lotNo: "20260201",
+					quantity: "10",
+					volume: "0.12",
+					weight: "20",
+					dimensionTotal: "700",
+					length: "",
+					width: "",
+					height: "",
+				},
+			],
 		},
 		{
 			id: 6,
@@ -337,7 +385,25 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			dimensionTotal: "1050",
 			status: "受付",
 			receiver: "",
-			details: [],
+			details: [
+				{
+					id: "6-1",
+					instructionNo: "20260006",
+					detailNo: "001",
+					productCode: "",
+					productName: "クミンシード",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2027/02/01",
+					lotNo: "AA100200",
+					quantity: "15",
+					volume: "0.18",
+					weight: "25",
+					dimensionTotal: "1050",
+					length: "",
+					width: "",
+					height: "",
+				},
+			],
 		},
 		{
 			id: 7,
@@ -368,7 +434,25 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			dimensionTotal: "1050",
 			receiver: "",
 			status: "受付",
-			details: [],
+			details: [
+				{
+					id: "7-1",
+					instructionNo: "20260007",
+					detailNo: "001",
+					productCode: "",
+					productName: "モカコーヒー豆",
+					manufactureDate: "2026/02/01",
+					bestBeforeDate: "2027/02/01",
+					lotNo: "20260201",
+					quantity: "15",
+					volume: "0.18",
+					weight: "25",
+					dimensionTotal: "1050",
+					length: "",
+					width: "",
+					height: "",
+				},
+			],
 		},
 	];
 
