@@ -134,7 +134,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			consigneePrefecture: "",
 			consigneeCity: "",
 			consigneeTown: "",
-			requestedArrivalTime: "15:00",
+			requestedArrivalTime: "14:00-16:00",
 			quantityTotal: "10",
 			volume: "0.12",
 			weight: "20",
@@ -191,7 +191,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			consigneeCode: "",
 			consigneeName: "本宮柏屋",
 			consigneePostalCode: "",
-			consigneeAddress: "",
+			consigneeAddress: "福島県本宮市青田花掛0-0",
 			consigneePhone: "",
 			consigneeFax: "",
 			consigneeAddressCode: "",
@@ -231,7 +231,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			consigneePrefecture: "",
 			consigneeCity: "",
 			consigneeTown: "",
-			requestedArrivalTime: "15:00",
+			requestedArrivalTime: "14:00-16:00",
 			quantityTotal: "30",
 			volume: "0.36",
 			weight: "50",
@@ -280,7 +280,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 			consigneePrefecture: "",
 			consigneeCity: "",
 			consigneeTown: "",
-			requestedArrivalTime: "15:00",
+			requestedArrivalTime: "14:00-16:00",
 			quantityTotal: "5",
 			volume: "0.06",
 			weight: "15",
@@ -483,7 +483,7 @@ export default function Orders040Client({ localDate }: Orders040ClientProps) {
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
 							<CommonGroupLabel required={false} label="発注元">
-								<CommonComboBox id="orderSource" list={orderSourceList} showKey={true} defaultValue="OS01" />
+								<CommonComboBox id="orderSource" list={orderSourceList} showKey={true} />
 							</CommonGroupLabel>
 						</Col>
 						<Col md={12} lg={4} xxl={3}>
@@ -631,108 +631,108 @@ function DeliveryInstructionTable({ rows, onShowSignature }: DeliveryInstruction
 
 						return (
 							<Fragment key={row.id}>
-							<tr className="align-middle">
-								<td className="text-center">
-									{hasDetails ? (
-										<Button
-											variant="outline-primary"
-											size="sm"
-											className="px-2 py-0"
-											onClick={() => toggleRow(row.id)}
-											aria-label={`${row.instructionNo}の配送指示明細を${isExpanded ? "閉じる" : "開く"}`}
-										>
-											{isExpanded ? "-" : "+"}
-										</Button>
-									) : null}
-								</td>
-								<td>
-									<Form.Check type="checkbox" />
-								</td>
-								<td>{row.inquirySlipNo}</td>
-								<td>{row.runDate}</td>
-								<td>{row.unloadingPlanDate}</td>
-								<td>{row.temperatureBand}</td>
-								<td>{row.orderSource}</td>
-								<td>{row.officeCode}</td>
-								<td>{row.shipperCode}</td>
-								<td>{row.consigneeName}</td>
-								<td>{row.consigneeAddress}</td>
-								<td>{row.requestedArrivalTime}</td>
-								<td className="text-end">{row.quantityTotal}</td>
-								<td className="text-end">{row.volume}</td>
-								<td className="text-end">{row.weight}</td>
-								<td className="text-end">{row.dimensionTotal}</td>
-								<td>{row.receiver}</td>
-								<td>
-									{row.receiver ? (
-										<Button
-											variant="link"
-											type="button"
-											className="p-0 text-decoration-none"
-											onClick={() => onShowSignature(row)}
-										>
-											受領ボタン
-										</Button>
-									) : (
-										""
-									)}
-								</td>
-								<td>{row.status}</td>
-							</tr>
-
-							{hasDetails && isExpanded && (
-								<tr className="bg-light">
-									<td></td>
-									<td colSpan={18} className="p-0">
-										<div className="table-responsive border rounded w-75">
-											<Table className="mb-0 table-bordered table-sm table-striped align-middle">
-												<thead>
-													<tr className="table-secondary">
-														<th>
-															<span className="table-header-text">商品</span>
-														</th>
-														<th style={{ width: "2rem" }}>
-															<span className="table-header-text">製造年月日</span>
-														</th>
-														<th style={{ width: "2rem" }}>
-															<span className="table-header-text">賞味期限</span>
-														</th>
-														<th>
-															<span className="table-header-text">ロット番号</span>
-														</th>
-														<th>
-															<span className="table-header-text">個数</span>
-														</th>
-														<th>
-															<span className="table-header-text">容積</span>
-														</th>
-														<th style={{ width: "2rem" }}>
-															<span className="table-header-text">実重量/容積重</span>
-														</th>
-														<th>
-															<span className="table-header-text">寸法</span>
-														</th>
-													</tr>
-												</thead>
-												<tbody>
-													{row.details.map((detail) => (
-														<tr key={detail.id}>
-															<td>{detail.productName}</td>
-															<td>{detail.manufactureDate}</td>
-															<td>{detail.bestBeforeDate}</td>
-															<td>{detail.lotNo}</td>
-															<td className="text-end">{detail.quantity}</td>
-															<td className="text-end">{detail.volume}</td>
-															<td className="text-end">{detail.weight}</td>
-															<td className="text-end">{detail.dimensionTotal}</td>
-														</tr>
-													))}
-												</tbody>
-											</Table>
-										</div>
+								<tr className="align-middle">
+									<td className="text-center">
+										{hasDetails ? (
+											<Button
+												variant="outline-primary"
+												size="sm"
+												className="px-2 py-0"
+												onClick={() => toggleRow(row.id)}
+												aria-label={`${row.instructionNo}の配送指示明細を${isExpanded ? "閉じる" : "開く"}`}
+											>
+												{isExpanded ? "-" : "+"}
+											</Button>
+										) : null}
 									</td>
+									<td>
+										<Form.Check type="checkbox" />
+									</td>
+									<td>{row.inquirySlipNo}</td>
+									<td>{row.runDate}</td>
+									<td>{row.unloadingPlanDate}</td>
+									<td>{row.temperatureBand}</td>
+									<td>{row.orderSource}</td>
+									<td>{row.officeCode}</td>
+									<td>{row.shipperCode}</td>
+									<td>{row.consigneeName}</td>
+									<td>{row.consigneeAddress}</td>
+									<td>{row.requestedArrivalTime}</td>
+									<td className="text-end">{row.quantityTotal}</td>
+									<td className="text-end">{row.volume}</td>
+									<td className="text-end">{row.weight}</td>
+									<td className="text-end">{row.dimensionTotal}</td>
+									<td>{row.receiver}</td>
+									<td>
+										{row.receiver ? (
+											<Button
+												variant="link"
+												type="button"
+												className="p-0 text-decoration-none"
+												onClick={() => onShowSignature(row)}
+											>
+												受領ボタン
+											</Button>
+										) : (
+											""
+										)}
+									</td>
+									<td>{row.status}</td>
 								</tr>
-							)}
+
+								{hasDetails && isExpanded && (
+									<tr className="bg-light">
+										<td></td>
+										<td colSpan={18} className="p-0">
+											<div className="table-responsive border rounded w-75">
+												<Table className="mb-0 table-bordered table-sm table-striped align-middle">
+													<thead>
+														<tr className="table-secondary">
+															<th>
+																<span className="table-header-text">商品</span>
+															</th>
+															<th style={{ width: "2rem" }}>
+																<span className="table-header-text">製造年月日</span>
+															</th>
+															<th style={{ width: "2rem" }}>
+																<span className="table-header-text">賞味期限</span>
+															</th>
+															<th>
+																<span className="table-header-text">ロット番号</span>
+															</th>
+															<th>
+																<span className="table-header-text">個数</span>
+															</th>
+															<th>
+																<span className="table-header-text">容積</span>
+															</th>
+															<th style={{ width: "2rem" }}>
+																<span className="table-header-text">実重量/容積重</span>
+															</th>
+															<th>
+																<span className="table-header-text">寸法</span>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+														{row.details.map((detail) => (
+															<tr key={detail.id}>
+																<td>{detail.productName}</td>
+																<td>{detail.manufactureDate}</td>
+																<td>{detail.bestBeforeDate}</td>
+																<td>{detail.lotNo}</td>
+																<td className="text-end">{detail.quantity}</td>
+																<td className="text-end">{detail.volume}</td>
+																<td className="text-end">{detail.weight}</td>
+																<td className="text-end">{detail.dimensionTotal}</td>
+															</tr>
+														))}
+													</tbody>
+												</Table>
+											</div>
+										</td>
+									</tr>
+								)}
 							</Fragment>
 						);
 					})}
