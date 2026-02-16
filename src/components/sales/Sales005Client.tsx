@@ -160,12 +160,7 @@ export default function Sales005Client({ localDate }: Sales005ClientProps) {
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門CD">
-								<CommonComboBox
-									id="locationList"
-									list={locationList.filter((item) => item.key.startsWith("O"))}
-									showKey={true}
-									defaultValue="OUADC"
-								/>
+								<CommonComboBox id="locationList" list={locationList} showKey={true} defaultValue="OUADC" />
 							</CommonGroupLabel>
 						</Col>
 
@@ -212,13 +207,7 @@ export default function Sales005Client({ localDate }: Sales005ClientProps) {
 				</footer>
 			</section>
 
-			<Modal
-				show={showSales010Modal}
-				onHide={closeSales010Modal}
-				dialogClassName="modal-xxl"
-				fullscreen="lg-down"
-				scrollable
-			>
+			<Modal show={showSales010Modal} onHide={closeSales010Modal} dialogClassName="modal-xxl" fullscreen="lg-down" scrollable>
 				<Modal.Header closeButton className="border-0">
 					<Modal.Title>売上明細</Modal.Title>
 				</Modal.Header>

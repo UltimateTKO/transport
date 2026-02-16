@@ -86,10 +86,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const baseRows: SalesTrendRow[] = [
 		{
 			requestor: "茨城食品",
-			fare: [
-				0, 22000, 21000, 21000, 0, 0, 0, 0, 9500, 9500, 0, 22000, 12000, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0,
-			],
+			fare: [0, 22000, 21000, 21000, 0, 0, 0, 0, 9500, 9500, 0, 22000, 12000, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
@@ -138,10 +135,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	return (
 		<Container fluid>
 			{isLoading ? (
-				<div
-					className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2"
-					style={{ zIndex: 1050 }}
-				>
+				<div className="position-fixed top-50 start-50 translate-middle d-flex flex-column align-items-center gap-2" style={{ zIndex: 1050 }}>
 					<div className="spinner-border text-primary" role="status" aria-hidden="true" />
 					<span className="text-muted small">再計算中...</span>
 				</div>
@@ -162,12 +156,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上部門">
-								<CommonComboBox
-									id="salesDept"
-									list={deptList.filter((dept) => dept.key.startsWith("O"))}
-									showKey={true}
-									defaultValue="OUADC"
-								/>
+								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="OUADC" />
 							</CommonGroupLabel>
 						</Col>
 
@@ -239,8 +228,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 								});
 								const fareFirst = row.fare[0] ?? null;
 								const advanceFirst = row.advance[0] ?? null;
-								const combinedFirst =
-									fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
+								const combinedFirst = fareFirst === null && advanceFirst === null ? null : (fareFirst ?? 0) + (advanceFirst ?? 0);
 
 								return (
 									<Fragment key={row.requestor}>

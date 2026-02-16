@@ -132,12 +132,7 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 						</Col>
 						<Col md={12} lg={5} xxl={4}>
 							<CommonGroupLabel required={true} label="売上計上部門">
-								<CommonComboBox
-									id="salesDept"
-									list={deptList.filter((dept) => dept.key.startsWith("O"))}
-									showKey={true}
-									defaultValue="OUADC"
-								/>
+								<CommonComboBox id="salesDept" list={deptList} showKey={true} defaultValue="OUADC" />
 							</CommonGroupLabel>
 						</Col>
 
