@@ -85,7 +85,7 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 	const days = toMonthDays(localMonth);
 	const baseRows: SalesTrendRow[] = [
 		{
-			requestor: "茨城倉庫",
+			requestor: "茨城食品",
 			fare: [
 				0, 22000, 21000, 21000, 0, 0, 0, 0, 9500, 9500, 0, 22000, 12000, 0, 0, 12000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 				0,
@@ -93,12 +93,12 @@ export default function Sales020Client({ localMonth }: Sales020ClientProps) {
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			requestor: "千代川倉庫",
+			requestor: "千代川フード",
 			fare: [0, 22000, 0, 0, 22000, 12000, 0, 0, 0, 0, 0, 12000, 9000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},
 		{
-			requestor: "前山倉庫",
+			requestor: "前山商店",
 			fare: [0, 15000, 0, 0, 11000, 0, 0, 0, 0, 0, 0, 8500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			advance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		},

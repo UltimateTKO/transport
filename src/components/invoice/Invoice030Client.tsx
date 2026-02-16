@@ -92,17 +92,17 @@ export default function Invoice030Client({ localMonth }: Invoice030ClientProps) 
 
 	const rows: BillingTrendRow[] = [
 		{
-			billingCustomer: "茨城倉庫",
+			billingCustomer: "茨城食品",
 			fare: [210000, 220000, 150000, 150000, 150000, 220000, 220000, 150000, 150000, 210000, 150000, 150000],
 			advance: Array(12).fill(0),
 		},
 		{
-			billingCustomer: "千代川倉庫",
+			billingCustomer: "千代川フード",
 			fare: [150000, 170000, 130000, 130000, 130000, 170000, 170000, 130000, 130000, 150000, 130000, 130000],
 			advance: Array(12).fill(0),
 		},
 		{
-			billingCustomer: "前山倉庫",
+			billingCustomer: "前山商店",
 			fare: [70000, 100000, 50000, 50000, 50000, 100000, 100000, 50000, 50000, 70000, 50000, 50000],
 			advance: Array(12).fill(0),
 		},

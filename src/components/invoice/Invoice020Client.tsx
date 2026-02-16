@@ -44,9 +44,9 @@ export default function Invoice020Client({ localMonth }: Invoice020ClientProps) 
 		{ key: "1", value: "請求済み" },
 	];
 	const billingCustomerList: ListItem[] = [
-		{ key: "C010", value: "茨城倉庫" },
-		{ key: "C020", value: "千代川倉庫" },
-		{ key: "C030", value: "前山倉庫" },
+		{ key: "C010", value: "茨城食品" },
+		{ key: "C020", value: "千代川フード" },
+		{ key: "C030", value: "前山商店" },
 	];
 	const [showDetailModal, setShowDetailModal] = useState(false);
 
