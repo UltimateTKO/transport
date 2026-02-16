@@ -11,6 +11,7 @@ type TrackingDetail = {
 	arriveAt: string;
 	fromLocation: string;
 	toLocation: string;
+	transportType: string;
 };
 
 type TrackingResult = {
@@ -51,6 +52,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "2026/02/12 15:00",
 				fromLocation: "千代川フード",
 				toLocation: "茨城センター",
+				transportType: "集荷",
 			},
 			{
 				id: "2",
@@ -58,6 +60,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "2026/02/13 15:00",
 				fromLocation: "茨城センター",
 				toLocation: "郡山センター",
+				transportType: "幹線",
 			},
 			{
 				id: "3",
@@ -65,6 +68,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "2026/02/14 10:00",
 				fromLocation: "郡山センター",
 				toLocation: "本宮柏屋",
+				transportType: "配送",
 			},
 		],
 	},
@@ -83,6 +87,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "2026/02/16 10:00",
 				fromLocation: "千代川フード",
 				toLocation: "茨城センター",
+				transportType: "集荷",
 			},
 			{
 				id: "2",
@@ -90,6 +95,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "",
 				fromLocation: "茨城センター",
 				toLocation: "丸満餃子",
+				transportType: "配送",
 			},
 		],
 	},
@@ -108,6 +114,7 @@ const TRACKING_DATA: TrackingResult[] = [
 				arriveAt: "",
 				fromLocation: "茨城センター",
 				toLocation: "ボストンズカフェ 古河店",
+				transportType: "配送",
 			},
 		],
 	},
@@ -150,9 +157,7 @@ export default function Transport050Client() {
 
 	const handleTrackingChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = e.target.value.trim();
-		setFormState((prev) =>
-			prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)),
-		);
+		setFormState((prev) => prev.map((input, idx) => (idx === index ? { ...input, value: inputValue, status: "" } : input)));
 	};
 
 	const handleAddInput = () => {
@@ -335,6 +340,7 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 														<span className="table-header-text">From地点</span>
 													</th>
 													<th></th>
+													<th></th>
 													<th>
 														<span className="table-header-text">到着日時</span>
 													</th>
@@ -350,10 +356,15 @@ function TrackingResultTable({ rows }: TrackingResultTableProps) {
 														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.fromLocation}</td>
 														<td
 															className={
-																detail.arriveAt ? "text-muted justify-content-center" : "justify-content-center"
+																detail.arriveAt
+																	? "text-muted justify-content-center text-center"
+																	: "justify-content-center text-center"
 															}
 														>
 															<BsTruck size={24} />
+														</td>
+														<td className={detail.arriveAt ? "text-muted text-center" : "text-center"}>
+															{detail.transportType}
 														</td>
 														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.arriveAt}</td>
 														<td className={detail.arriveAt ? "text-muted" : ""}>{detail.toLocation}</td>
